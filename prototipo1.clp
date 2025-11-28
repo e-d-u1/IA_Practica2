@@ -57,22 +57,29 @@
       (type SYMBOL)
       (create-accessor read-write))
 
+   (slot sePermitenMascotas
+      (type SYMBOL)
+      (create-accessor read-write))
+   
    (slot numHabitaciones
       (type INTEGER)
       (create-accessor read-write))
 
-    ;; ABSTRACTOS
+    ;; ABSTRACCION
     (slot rangoPrecio_Abs
       (type SYMBOL)
       (create-accessor read-write))
+   
+   (slot mascotas_cumple
+      (type SYMBOL)
+      (create-accessor read-write))
+   
    (slot aceptable_Abs
       (type SYMBOL)
       (create-accessor read-write))
 
     ;; De Solicitante    
-    (slot SePermitenMascotas_Abs
-      (type SYMBOL)
-      (create-accessor read-write))
+
 )
 
 (defclass Servicio
@@ -151,7 +158,7 @@
    ([Parque] of Servicio (tipoServicio parque) (coord_x 20) (coord_y 15))
 
    ;; Viviendas
-   ([Vivienda1] of Vivienda (precio 800) (balcon true) (coord_x 4) (coord_y 9))
-   ([Vivienda2] of Vivienda (precio 1500) (numHabitaciones 4) (coord_x 12) (coord_y 7))
-   ([Vivienda3] of Vivienda (precio 2500) (coord_x 21) (coord_y 16))
+   ([Vivienda1] of Vivienda (precio 800) (sePermitenMascotas "false") (balcon true) (coord_x 4) (coord_y 9))
+   ([Vivienda2] of Vivienda (precio 1500) (sePermitenMascotas "false") (numHabitaciones 4) (coord_x 12) (coord_y 7))
+   ([Vivienda3] of Vivienda (precio 2500) (sePermitenMascotas "true") (coord_x 21) (coord_y 16))
 )

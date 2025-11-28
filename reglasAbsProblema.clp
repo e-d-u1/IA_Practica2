@@ -39,16 +39,16 @@
    ?s <- (object (is-a Solicitante) (edad ?e))
    => 
    (if (< ?e 31) then
-         (send ?s put-edadAbs "Joven")
+         (send ?s put-edad_Abs "Joven")
       else
          (if (< ?e 60) then
-            (send ?s put-edadAbs "Adulto")
+            (send ?s put-edad_Abs "Adulto")
          else
-            (send ?s put-edadAbs "Anciano")
+            (send ?s put-edad_Abs "Anciano")
          )
       )
    
    (printout t "El solicitante " (instance-name ?s) 
                " es "
-               (send ?s get-edadAbs) crlf)
+               (send ?s get-edad_Abs) crlf)
 )

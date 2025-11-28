@@ -33,15 +33,15 @@
 (deffunction yes-or-no-p (?question)
    (bind ?response (ask-question ?question yes no y n))
    (if (or (eq ?response yes) (eq ?response y))
-       then TRUE
-       else FALSE))
+       then "true"
+       else "false"))
 
 		
 (defrule hasPet
 	?x <- (object (is-a Solicitante) (mascotas ?e&:(eq ?e nil)))
 	=>
-	(bind ?teMascota (yes-or-no-p "Tienes mascota? (yes/no) "))
-	(send ?x put-mascotas ?teMascota)
+	(bind ?tieneMascota (yes-or-no-p "Tienes mascota? (yes/no) "))
+	(send ?x put-mascotas ?tieneMascota)
 )
 
 (defrule howOld
