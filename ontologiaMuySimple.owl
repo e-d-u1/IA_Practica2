@@ -1,0 +1,421 @@
+@prefix : <http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1> .
+
+<http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1> rdf:type owl:Ontology .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#cerca_de
+
+:cerca_de rdf:type owl:ObjectProperty ;
+          
+          rdfs:range :Servicio ;
+          
+          rdfs:domain :Vivienda .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#aireAcondicionado
+
+:aireAcondicionado rdf:type owl:DatatypeProperty ;
+                   
+                   rdfs:domain :Vivienda ;
+                   
+                   rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#altura
+
+:altura rdf:type owl:DatatypeProperty ;
+        
+        rdfs:domain :Duplex ,
+                    :Piso ;
+        
+        rdfs:range xsd:float .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#amueblado
+
+:amueblado rdf:type owl:DatatypeProperty ;
+           
+           rdfs:domain :Vivienda ;
+           
+           rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#ascensor
+
+:ascensor rdf:type owl:DatatypeProperty ;
+          
+          rdfs:domain :Duplex ,
+                      :Piso ;
+          
+          rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#balcon
+
+:balcon rdf:type owl:DatatypeProperty ;
+        
+        rdfs:domain :Vivienda ;
+        
+        rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#calefaccion
+
+:calefaccion rdf:type owl:DatatypeProperty ;
+             
+             rdfs:domain :Vivienda ;
+             
+             rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#edad
+
+:edad rdf:type owl:DatatypeProperty ;
+      
+      rdfs:domain :Solicitante ;
+      
+      rdfs:range xsd:int .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#electrodomesticos
+
+:electrodomesticos rdf:type owl:DatatypeProperty ;
+                   
+                   rdfs:domain :Vivienda ;
+                   
+                   rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#estudiante
+
+:estudiante rdf:type owl:DatatypeProperty ;
+            
+            rdfs:domain :Solicitante ;
+            
+            rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#garaje
+
+:garaje rdf:type owl:DatatypeProperty ;
+        
+        rdfs:domain :Vivienda ;
+        
+        rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#localizacion_x
+
+:localizacion_x rdf:type owl:DatatypeProperty ;
+                
+                rdfs:domain :Servicio ,
+                            :Vivienda ;
+                
+                rdfs:range xsd:float .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#localizacion_y
+
+:localizacion_y rdf:type owl:DatatypeProperty ;
+                
+                rdfs:domain :Servicio ,
+                            :Vivienda ;
+                
+                rdfs:range xsd:float .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#mascotas
+
+:mascotas rdf:type owl:DatatypeProperty ;
+          
+          rdfs:domain :Solicitante ;
+          
+          rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#numPiso
+
+:numPiso rdf:type owl:DatatypeProperty ;
+         
+         rdfs:domain :Duplex ,
+                     :Piso ;
+         
+         rdfs:range xsd:int .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#precio
+
+:precio rdf:type owl:DatatypeProperty ;
+        
+        rdfs:domain :Vivienda ;
+        
+        rdfs:range xsd:int .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#precioMax
+
+:precioMax rdf:type owl:DatatypeProperty ;
+           
+           rdfs:domain :Solicitante ;
+           
+           rdfs:range xsd:int .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#precioMin
+
+:precioMin rdf:type owl:DatatypeProperty ;
+           
+           rdfs:domain :Solicitante ;
+           
+           rdfs:range xsd:int .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#superficie
+
+:superficie rdf:type owl:DatatypeProperty ;
+            
+            rdfs:domain :Vivienda ;
+            
+            rdfs:range xsd:int .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#terraza
+
+:terraza rdf:type owl:DatatypeProperty ;
+         
+         rdfs:domain :Vivienda ;
+         
+         rdfs:range xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#trabajador
+
+:trabajador rdf:type owl:DatatypeProperty ;
+            
+            rdfs:domain :Solicitante ;
+            
+            rdfs:range xsd:boolean .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Duplex
+
+:Duplex rdf:type owl:Class ;
+        
+        rdfs:subClassOf :Vivienda .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Piso
+
+:Piso rdf:type owl:Class ;
+      
+      rdfs:subClassOf :Vivienda .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Servicio
+
+:Servicio rdf:type owl:Class .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Solicitante
+
+:Solicitante rdf:type owl:Class .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Unifamiliar
+
+:Unifamiliar rdf:type owl:Class ;
+             
+             rdfs:subClassOf :Vivienda .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Vivienda
+
+:Vivienda rdf:type owl:Class .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Jose
+
+:Jose rdf:type :Solicitante ,
+               owl:NamedIndividual ;
+      
+      :precioMin 1500 ;
+      
+      :precioMax 2700 ;
+      
+      :trabajador "true"^^xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#Pablo
+
+:Pablo rdf:type :Solicitante ,
+                owl:NamedIndividual ;
+       
+       :precioMax 1000 ;
+       
+       :edad 27 ;
+       
+       :precioMin 300 .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#casaIbiza
+
+:casaIbiza rdf:type :Unifamiliar ,
+                    owl:NamedIndividual ;
+           
+           :localizacion_x 10 ;
+           
+           :localizacion_y 10 ;
+           
+           :superficie 120 ;
+           
+           :precio 2300 ;
+           
+           :aireAcondicionado "false"^^xsd:boolean ;
+           
+           :amueblado "false"^^xsd:boolean ;
+           
+           :balcon "true"^^xsd:boolean ;
+           
+           :electrodomesticos "true"^^xsd:boolean ;
+           
+           :calefaccion "true"^^xsd:boolean ;
+           
+           :cerca_de :escuela .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#casaMarbella
+
+:casaMarbella rdf:type :Unifamiliar ,
+                       owl:NamedIndividual ;
+              
+              :superficie 200 ;
+              
+              :precio 4000 ;
+              
+              :aireAcondicionado "true"^^xsd:boolean ;
+              
+              :balcon "true"^^xsd:boolean ;
+              
+              :garaje "true"^^xsd:boolean ;
+              
+              :amueblado "true"^^xsd:boolean ;
+              
+              :mascotas "true"^^xsd:boolean ;
+              
+              :electrodomesticos "true"^^xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#escuela
+
+:escuela rdf:type :Servicio ,
+                  owl:NamedIndividual .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#hospital
+
+:hospital rdf:type :Servicio ,
+                   owl:NamedIndividual .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#pisoBarcelona0
+
+:pisoBarcelona0 rdf:type :Piso ,
+                         owl:NamedIndividual ;
+                
+                :numPiso 2 ;
+                
+                :localizacion_y 20 ;
+                
+                :localizacion_x 20 ;
+                
+                :precio 600 ;
+                
+                :superficie 70 ;
+                
+                :ascensor "true"^^xsd:boolean .
+
+
+
+###  http://www.semanticweb.org/oriol/ontologies/2025/10/ontologiaSImple1#zonaVerde
+
+:zonaVerde rdf:type :Servicio ,
+                    owl:NamedIndividual .
+
+
+
+
+###  Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net
+
