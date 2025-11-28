@@ -65,7 +65,9 @@
     (slot rangoPrecio
       (type SYMBOL)
       (create-accessor read-write))
-
+   (slot aceptable
+      (type SYMBOL)
+      (create-accessor read-write))
 
     ;; De Solicitante    
     (slot SePermitenMascotas
