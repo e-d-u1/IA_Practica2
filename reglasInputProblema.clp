@@ -37,14 +37,14 @@
        else "false"))
 
 		
-(defrule hasPet
+(defrule tieneMascota
 	?x <- (object (is-a Solicitante) (mascotas ?e&:(eq ?e nil)))
 	=>
 	(bind ?tieneMascota (yes-or-no-p "Tienes mascota? (yes/no) "))
 	(send ?x put-mascotas ?tieneMascota)
 )
 
-(defrule howOld
+(defrule queEdad
 	?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e nil)))
 	=>
 	(bind ?age (ask-int "Cual es tu edad? "))
