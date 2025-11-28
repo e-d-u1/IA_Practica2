@@ -40,20 +40,20 @@
 (defrule hasPet
 	?x <- (object (is-a Solicitante) (mascotas ?e&:(eq ?e nil)))
 	=>
-	(bind ?teMascota (yes-or-no-p "Tens mascota? (yes/no) "))
+	(bind ?teMascota (yes-or-no-p "Tienes mascota? (yes/no) "))
 	(send ?x put-mascotas ?teMascota)
 )
 
 (defrule howOld
-	?x <- (object (is-a Solicitant) (edat ?e&:(eq ?e nil)))
+	?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e nil)))
 	=>
-	(bind ?age (ask-int "Quina es la teva edat? "))
-	(send ?x put-edat ?age)
+	(bind ?age (ask-int "Cual es tu edad? "))
+	(send ?x put-edad ?age)
 )
 
 (defrule esNegociable
-	?x <- (object (is-a Solicitant) (precioNegociable ?pN&:(eq ?pN nil)))
+	?x <- (object (is-a Solicitante) (precioNegociable ?pN&:(eq ?pN nil)))
 	=>
-	(bind ?precioNegociable (yes-or-no-p "El precio es negociable ? (yes/no) "))
-	(send ?x put-estricte ?precioNegociable)
+	(bind ?pN (yes-or-no-p "El precio es negociable ? (yes/no) "))
+	(send ?x put-precioNegociable ?pN)
 )

@@ -62,15 +62,15 @@
       (create-accessor read-write))
 
     ;; ABSTRACTOS
-    (slot rangoPrecio
+    (slot rangoPrecio_Abs
       (type SYMBOL)
       (create-accessor read-write))
-   (slot aceptable
+   (slot aceptable_Abs
       (type SYMBOL)
       (create-accessor read-write))
 
     ;; De Solicitante    
-    (slot SePermitenMascotas
+    (slot SePermitenMascotas_Abs
       (type SYMBOL)
       (create-accessor read-write))
 )
@@ -126,10 +126,15 @@
       (type INTEGER)
       (create-accessor read-write))
    
-   (slot rangoPrecio
+   ;; ABSTRACTOS
+   (slot rangoPrecio_Abs
       (type SYMBOL)
       (create-accessor read-write))
-
+   
+   (slot edad_Abs
+      (type SYMBOL)
+      (create-accessor read-write))
+   
 )
 
 
