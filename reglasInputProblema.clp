@@ -1,5 +1,4 @@
-         CLIPS (6.31 6/12/19)
-CLIPS> (deffunction ask-number (?question)
+(deffunction ask-number (?question)
 	(printout t ?question)
 	(bind ?answer (read))
 	(while (lexemep ?answer) do
@@ -8,7 +7,8 @@ CLIPS> (deffunction ask-number (?question)
 		)
 	(float ?answer)
 )
-CLIPS> (deffunction ask-int (?question)
+
+(deffunction ask-int (?question)
 	(printout t ?question)
 	(bind ?answer (read))
 	(while (lexemep ?answer) do
@@ -16,7 +16,9 @@ CLIPS> (deffunction ask-int (?question)
 		(bind ?answer (read))
 		)
 	(integer ?answer))
-CLIPS> (deffunction ask-question (?question $?allowed-values)
+
+
+(deffunction ask-question (?question $?allowed-values)
    (printout t ?question)
    (bind ?answer (read))
    (if (lexemep ?answer)
@@ -27,9 +29,17 @@ CLIPS> (deffunction ask-question (?question $?allowed-values)
       (if (lexemep ?answer)
           then (bind ?answer (lowcase ?answer))))
    ?answer)
-CLIPS> (deffunction yes-or-no-p (?question)
+
+(deffunction yes-or-no-p (?question)
    (bind ?response (ask-question ?question yes no y n))
    (if (or (eq ?response yes) (eq ?response y))
        then TRUE
        else FALSE))
-CLIPS> 
+
+
+(defrule hasPet
+	?x <- (object (is-a Solicitante) (mascotas ?e&:(eq ?e nil)))
+	=>
+	(bind ?teMascota (yes-or-no-p "Tens mascota? (yes/no) "))
+	(send ?x put-mascotas ?teMascota)
+)

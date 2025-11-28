@@ -116,7 +116,7 @@
       (type SYMBOL)
       (create-accessor read-write))
 
-   (slot Mascotas
+   (slot mascotas
       (type SYMBOL)
       (create-accessor read-write))
 
@@ -136,7 +136,7 @@
    ;; Solicitantes
    ([Ana] of Solicitante (edad 30) (trabajador "true") (precioMax 2000) (numIndividuos 3))
    ([Luis] of Solicitante (edad 22) (estudiante "true") (precioMax 900))
-   ([Sara] of Solicitante (edad 40) (trabajador "true") (Mascotas "true") (precioMax 3000))
+   ([Sara] of Solicitante (edad 40) (trabajador "true") (mascotas "true") (precioMax 3000))
 
    ;; Servicios
    ([Escuela] of Servicio (tipoServicio escuela) (coord_x 5) (coord_y 10))
