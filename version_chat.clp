@@ -126,10 +126,7 @@
     (test (not (member$ price $?rs)))
     ?o <- (offer (id ?id) (price ?p))
     =>
-    (bind ?add
-      (if (<= ?p ?max) then 40
-          else (if (<= ?p (+ ?max 150)) then 10 else 0)))
-    (modify ?r (score (+ ?s ?add)) (reasons $?rs price))
+    (if (or (<= ?p ?max) (<= ?p (+ ?max 150))) then (modify ?r (reasons $?rs price)))
   )
 
   (defrule score-rooms
@@ -138,8 +135,7 @@
     (test (not (member$ rooms $?rs)))
     ?o <- (offer (id ?id) (rooms ?rms))
     =>
-    (bind ?add (if (>= ?rms ?min) then 25 else 0))
-    (modify ?r (score (+ ?s ?add)) (reasons $?rs rooms))
+    (if (>= ?rms ?min) then (modify ?r (reasons $?rs rooms)))
   )
 
   (defrule score-access-good
@@ -147,7 +143,7 @@
     ?r <- (recommendation (id ?id) (score ?s) (reasons $?rs))
     (test (not (or (member$ accessibility-good $?rs) (member$ accessibility-ok $?rs))))
     =>
-    (modify ?r (score (+ ?s 25)) (reasons $?rs accessibility-good))
+    (modify ?r (reasons $?rs accessibility-good))
   )
 
   (defrule score-access-ok
@@ -155,7 +151,7 @@
     ?r <- (recommendation (id ?id) (score ?s) (reasons $?rs))
     (test (not (or (member$ accessibility-good $?rs) (member$ accessibility-ok $?rs))))
     =>
-    (modify ?r (score (+ ?s 10)) (reasons $?rs accessibility-ok))
+    (modify ?r (reasons $?rs accessibility-ok))
   )
 
   (defrule score-pets
@@ -164,7 +160,7 @@
     ?r <- (recommendation (id ?id) (score ?s) (reasons $?rs))
     (test (not (member$ pets $?rs)))
     =>
-    (modify ?r (score (+ ?s 30)) (reasons $?rs pets))
+    (modify ?r (reasons $?rs pets))
   )
 
   (defrule score-furnished
@@ -173,7 +169,7 @@
     ?r <- (recommendation (id ?id) (score ?s) (reasons $?rs))
     (test (not (member$ furnished $?rs)))
     =>
-    (modify ?r (score (+ ?s 10)) (reasons $?rs furnished))
+    (modify ?r (reasons $?rs furnished))
   )
 
   (defrule score-transport
@@ -183,11 +179,11 @@
     (test (not (or (member$ transport-near $?rs) (member$ transport-medium $?rs) (member$ transport-far $?rs))))
     =>
     (if (<= ?d 500) then 
-        (modify ?r (score (+ ?s 15)) (reasons $?rs transport-near))
+        (modify ?r (reasons $?rs transport-near))
         else
         (if (<= ?d 1000)
-            then (modify ?r (score (+ ?s 5)) (reasons $?rs transport-medium))
-            else (modify ?r (score ?s) (reasons $?rs transport-far))))
+            then (modify ?r (reasons $?rs transport-medium))
+            else (modify ?r (reasons $?rs transport-far))))
   )
 
   (defrule score-sunny
@@ -195,7 +191,7 @@
     ?r <- (recommendation (id ?id) (score ?s) (reasons $?rs))
     (test (not (member$ sunny $?rs)))
     =>
-    (modify ?r (score (+ ?s 5)) (reasons $?rs sunny))
+    (modify ?r (reasons $?rs sunny))
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -203,24 +199,56 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;¡;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmodule REFINEMENT
+  (import INPUT deftemplate user)
+  (import INPUT deftemplate offer)
+  (import ABSTRACTION deftemplate abstract-offer)
   (import HEURISTICS deftemplate recommendation)
 )
+  (defrule calculate-final-score
+    (declare (salience -10)) ; Se ejecuta después de que las heurísticas recopilen razones
+    ?u <- (user)
+    ?o <- (offer (id ?id))
+    ?ao <- (abstract-offer (id ?id))
+    ?r <- (recommendation (id ?id) (score 0) (reasons $?rs&:(> (length$ $?rs) 0)))
+    =>
+    (bind ?score 0)
+    ; Re-evaluar las condiciones y sumar puntos
+    (if (member$ price $?rs) then
+      (if (<= (fact-slot-value ?o price) (fact-slot-value ?u max-price))
+        then (bind ?score (+ ?score 40))
+        else (bind ?score (+ ?score 10))))
+    
+    (if (member$ rooms $?rs) then (bind ?score (+ ?score 25)))
+    (if (member$ accessibility-good $?rs) then (bind ?score (+ ?score 25)))
+    (if (member$ accessibility-ok $?rs) then (bind ?score (+ ?score 10)))
+    (if (member$ pets $?rs) then (bind ?score (+ ?score 30)))
+    (if (member$ furnished $?rs) then (bind ?score (+ ?score 10)))
+    (if (member$ transport-near $?rs) then (bind ?score (+ ?score 15)))
+    (if (member$ transport-medium $?rs) then (bind ?score (+ ?score 5)))
+    (if (member$ sunny $?rs) then (bind ?score (+ ?score 5)))
+
+    (modify ?r (score ?score))
+  )
+
   (defrule label-muy-recomendable
-    ?r <- (recommendation (score ?s) (label none))
+    (declare (salience -20))
+    ?r <- (recommendation (score ?s&:(> ?s 0)) (label none))
     (test (>= ?s 70))
     =>
     (modify ?r (label muy_recomendable))
   )
 
   (defrule label-adecuado
-    ?r <- (recommendation (score ?s) (label none))
+    (declare (salience -20))
+    ?r <- (recommendation (score ?s&:(> ?s 0)) (label none))
     (test (and (>= ?s 40) (< ?s 70)))
     =>
     (modify ?r (label adecuado))
   )
 
   (defrule label-parcial
-    ?r <- (recommendation (score ?s) (label none))
+    (declare (salience -20))
+    ?r <- (recommendation (score ?s&:(> ?s 0)) (label none))
     (test (< ?s 40))
     =>
     (modify ?r (label parcialmente_adecuado))
