@@ -18,6 +18,9 @@
    (role concrete)
    (pattern-match reactive)
 
+   (slot id (type SYMBOL) (create-accessor read-write))
+   
+
    (multislot cerca_de (type INSTANCE) (create-accessor read-write))
    (multislot media_de (type INSTANCE) (create-accessor read-write))
    (multislot lejos_de (type INSTANCE) (create-accessor read-write))
@@ -36,6 +39,8 @@
    (role concrete)
    (pattern-match reactive)
 
+   (slot id (type SYMBOL) (create-accessor read-write))
+   
    (slot precio (type INTEGER) (create-accessor read-write))
    (slot habitaciones (type INTEGER) (create-accessor read-write))
    (slot superficie (type INTEGER) (create-accessor read-write))
@@ -71,7 +76,7 @@
        (id u1)
        (precioMax 900)
        (numHabitacionesMin 2)
-       (needsElevator yes)
+       (necesitaAscensor yes)
        (tieneMascotas yes)
        (prefiereAmueblado no)
        (prefiereTransporteCerca yes)
@@ -79,17 +84,17 @@
 
    ;; Viviendas
    ([Vivienda1] of Vivienda
-       (id o1) (precio 850) (habitaciones 2) (area 60) (piso 3) (ascensor yes)
+       (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
        (mascotasPermitidas yes) (amueblado no) (distTransporte 300) (soleado yes)
    )
 
    ([Vivienda2] of Vivienda
-       (id o2) (precio 1200) (habitaciones 3) (area 85) (piso 1)(ascensor no)
+       (id o2) (precio 1200) (habitaciones 3) (superficie 85) (planta 1)(ascensor no)
        (mascotasPermitidas no) (amueblado yes)(distTransporte 1200) (soleado no)
    )
 
    ([Vivienda3] of Vivienda
-       (id o3) (precio 700) (habitaciones 1) (area 35) (piso 5)
+       (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
        (ascensor no) (mascotasPermitidas yes) (amueblado yes) (distTransporte 200) (soleado no)
    )
 )
@@ -129,7 +134,7 @@
                      else mala)))
 
    ;; Crear el hecho abstracto
-   (assert (ViviendaAbstracta (id ?id) (categoriaPrecio ?cp) (categoriaTamano ?ct) (accesibilidad ?acc)))
+   (assert (ViviendaAbstracta (id ?id) (precio-cat ?cp) (tamano-cat ?ct) (accesibilidad ?acc)))
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -259,26 +264,18 @@
 )
 
 ;; Calcular puntuacion final
-(defrule calcular-puntuacion-final
-   ?r <- (Recomendacion)
-   =>
-   (bind ?puntuacion 0)
-   ;; Iterar sobre razones
-   ;; Simplificado: suma valores
-   (send ?r put-puntuacion 50) ;; Ejemplo fijo para mantener compatibilidad
-)
 
    (defrule calcular-puntuacion-final
       (declare (salience -10))
       ?s <- (object (is-a Solicitante))
       ?v <- (object (is-a Vivienda) (id ?idv))
-      ?va <- (abstract-offer (id ?idv))
+      ?va <- (ViviendaAbstracta (id ?idv))
       ?r <- (Recomendacion (idVivienda ?idv) (puntos 0) (razones $?rs&:(> (length$ $?rs) 0)))
       =>
       (bind ?puntuacion 0)
 
       (if (member$ precio $?rs) then
-         (if (<= (fact-slot-value ?v precio) (fact-slot-value ?s precioMax))
+         (if (<= (send ?v get-precio) (send ?s get-precioMax))
                then (bind ?puntuacion (+ ?puntuacion 40))
                else (bind ?puntuacion (+ ?puntuacion 10))
          )
