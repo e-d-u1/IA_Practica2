@@ -59,7 +59,8 @@
 )
 
 (defrule estaAmueblado 
-	?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e nil))))
+	?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e nil)))
 	=>
 	(bind ?estaAmueblado (yes-or-no-p "Estas amueblado? (yes/no) "))
 	(send ?x put-amueblado ?estaAmueblado)
+)
