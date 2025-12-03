@@ -26,11 +26,10 @@
    (multislot lejos_de (type INSTANCE) (create-accessor read-write))
 
    (slot precioMax (type INTEGER) (create-accessor read-write))
-   (slot numHabitacionesMin (type INTEGER) (create-accessor read-write))
-   (slot necesitaAscensor (type SYMBOL) (create-accessor read-write))
-   (slot tieneMascotas (type SYMBOL) (create-accessor read-write))
-   (slot prefiereAmueblado (type SYMBOL) (create-accessor read-write))
-   (slot prefiereTransporteCerca (type SYMBOL) (create-accessor read-write))
+   (slot numHabitaciones (type INTEGER) (create-accessor read-write))
+   (slot ascensor (type SYMBOL) (create-accessor read-write))
+   (slot mascotas (type SYMBOL) (create-accessor read-write))
+   (slot amueblado (type SYMBOL) (create-accessor read-write))
 
    (multislot restricciones)
 )
@@ -50,7 +49,6 @@
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotasPermitidas (type SYMBOL) (create-accessor read-write))
    (slot amueblado (type SYMBOL) (create-accessor read-write))
-   (slot distTransporte (type INTEGER) (create-accessor read-write))
    (slot soleado (type SYMBOL) (create-accessor read-write))
    (slot coordX (type INTEGER) (create-accessor read-write))
    (slot coordY (type INTEGER) (create-accessor read-write))
@@ -81,27 +79,26 @@
    ([Usuario1] of Solicitante
        (id u1)
        (precioMax 900)
-       (numHabitacionesMin 2)
-       (necesitaAscensor yes)
-       (tieneMascotas yes)
-       (prefiereAmueblado no)
-       (prefiereTransporteCerca yes)
+       (numHabitaciones 2)
+       (ascensor yes)
+       (mascotas yes)
+       (amueblado no)
    )
 
    ;; Viviendas
    ([Vivienda1] of Vivienda
        (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
-       (mascotasPermitidas yes) (amueblado no) (distTransporte 300) (soleado yes)
+       (mascotasPermitidas yes) (amueblado no) (soleado yes)
    )
 
    ([Vivienda2] of Vivienda
        (id o2) (precio 1200) (habitaciones 3) (superficie 85) (planta 1)(ascensor no)
-       (mascotasPermitidas no) (amueblado yes)(distTransporte 1200) (soleado no)
+       (mascotasPermitidas no) (amueblado yes) (soleado no)
    )
 
    ([Vivienda3] of Vivienda
        (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
-       (ascensor no) (mascotasPermitidas yes) (amueblado yes) (distTransporte 200) (soleado no)
+       (ascensor no) (mascotasPermitidas yes) (amueblado yes) (soleado no)
    )
    ([HospitalSantPau] of Servicio
       (tipo Hospital) (coordX 10) (coordY 10)
@@ -118,7 +115,7 @@
 )
 
    (defrule ABSTRACCION::crear-vivienda-abstracta
-      ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (ascensor ?a) (distTransporte ?d))
+      ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (ascensor ?a))
       =>
       ;; precio-cat
       (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
@@ -127,9 +124,7 @@
       (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
 
       ;; accesibilidad
-      (bind ?acc
-         (if (and (eq ?a yes) (<= ?d 500)) then buena
-         else (if (or (eq ?a yes) (<= ?d 1000)) then regular else mala)))
+      (bind ?acc (if (eq ?a yes) then buena else mala))
 
       ;; actualizar la instancia
       (send ?v put-precio-cat ?cp) (send ?v put-tamano-cat ?ct) (send ?v put-accesibilidad ?acc)
@@ -175,7 +170,7 @@
 
    ;; Score habitaciones
   (defrule score-habitaciones
-      ?s <- (object (is-a Solicitante) (numHabitacionesMin ?min))
+      ?s <- (object (is-a Solicitante) (numHabitaciones ?min))
       ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
       (test (not (member$ habitaciones $?rs)))
       ?v <- (object (is-a Vivienda) (id ?idv) (habitaciones ?h))
@@ -208,7 +203,7 @@
 
   ;; Score mascotas
   (defrule score-mascotas
-      ?s <- (object (is-a Solicitante) (tieneMascotas yes))
+      ?s <- (object (is-a Solicitante) (mascotas yes))
       ?v <- (object (is-a Vivienda) (id ?idv) (mascotasPermitidas yes))
       ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
       (test (not (member$ mascotas $?rs)))
@@ -218,29 +213,12 @@
 
    ;; Score amueblado
    (defrule score-amueblado
-      ?s <- (object (is-a Solicitante) (prefiereAmueblado yes))
+      ?s <- (object (is-a Solicitante) (amueblado yes))
       ?v <- (object (is-a Vivienda) (id ?idv) (amueblado yes))
       ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
       (test (not (member$ amueblado $?rs)))
       =>
       (modify ?r (razones (create$ $?rs amueblado)))
-   )
-
-   ;; Score transporte
-   (defrule score-transporte
-      ?s <- (object (is-a Solicitante) (prefiereTransporteCerca yes))
-      ?v <- (object (is-a Vivienda) (id ?idv) (distTransporte ?d))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (or (member$ transporte-cerca $?rs) (member$ transporte-medio $?rs) (member$ transporte-lejos $?rs))))
-      =>
-      (if (<= ?d 500) then
-         (modify ?r (razones (create$ $?rs transporte-cerca)))
-         else
-         (if (<= ?d 1000)
-               then (modify ?r (razones (create$ $?rs transporte-medio)))
-               else (modify ?r (razones (create$ $?rs transporte-lejos)))
-         )
-      )
    )
 
    ;; Score soleado
@@ -286,8 +264,6 @@
       (if (member$ accesibilidad-regular $?rs) then (bind ?puntuacion (+ ?puntuacion 10)))
       (if (member$ mascotas $?rs) then (bind ?puntuacion (+ ?puntuacion 30)))
       (if (member$ amueblado $?rs) then (bind ?puntuacion (+ ?puntuacion 10)))
-      (if (member$ transporte-cerca $?rs) then (bind ?puntuacion (+ ?puntuacion 15)))
-      (if (member$ transporte-medio $?rs) then (bind ?puntuacion (+ ?puntuacion 5)))
       (if (member$ soleado $?rs) then (bind ?puntuacion (+ ?puntuacion 5)))
 
       (modify ?r (puntos ?puntuacion))
