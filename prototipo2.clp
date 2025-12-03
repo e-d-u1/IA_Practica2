@@ -62,7 +62,6 @@
 
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
-   (slot accesibilidad (type SYMBOL) (create-accessor read-write))
    (slot superficie-cat (type SYMBOL) (create-accessor read-write))
 )
 
@@ -119,7 +118,7 @@
 )
 
    (defrule ABSTRACCION::crear-vivienda-abstracta
-      ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (ascensor ?a) (superficie ?s))
+      ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (superficie ?s))
       =>
       ;; precio-cat
       (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
@@ -127,14 +126,11 @@
       ;; tamano-cat
       (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
 
-      ;; accesibilidad
-      (bind ?acc (if (eq ?a yes) then buena else mala))
-
       ;; superficie-cat
       (bind ?cs (if (< ?s 50) then pequeña else (if (< ?s 90) then mediana else grande)))
 
       ;; actualizar la instancia
-      (send ?v put-precio-cat ?cp) (send ?v put-tamano-cat ?ct) (send ?v put-accesibilidad ?acc) (send ?v put-superficie-cat ?cs)
+      (send ?v put-precio-cat ?cp) (send ?v put-tamano-cat ?ct) (send ?v put-superficie-cat ?cs)
    )
 
    (defrule ABSTRACCION::crear-solicitante-abstracto
@@ -200,26 +196,6 @@
       )
   )
   
-   ;; Score accesibilidad buena
-   (defrule score-accesibilidad-buena
-      ?v <- (object (is-a Vivienda) (id ?idv) (accesibilidad buena))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (or (member$ accesibilidad-buena $?rs)
-                     (member$ accesibilidad-regular $?rs))))
-      =>
-      (modify ?r (razones (create$ $?rs accesibilidad-buena)))
-   )
-
-   ;; Score accesibilidad regular
-   (defrule score-accesibilidad-regular
-      ?v <- (object (is-a Vivienda) (id ?idv) (accesibilidad regular))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (or (member$ accesibilidad-buena $?rs)
-                     (member$ accesibilidad-regular $?rs))))
-      =>
-      (modify ?r (razones (create$ $?rs accesibilidad-regular)))
-   )
-
 
   ;; Score mascotas
   (defrule score-mascotas
@@ -280,8 +256,6 @@
       )
 
       (if (member$ habitaciones $?rs) then (bind ?puntuacion (+ ?puntuacion 25)))
-      (if (member$ accesibilidad-buena $?rs) then (bind ?puntuacion (+ ?puntuacion 25)))
-      (if (member$ accesibilidad-regular $?rs) then (bind ?puntuacion (+ ?puntuacion 10)))
       (if (member$ mascotas $?rs) then (bind ?puntuacion (+ ?puntuacion 30)))
       (if (member$ amueblado $?rs) then (bind ?puntuacion (+ ?puntuacion 10)))
       (if (member$ soleado $?rs) then (bind ?puntuacion (+ ?puntuacion 5)))
