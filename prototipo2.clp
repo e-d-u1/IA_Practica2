@@ -11,44 +11,6 @@
 (defmodule INPUT
    (export ?ALL)
 )
-(deffunction ask-number (?question)
-	(printout t ?question)
-	(bind ?answer (read))
-	(while (lexemep ?answer) do
-		(printout t ?question)
-		(bind ?answer (read))
-		)
-	(float ?answer)
-)
-
-(deffunction ask-int (?question)
-	(printout t ?question)
-	(bind ?answer (read))
-	(while (lexemep ?answer) do
-		(printout t ?question)
-		(bind ?answer (read))
-		)
-	(integer ?answer))
-
-
-(deffunction ask-question (?question $?allowed-values)
-   (printout t ?question)
-   (bind ?answer (read))
-   (if (lexemep ?answer)
-       then (bind ?answer (lowcase ?answer)))
-   (while (not (member ?answer ?allowed-values)) do
-      (printout t ?question)
-      (bind ?answer (read))
-      (if (lexemep ?answer)
-          then (bind ?answer (lowcase ?answer))))
-   ?answer)
-
-(deffunction yes-or-no-p (?question)
-   (bind ?response (ask-question ?question yes no y n))
-   (if (or (eq ?response yes) (eq ?response y))
-       then yes
-       else no))
-
 
 ;; Clase Solicitante
 (defclass Solicitante
@@ -64,7 +26,6 @@
    (multislot lejos_de (type INSTANCE) (create-accessor read-write))
 
    (slot precioMax (type INTEGER) (create-accessor read-write))
-   (slot edad (type INTEGER) (create-accessor read-write))
    (slot numHabitaciones (type INTEGER) (create-accessor read-write))
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotas (type SYMBOL) (create-accessor read-write))
@@ -132,6 +93,7 @@
        (precioMax 900)
        (numHabitaciones 2)
        (ascensor yes)
+       (mascotas yes)
        (amueblado no)
    )
 
@@ -154,9 +116,6 @@
       (tipo Hospital) (coordX 10) (coordY 10)
    )
 )
-
-   
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 2. MÓDULO DE ABSTRACCIÓN
