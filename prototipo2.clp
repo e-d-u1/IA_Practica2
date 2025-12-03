@@ -11,6 +11,44 @@
 (defmodule INPUT
    (export ?ALL)
 )
+(deffunction ask-number (?question)
+	(printout t ?question)
+	(bind ?answer (read))
+	(while (lexemep ?answer) do
+		(printout t ?question)
+		(bind ?answer (read))
+		)
+	(float ?answer)
+)
+
+(deffunction ask-int (?question)
+	(printout t ?question)
+	(bind ?answer (read))
+	(while (lexemep ?answer) do
+		(printout t ?question)
+		(bind ?answer (read))
+		)
+	(integer ?answer))
+
+
+(deffunction ask-question (?question $?allowed-values)
+   (printout t ?question)
+   (bind ?answer (read))
+   (if (lexemep ?answer)
+       then (bind ?answer (lowcase ?answer)))
+   (while (not (member ?answer ?allowed-values)) do
+      (printout t ?question)
+      (bind ?answer (read))
+      (if (lexemep ?answer)
+          then (bind ?answer (lowcase ?answer))))
+   ?answer)
+
+(deffunction yes-or-no-p (?question)
+   (bind ?response (ask-question ?question yes no y n))
+   (if (or (eq ?response yes) (eq ?response y))
+       then yes
+       else no))
+
 
 ;; Clase Solicitante
 (defclass Solicitante
@@ -26,6 +64,7 @@
    (multislot lejos_de (type INSTANCE) (create-accessor read-write))
 
    (slot precioMax (type INTEGER) (create-accessor read-write))
+   (slot edad (type INTEGER) (create-accessor read-write))
    (slot numHabitaciones (type INTEGER) (create-accessor read-write))
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotas (type SYMBOL) (create-accessor read-write))
@@ -84,7 +123,6 @@
        (precioMax 900)
        (numHabitaciones 2)
        (ascensor yes)
-       (mascotas yes)
        (amueblado no)
    )
 
@@ -108,6 +146,9 @@
    )
 )
 
+   
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 2. MÓDULO DE ABSTRACCIÓN
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -116,6 +157,66 @@
    (import INPUT ?ALL)
    (export ?ALL)
 )
+
+   (defrule queEdad
+      ?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e 0)))
+      =>
+      (bind ?age (ask-int "Cual es tu edad? "))
+      (send ?x put-edad ?age)
+   )
+
+     (defrule preguntar-si-hay-restricciones
+      ?u <- (object (is-a Solicitante) (id ?id))
+      (not (pregunta-hecha restricciones-iniciales))
+      =>
+      (assert (pregunta-hecha restricciones-iniciales))
+      (bind ?resp (yes-or-no-p "¿Tienes alguna restriccion? (yes/no) "))
+
+      (if (eq ?resp yes)
+         then
+            (assert (debe-preguntar-restriccion ?id))
+      )
+   )
+
+   (defrule preguntar-tipo-restriccion
+      ?x <- (debe-preguntar-restriccion ?id)
+      ?u <- (object (is-a Solicitante) (id ?id) (restricciones $?r))
+      =>
+      (bind ?tipo (ask-question 
+         "¿Que restriccion tienes? (mascotas, ascensor, amueblado) "
+         mascotas ascensor amueblado))
+
+      ;; Insertar la restricción en el multislot
+      (send ?u put-restricciones (create$ $?r ?tipo))
+
+      (retract ?x)
+   )
+
+   (defrule preguntar-restriccion-ascensor
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member ascensor ?r))
+            (ascensor ?a&:(eq ?a nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas ascensor? (yes/no): "))
+      (send ?x put-ascensor ?ans)
+   )
+
+   (defrule preguntar-restriccion-amueblado
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member amueblado ?r))
+            (amueblado ?a&:(eq ?a nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Debe estar amueblado? (yes/no): "))
+      (send ?x put-amueblado ?ans)
+   )
+   (defrule preguntar-restriccion-mascotas
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member mascotas ?r))
+            (mascotas ?m&:(eq ?m nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Tienes mascota o la vivienda debe aceptarlas? (yes/no): "))
+      (send ?x put-mascotas ?ans)
+   )
 
    (defrule ABSTRACCION::crear-vivienda-abstracta
       ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (superficie ?s))

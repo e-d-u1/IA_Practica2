@@ -37,17 +37,55 @@
        else "false"))
 
 		
-(defrule tieneMascota
-	?x <- (object (is-a Solicitante) (mascotas ?e&:(eq ?e nil)))
-	=>
-	(bind ?tieneMascota (yes-or-no-p "Tienes mascota? (yes/no) "))
-	(send ?x put-mascotas ?tieneMascota)
-)
+   (defrule preguntar-si-hay-restricciones
+      ?u <- (object (is-a Solicitante) (id ?id))
+      (not (pregunta-hecha restricciones-iniciales))
+      =>
+      (assert (pregunta-hecha restricciones-iniciales))
+      (bind ?resp (yes-or-no-p "¿Tienes alguna restricción? (yes/no) "))
 
-(defrule queEdad
-	?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e nil)))
-	=>
-	(bind ?age (ask-int "Cual es tu edad? "))
-	(send ?x put-edad ?age)
-)
+      (if (eq ?resp "true")
+         then
+            (assert (debe-preguntar-restriccion ?id))
+      )
+   )
 
+   (defrule preguntar-tipo-restriccion
+      ?x <- (debe-preguntar-restriccion ?id)
+      ?u <- (object (is-a Solicitante) (id ?id) (restricciones $?r))
+      =>
+      (bind ?tipo (ask-question 
+         "¿Qué restricción tienes? (mascotas, ascensor, amueblado) "
+         mascotas ascensor amueblado))
+
+      ;; Insertar la restricción en el multislot
+      (send ?u put-restricciones (create$ $?r ?tipo))
+
+      (retract ?x)
+   )
+
+   (defrule preguntar-restriccion-ascensor
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member ascensor ?r))
+            (ascensor ?a&:(eq ?a nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas ascensor? (yes/no): "))
+      (send ?x put-ascensor ?ans)
+   )
+
+   (defrule preguntar-restriccion-amueblado
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member amueblado ?r))
+            (amueblado ?a&:(eq ?a nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Debe estar amueblado? (yes/no): "))
+      (send ?x put-amueblado ?ans)
+   )
+   (defrule preguntar-restriccion-mascotas
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member mascotas ?r))
+            (mascotas ?m&:(eq ?m nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Tienes mascota o la vivienda debe aceptarlas? (yes/no): "))
+      (send ?x put-mascotas ?ans)
+   )
