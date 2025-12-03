@@ -31,6 +31,9 @@
    (slot mascotas (type SYMBOL) (create-accessor read-write))
    (slot amueblado (type SYMBOL) (create-accessor read-write))
 
+   (slot precio-cat (type SYMBOL) (create-accessor read-write))
+   (slot tamano-cat (type SYMBOL) (create-accessor read-write))
+
    (multislot restricciones)
 )
 
@@ -60,6 +63,7 @@
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
    (slot accesibilidad (type SYMBOL) (create-accessor read-write))
+   (slot superficie-cat (type SYMBOL) (create-accessor read-write))
 )
 
 ;; Clase Servicio
@@ -115,7 +119,7 @@
 )
 
    (defrule ABSTRACCION::crear-vivienda-abstracta
-      ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (ascensor ?a))
+      ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (ascensor ?a) (superficie ?s))
       =>
       ;; precio-cat
       (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
@@ -126,8 +130,24 @@
       ;; accesibilidad
       (bind ?acc (if (eq ?a yes) then buena else mala))
 
+      ;; superficie-cat
+      (bind ?cs (if (< ?s 50) then pequeña else (if (< ?s 90) then mediana else grande)))
+
       ;; actualizar la instancia
-      (send ?v put-precio-cat ?cp) (send ?v put-tamano-cat ?ct) (send ?v put-accesibilidad ?acc)
+      (send ?v put-precio-cat ?cp) (send ?v put-tamano-cat ?ct) (send ?v put-accesibilidad ?acc) (send ?v put-superficie-cat ?cs)
+   )
+
+   (defrule ABSTRACCION::crear-solicitante-abstracto
+      ?s <- (object (is-a Solicitante) (precioMax ?p) (numHabitaciones ?h))
+      =>
+      ;; precio-cat
+      (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
+
+      ;; tamano-cat (basado en numHabitaciones)
+      (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
+
+      ;; actualizar la instancia
+      (send ?s put-precio-cat ?cp) (send ?s put-tamano-cat ?ct)
    )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 3. MÓDULO DE HEURÍSTICAS
