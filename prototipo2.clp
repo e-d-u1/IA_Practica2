@@ -34,6 +34,10 @@
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
 
+   (slot ascensor_Abs (type SYMBOL) (create-accessor read-write))
+   (slot mascotas_Abs (type SYMBOL) (create-accessor read-write))
+   (slot amueblado_Abs (type SYMBOL) (create-accessor read-write))
+
    (multislot restricciones)
 )
 
@@ -63,6 +67,11 @@
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
    (slot superficie-cat (type SYMBOL) (create-accessor read-write))
+
+   (slot ascensor_Abs (type SYMBOL) (create-accessor read-write))
+   (slot mascotasPermitidas_Abs (type SYMBOL) (create-accessor read-write))
+   (slot amueblado_Abs (type SYMBOL) (create-accessor read-write))
+   (slot soleado_Abs (type SYMBOL) (create-accessor read-write))
 )
 
 ;; Clase Servicio
@@ -117,8 +126,14 @@
    (export ?ALL)
 )
 
-   (defrule ABSTRACCION::crear-vivienda-abstracta
-      ?v <- (object (is-a Vivienda) (id ?id) (precio ?p) (habitaciones ?h) (superficie ?s))
+   (defrule ABSTRACCION::crear-atributos-vivienda-abstractos
+      ?v <- (object (is-a Vivienda) (id ?id) 
+                     (precio ?p) (habitaciones ?h) (superficie ?s)
+                     (ascensor ?asc-val)
+                     (mascotasPermitidas ?mas-val)
+                     (amueblado ?amu-val)
+                     (soleado ?sol-val)
+            )
       =>
       ;; precio-cat
       (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
@@ -129,12 +144,27 @@
       ;; superficie-cat
       (bind ?cs (if (< ?s 50) then pequeña else (if (< ?s 90) then mediana else grande)))
 
+      ;; Atributos booleanos
+      (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
+      (bind ?mas (if (eq ?mas-val yes) then TRUE else FALSE))
+      (bind ?amu (if (eq ?amu-val yes) then TRUE else FALSE))
+      (bind ?sol (if (eq ?sol-val yes) then TRUE else FALSE))
+
       ;; actualizar la instancia
       (send ?v put-precio-cat ?cp) (send ?v put-tamano-cat ?ct) (send ?v put-superficie-cat ?cs)
+      (send ?v put-ascensor_Abs ?asc)
+      (send ?v put-mascotasPermitidas_Abs ?mas)
+      (send ?v put-amueblado_Abs ?amu)
+      (send ?v put-soleado_Abs ?sol)
    )
 
-   (defrule ABSTRACCION::crear-solicitante-abstracto
-      ?s <- (object (is-a Solicitante) (precioMax ?p) (numHabitaciones ?h))
+   (defrule ABSTRACCION::crear-atributos-solicitante-abstractos
+      ?s <- (object (is-a Solicitante) 
+                     (precioMax ?p) 
+                     (numHabitaciones ?h)
+                     (ascensor ?asc-val)
+                     (mascotas ?mas-val)
+                     (amueblado ?amu-val))
       =>
       ;; precio-cat
       (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
@@ -142,8 +172,16 @@
       ;; tamano-cat (basado en numHabitaciones)
       (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
 
+      ;; Preferencias booleanas
+      (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
+      (bind ?mas (if (eq ?mas-val yes) then TRUE else FALSE))
+      (bind ?amu (if (eq ?amu-val yes) then TRUE else FALSE))
+
       ;; actualizar la instancia
       (send ?s put-precio-cat ?cp) (send ?s put-tamano-cat ?ct)
+      (send ?s put-ascensor_Abs ?asc)
+      (send ?s put-mascotas_Abs ?mas)
+      (send ?s put-amueblado_Abs ?amu)
    )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 3. MÓDULO DE HEURÍSTICAS
