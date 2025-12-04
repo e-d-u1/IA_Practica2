@@ -49,7 +49,12 @@
        then yes
        else no))
 
-
+(deffunction pregunta-llista (?pregunta)
+   (format t "%s " ?pregunta)
+   (bind ?resposta (readline))
+   (bind ?resultat (explode$ ?resposta))
+   ?resultat
+)
 
 ;; Clase Solicitante
 (defclass Solicitante
@@ -133,7 +138,6 @@
        (precioMax 900)
        (numHabitaciones 2)
        (ascensor yes)
-       (amueblado no)
    )
 
    ;; Viviendas
@@ -164,7 +168,7 @@
    (import INPUT ?ALL)
    (export ?ALL)
 )
-      (defrule queEdad
+   (defrule queEdad
       ?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e 0)))
       =>
       (bind ?age (ask-int "Cual es tu edad? "))
@@ -186,14 +190,14 @@
 
    (defrule preguntar-tipo-restriccion
       ?x <- (debe-preguntar-restriccion ?id)
-      ?u <- (object (is-a Solicitante) (id ?id) (restricciones $?r))
+      ?u <- (object (is-a Solicitante) (id ?id))
       =>
-      (bind ?tipo (ask-question 
-         "¿Que restriccion tienes? (mascotas, ascensor, amueblado) "
-         mascotas ascensor amueblado))
+      (bind ?lista
+         (pregunta-llista
+            "Indica tus restricciones separadas por espacios (mascotas ascensor amueblado):"
+         ))
 
-      ;; Insertar la restricción en el multislot
-      (send ?u put-restricciones (create$ $?r ?tipo))
+      (send ?u put-restricciones ?lista)
 
       (retract ?x)
    )
