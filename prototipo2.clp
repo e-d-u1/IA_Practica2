@@ -56,6 +56,11 @@
    ?resultat
 )
 
+(deffunction calcDistanciaEuclidiana (?x1 ?y1 ?x2 ?y2)
+   (sqrt (+ (* (- ?x2 ?x1) (- ?x2 ?x1))
+            (* (- ?y2 ?y1) (- ?y2 ?y1)))))
+
+
 ;; Clase Solicitante
 (defclass Solicitante
    (is-a USER)
@@ -143,20 +148,33 @@
    ;; Viviendas
    ([Vivienda1] of Vivienda
        (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
-       (mascotasPermitidas yes) (amueblado no) (soleado yes)
+       (mascotasPermitidas yes) (amueblado no) (soleado yes) (coordX 300) (coordY 300)
    )
 
    ([Vivienda2] of Vivienda
        (id o2) (precio 1200) (habitaciones 3) (superficie 85) (planta 1)(ascensor no)
-       (mascotasPermitidas no) (amueblado yes) (soleado no)
+       (mascotasPermitidas no) (amueblado yes) (soleado no) (coordX 10) (coordY 10)
    )
 
    ([Vivienda3] of Vivienda
        (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
        (ascensor no) (mascotasPermitidas yes) (amueblado yes) (soleado no)
+       (coordX 300) (coordY 200)
    )
    ([HospitalSantPau] of Servicio
-      (tipo Hospital) (coordX 10) (coordY 10)
+      (tipo hospital) (coordX 10) (coordY 10)
+   )
+   ([ParqueLesCorts] of Servicio
+      (tipo zonaVerde) (coordX 10) (coordY 50)
+   )
+   ([Centre] of Servicio
+      (tipo centro) (coordX 0) (coordY 0)
+   )
+   ([Wolf] of Servicio
+      (tipo ocio) (coordX 100) (coordY 100)
+   )
+   ([Razz] of Servicio
+      (tipo ocio) (coordX 20) (coordY 20)
    )
 )
 
@@ -168,6 +186,32 @@
    (import INPUT ?ALL)
    (export ?ALL)
 )
+   ;; Extraemos todos los tipos de servicios existentes
+   (deffunction obtener-tipos-servicio ()
+      (bind ?inst (find-all-instances ((?s Servicio)) TRUE))
+      (bind ?tipos (create$))
+
+      (foreach ?i ?inst
+         (bind ?t (send ?i get-tipo))
+         (if (not (member$ ?t ?tipos)) then
+            (bind ?tipos (create$ ?tipos ?t))
+         )
+      )
+      ?tipos
+   ) 
+   (deffunction preguntar-distancia-tipoServicio (?tipo)
+      (format t "¿Como prefieres el servicio tipo " )
+      (printout t ?tipo " (cerca media lejos): ")
+      (bind ?resp (read))
+
+      ;; Validación correcta usando member$
+      (while (not (member$ ?resp (create$ cerca media lejos))) do
+         (format t "Respuesta inválida. Indica cerca media o lejos: ")
+         (bind ?resp (read))
+      )
+
+      ?resp
+   )
    (defrule queEdad
       ?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e 0)))
       =>
@@ -194,9 +238,8 @@
       =>
       (bind ?lista
          (pregunta-llista
-            "Indica tus restricciones separadas por espacios (mascotas ascensor amueblado):"
+            "Indica tus restricciones obligatoriasa separadas por espacios (mascotas ascensor amueblado):"
          ))
-
       (send ?u put-restricciones ?lista)
 
       (retract ?x)
@@ -227,6 +270,33 @@
       (bind ?ans (yes-or-no-p "¿Tienes mascota o la vivienda debe aceptarlas? (yes/no): "))
       (send ?x put-mascotas ?ans)
    )
+
+   (defrule preguntar-preferencia-servicios-por-tipo
+      ?u <- (object (is-a Solicitante)
+                  (cerca_de $?c)
+                  (media_de $?m)
+                  (lejos_de $?l))
+      (not (preguntas-servicios-tipo-realizadas))
+      =>
+      (assert (preguntas-servicios-tipo-realizadas))
+
+      (bind ?tipos (obtener-tipos-servicio))
+
+      (foreach ?t ?tipos
+         (bind ?pref (preguntar-distancia-tipoServicio ?t))
+
+         (if (eq ?pref cerca) then
+            (send ?u put-cerca_de (create$ ?c ?t))
+         else
+            (if (eq ?pref media) then
+               (send ?u put-media_de (create$ ?m ?t))
+            else
+               (send ?u put-lejos_de (create$ ?l ?t))
+            )
+         )
+      )
+   )
+
 
    (defrule ABSTRACCION::crear-atributos-vivienda-abstractos
       ?v <- (object (is-a Vivienda) (id ?id) 
