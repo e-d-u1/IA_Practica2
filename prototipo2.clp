@@ -148,7 +148,7 @@
    ;; Viviendas
    ([Vivienda1] of Vivienda
        (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
-       (mascotasPermitidas yes) (amueblado no) (soleado yes) (coordX 300) (coordY 300)
+       (mascotasPermitidas yes) (amueblado no) (soleado yes) (coordX 3200) (coordY 1500)
    )
 
    ([Vivienda2] of Vivienda
@@ -297,6 +297,35 @@
       )
    )
 
+   (defrule asignar-servicios-segun-distancia
+      ?v <- (object (is-a Vivienda) (coordX ?vx)  (coordY ?vy)
+                  (cerca_de $?c) (media_de $?m) (lejos_de $?l))
+      ;; Habria que intentar mejorar el coste !
+      ?s <- (object (is-a Servicio) (tipo ?tipo) (coordX ?sx) (coordY ?sy))
+      =>
+      ;; Calcular distancia euclidiana
+      (bind ?dist (calcDistanciaEuclidiana ?vx ?vy ?sx ?sy))
+
+      ;; Clasificar según distancia
+      (if (< ?dist 500) then
+         ;; Insertar el tipo en cerca_de si no está ya
+         (if (not (member$ ?tipo ?c)) then
+            (slot-insert$ ?v cerca_de (+ (length$ ?c) 1) ?tipo)
+         )
+      else 
+         (if (and (>= ?dist 500) (<= ?dist 1000)) then
+            (if (not (member$ ?tipo ?m)) then
+                  (slot-insert$ ?v media_de (+ (length$ ?m) 1) ?tipo)
+            )
+         else 
+            (if (not (member$ ?tipo ?l)) then
+                  (slot-insert$ ?v lejos_de (+ (length$ ?l) 1) ?tipo)
+            )
+         )
+      )
+   )
+
+
 
    (defrule ABSTRACCION::crear-atributos-vivienda-abstractos
       ?v <- (object (is-a Vivienda) (id ?id) 
@@ -370,6 +399,8 @@
    (slot puntos)
    (multislot razones)
    (slot etiqueta)
+   (multislot serviciosCumplidos)
+   (multislot serviciosFallados)
    (multislot asumpciones)
 )
 
@@ -382,17 +413,17 @@
    (assert (Recomendacion (idVivienda ?id) (puntos 0) (razones) (etiqueta none)))
 )
 
-;; Score de precio
-(defrule score-precio
-   ?s <- (object (is-a Solicitante) (precioMax ?max))
-   ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-   (test (not (member$ precio $?rs)))
-   ?v <- (object (is-a Vivienda) (id ?idv) (precio ?pv))
-   =>
-   (if (or (<= ?pv ?max) (<= ?pv (+ ?max 150))) then
-         (modify ?r (razones (create$ $?rs precio)))
+   ;; Score de precio
+   (defrule score-precio
+      ?s <- (object (is-a Solicitante) (precioMax ?max))
+      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
+      (test (not (member$ precio $?rs)))
+      ?v <- (object (is-a Vivienda) (id ?idv) (precio ?pv))
+      =>
+      (if (or (<= ?pv ?max) (<= ?pv (+ ?max 150))) then
+            (modify ?r (razones (create$ $?rs precio)))
+      )
    )
-)
 
    ;; Score habitaciones
   (defrule score-habitaciones
@@ -405,7 +436,6 @@
           (modify ?r (razones (create$ $?rs habitaciones)))
       )
   )
-  
 
   ;; Score mascotas
   (defrule score-mascotas
@@ -435,6 +465,8 @@
       =>
       (modify ?r (razones (create$ $?rs soleado)))
    )
+
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

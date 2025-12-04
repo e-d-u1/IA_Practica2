@@ -89,3 +89,11 @@
       (bind ?ans (yes-or-no-p "¿Tienes mascota o la vivienda debe aceptarlas? (yes/no): "))
       (send ?x put-mascotas ?ans)
    )
+
+         ;; Imprimir estado de la vivienda
+      (printout t "----------------------------------------" crlf)
+      (printout t "Vivienda: " (send ?v get-id) crlf)
+      (printout t "  Cerca de: " ?c crlf)
+      (printout t "  A media distancia de: " ?m crlf)
+      (printout t "  Lejos de: " ?l crlf)
+      (printout t "----------------------------------------" crlf)
