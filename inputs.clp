@@ -97,3 +97,42 @@
       (printout t "  A media distancia de: " ?m crlf)
       (printout t "  Lejos de: " ?l crlf)
       (printout t "----------------------------------------" crlf)
+
+         (defrule score-servicios-cumplidos-fallados
+      ?s <- (object (is-a Solicitante)
+                  (cerca_de $?sc)
+                  (lejos_de $?sl))
+      ?v <- (object (is-a Vivienda)
+                  (id ?idv)
+                  (cerca_de $?vc)
+                  (lejos_de $?vl))
+      ?r <- (Recomendacion (idVivienda ?idv) (serviciosCumplidos $?cum) (serviciosFallados $?fall))
+      =>
+      ;; Inicializamos listas temporales con los valores actuales
+      (bind ?cumNuevo (create$ $?cum))
+      (bind ?fallNuevo (create$ $?fall))
+
+      ;; Servicios deseados cerca
+      (foreach ?servicio ?sc
+         (if (member$ ?servicio ?vc) then
+            (bind ?cumNuevo (create$ ?cumNuevo ?servicio))
+         )
+         (if (member$ ?servicio ?vl) then
+            (bind ?fallNuevo (create$ ?fallNuevo ?servicio))
+         )
+      )
+
+      ;; Servicios deseados lejos
+      (foreach ?servicio ?sl
+         (if (member$ ?servicio ?vl) then
+            (bind ?cumNuevo (create$ ?cumNuevo ?servicio))
+         )
+         (if (member$ ?servicio ?vc) then
+            (bind ?fallNuevo (create$ ?fallNuevo ?servicio))
+         )
+      )
+
+      ;; Modificamos solo una vez al final
+      (modify ?r (serviciosCumplidos ?cumNuevo) (serviciosFallados ?fallNuevo))
+   )
+
