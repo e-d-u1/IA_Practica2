@@ -122,6 +122,11 @@
    (slot mascotasPermitidas_Abs (type SYMBOL) (create-accessor read-write))
    (slot amueblado_Abs (type SYMBOL) (create-accessor read-write))
    (slot soleado_Abs (type SYMBOL) (create-accessor read-write))
+
+   ;; Atributos para la asociación heurística
+   (slot etiqueta-recomendacion (type SYMBOL) (default Sin-Clasificar) (create-accessor read-write))
+   (multislot requisitos-fallados (type SYMBOL) (create-accessor read-write))
+   (multislot ventajas-extra (type SYMBOL) (create-accessor read-write))
 )
 
 ;; Clase Servicio
@@ -396,77 +401,108 @@
    (export ?ALL)
 )
 
-(deftemplate Recomendacion
-   (slot idVivienda)
-   (slot puntos)
-   (multislot razones)
-   (slot etiqueta)
-   (multislot serviciosCumplidos)
-   (multislot serviciosFallados)
-   (multislot asumpciones)
-)
+;; --- REGLAS DE ASOCIACIÓN HEURÍSTICA ---
 
-;; Crear recomendaciones iniciales: 1 por vivienda
-(defrule init-evaluar
-   ?s <- (object (is-a Solicitante))
-   ?v <- (object (is-a Vivienda) (id ?id))
-   (not (Recomendacion (idVivienda ?id)))
+;; Evaluar Precio  (precio-cat)
+(defrule asociar-heuristica-precio
+   ?s <- (object (is-a Solicitante) (precio-cat ?spc))
+   ?v <- (object (is-a Vivienda) (precio-cat ?vpc) (requisitos-fallados $?fallos) (ventajas-extra $?extras))
    =>
-   (assert (Recomendacion (idVivienda ?id) (puntos 0) (razones) (etiqueta none)))
+   ;; Es un fallo si el precio de la vivienda es de una categoría superior a la del solicitante
+   (if (and (eq ?spc medio) (eq ?vpc alto)) then
+      (if (not (member$ precio-excedido ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 precio-excedido)))
+   (if (and (eq ?spc bajo) (or (eq ?vpc medio) (eq ?vpc alto))) then
+      (if (not (member$ precio-excedido ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 precio-excedido)))
+
+   ;; es un ventaja si el precio de la vivienda es de una categoría inferior
+   (if (and (eq ?spc alto) (or (eq ?vpc medio) (eq ?vpc bajo))) then
+      (if (not (member$ precio-ventajoso ?extras)) then (slot-insert$ ?v ventajas-extra 1 precio-ventajoso)))
+   (if (and (eq ?spc medio) (eq ?vpc bajo)) then
+      (if (not (member$ precio-ventajoso ?extras)) then (slot-insert$ ?v ventajas-extra 1 precio-ventajoso)))
 )
 
-   ;; Score de precio
-   (defrule score-precio
-      ?s <- (object (is-a Solicitante) (precioMax ?max))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (member$ precio $?rs)))
-      ?v <- (object (is-a Vivienda) (id ?idv) (precio ?pv))
-      =>
-      (if (or (<= ?pv ?max) (<= ?pv (+ ?max 150))) then
-            (modify ?r (razones (create$ $?rs precio)))
-      )
+;; Evaluar Habitaciones  (tamano-cat)
+(defrule asociar-heuristica-habitaciones
+   ?s <- (object (is-a Solicitante) (tamano-cat ?stc))
+   ?v <- (object (is-a Vivienda) (tamano-cat ?vtc) (requisitos-fallados $?fallos) (ventajas-extra $?extras))
+   =>
+   ;; Falla si el tamaño de la vivienda es de una categoría inferior
+   (if (and (eq ?stc medio) (eq ?vtc pequeño)) then
+      (if (not (member$ habitaciones-insuficientes ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 habitaciones-insuficientes)))
+   (if (and (eq ?stc grande) (or (eq ?vtc medio) (eq ?vtc pequeño))) then
+      (if (not (member$ habitaciones-insuficientes ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 habitaciones-insuficientes)))
+
+   ;; Ventaja si el tamaño de la vivienda es de una categoría superior
+   (if (and (eq ?stc pequeño) (or (eq ?vtc medio) (eq ?vtc grande))) then
+      (if (not (member$ habitaciones-extra ?extras)) then (slot-insert$ ?v ventajas-extra 1 habitaciones-extra)))
+   (if (and (eq ?stc medio) (eq ?vtc grande)) then
+      (if (not (member$ habitaciones-extra ?extras)) then (slot-insert$ ?v ventajas-extra 1 habitaciones-extra)))
+)
+
+;; Evaluar características booleanas  (_Abs)
+(defrule asociar-heuristica-booleanas
+   ?s <- (object (is-a Solicitante) (ascensor_Abs ?asc_req) (mascotas_Abs ?mas_req) (amueblado_Abs ?amu_req))
+   ?v <- (object (is-a Vivienda) (ascensor_Abs ?asc_viv) (mascotasPermitidas_Abs ?mas_viv) (amueblado_Abs ?amu_viv) (requisitos-fallados $?fallos))
+   =>
+   ;; Ascensor
+   (if (and (eq ?asc_req TRUE) (eq ?asc_viv FALSE)) then
+      (if (not (member$ ascensor-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 ascensor-faltante)))
+
+   ;; Mascotas
+   (if (and (eq ?mas_req TRUE) (eq ?mas_viv FALSE)) then
+      (if (not (member$ mascotas-no-permitidas ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 mascotas-no-permitidas)))
+
+   ;; Amueblado
+   (if (and (eq ?amu_req TRUE) (eq ?amu_viv FALSE)) then
+      (if (not (member$ no-amueblado ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 no-amueblado)))
+)
+
+;; Evaluar ventajas extra no solicitadas (ej. soleado) 
+(defrule asociar-heuristica-ventaja-soleado
+   ?v <- (object (is-a Vivienda) (soleado_Abs TRUE) (ventajas-extra $?extras))
+   =>
+   (if (not (member$ soleado ?extras)) then
+      (slot-insert$ ?v ventajas-extra 1 soleado)
    )
+)
 
-   ;; Score habitaciones
-  (defrule score-habitaciones
-      ?s <- (object (is-a Solicitante) (numHabitaciones ?min))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (member$ habitaciones $?rs)))
-      ?v <- (object (is-a Vivienda) (id ?idv) (habitaciones ?h))
-      =>
-      (if (>= ?h ?min) then
-          (modify ?r (razones (create$ $?rs habitaciones)))
-      )
-  )
+;; --- REGLAS DE CLASIFICACIÓN FINAL (ETIQUETADO) ---
+;; Se ejecutan con menor prioridad para asegurar que toda la asociación heurística ha terminado
 
-  ;; Score mascotas
-  (defrule score-mascotas
-      ?s <- (object (is-a Solicitante) (mascotas yes))
-      ?v <- (object (is-a Vivienda) (id ?idv) (mascotasPermitidas yes))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (member$ mascotas $?rs)))
-      =>
-      (modify ?r (razones (create$ $?rs mascotas)))
-  )
+;; Etiqueta: Parcialmente Adecuado
+;; Condición: Falla en 1 o más criterios
+(defrule clasificar-parcialmente-adecuado
+   (declare (salience -10))
+   ?v <- (object (is-a Vivienda)
+                  (etiqueta-recomendacion Sin-Clasificar)
+                  (requisitos-fallados $?fallos&:(> (length$ ?fallos) 0)))
+   =>
+   (send ?v put-etiqueta-recomendacion Parcialmente_Adecuado)
+)
 
-   ;; Score amueblado
-   (defrule score-amueblado
-      ?s <- (object (is-a Solicitante) (amueblado yes))
-      ?v <- (object (is-a Vivienda) (id ?idv) (amueblado yes))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (member$ amueblado $?rs)))
-      =>
-      (modify ?r (razones (create$ $?rs amueblado)))
-   )
+;; Etiqueta: Muy Recomendable
+;; Condición: No falla en nada y tiene al menos una ventaja extra
+(defrule clasificar-muy-recomendable
+   (declare (salience -10))
+   ?v <- (object (is-a Vivienda)
+                  (etiqueta-recomendacion Sin-Clasificar)
+                  (requisitos-fallados $?fallos&:(eq (length$ ?fallos) 0))
+                  (ventajas-extra $?extras&:(> (length$ ?extras) 0)))
+   =>
+   (send ?v put-etiqueta-recomendacion Muy_Recomendable)
+)
 
-   ;; Score soleado
-   (defrule score-soleado
-      ?v <- (object (is-a Vivienda) (id ?idv) (soleado yes))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos ?p) (razones $?rs))
-      (test (not (member$ soleado $?rs)))
-      =>
-      (modify ?r (razones (create$ $?rs soleado)))
-   )
+;; Etiqueta: Adecuado
+;; Condición: No falla en nada y no tiene ventajas extra
+(defrule clasificar-adecuado
+   (declare (salience -10))
+   ?v <- (object (is-a Vivienda)
+                  (etiqueta-recomendacion Sin-Clasificar)
+                  (requisitos-fallados $?fallos&:(eq (length$ ?fallos) 0))
+                  (ventajas-extra $?extras&:(eq (length$ ?extras) 0)))
+   =>
+   (send ?v put-etiqueta-recomendacion Adecuado)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 4. MÓDULO DE REFINAMIENTO (Etiquetas)
@@ -479,54 +515,7 @@
    (export ?ALL)
 )
 
-;; Calcular puntuacion final
-
-   (defrule calcular-puntuacion-final
-      (declare (salience -10))
-      ?s <- (object (is-a Solicitante))
-      ?v <- (object (is-a Vivienda) (id ?idv))
-      ?r <- (Recomendacion (idVivienda ?idv) (puntos 0) (razones $?rs&:(> (length$ $?rs) 0)))
-      =>
-      (bind ?puntuacion 0)
-
-      (if (member$ precio $?rs) then
-         (if (<= (send ?v get-precio) (send ?s get-precioMax))
-               then (bind ?puntuacion (+ ?puntuacion 40))
-               else (bind ?puntuacion (+ ?puntuacion 10))
-         )
-      )
-
-      (if (member$ habitaciones $?rs) then (bind ?puntuacion (+ ?puntuacion 25)))
-      (if (member$ mascotas $?rs) then (bind ?puntuacion (+ ?puntuacion 30)))
-      (if (member$ amueblado $?rs) then (bind ?puntuacion (+ ?puntuacion 10)))
-      (if (member$ soleado $?rs) then (bind ?puntuacion (+ ?puntuacion 5)))
-
-      (modify ?r (puntos ?puntuacion))
-   )
-
-  (defrule etiqueta-muy-recomendable
-    (declare (salience -20))
-    ?r <- (Recomendacion (puntos ?p&:(> ?p 0)) (etiqueta none))
-    (test (>= ?p 70))
-    =>
-    (modify ?r (etiqueta muy_recomendable))
-  )
-
-  (defrule etiqueta-adecuado
-    (declare (salience -20))
-    ?r <- (Recomendacion (puntos ?p&:(> ?p 0)) (etiqueta none))
-    (test (and (>= ?p 40) (< ?p 70)))
-    =>
-    (modify ?r (etiqueta adecuado))
-  )
-
-  (defrule etiqueta-parcial
-    (declare (salience -20))
-    ?r <- (Recomendacion (puntos ?p&:(> ?p 0)) (etiqueta none))
-    (test (< ?p 40))
-    =>
-    (modify ?r (etiqueta parcialmente_adecuado))
-  )
+;; Este módulo se deja vacío por ahora, ya que la clasificación se ha movido a HEURISTICAS.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 5. MÓDULO DE SALIDA (OUTPUT)
@@ -538,12 +527,22 @@
 )
 
 (defrule imprimir-resultados
-   ?r <- (Recomendacion (etiqueta ?etq&~none) (puntos ?p) (razones $?rs))
+   (declare (salience -20))
+   ?v <- (object (is-a Vivienda) (id ?id)
+                  (etiqueta-recomendacion ?etq)
+                  (requisitos-fallados $?fallos)
+                  (ventajas-extra $?extras))
    =>
    (printout t "----------------------------------" crlf)
-   (printout t "Puntos: " ?p crlf)
-   (printout t "Etiqueta: " ?etq crlf)
-   (printout t "Razones: " $?rs crlf crlf)
+   (printout t "Vivienda ID: " ?id crlf)
+   (printout t "Grado de Recomendación: " ?etq crlf)
+   (if (> (length$ ?fallos) 0) then
+      (printout t "Requisitos NO cumplidos (símbolos): " (implode$ ?fallos) crlf)
+   )
+   (if (> (length$ ?extras) 0) then
+      (printout t "Ventajas extra (símbolos): " (implode$ ?extras) crlf)
+   )
+   (printout t crlf)
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
