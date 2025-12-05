@@ -474,13 +474,13 @@
       (if (not (member$ no-amueblado ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 no-amueblado)))
 )
 
-;; Evaluar ventajas extra no solicitadas (ej. soleado) 
+;; Evaluar ventajas extra no solicitadas (ej soleado) 
 (defrule asociar-heuristica-ventaja-soleado
    ?v <- (object (is-a Vivienda) (soleado_Abs TRUE) (ventajas-extra $?extras))
    =>
    (if (not (member$ soleado ?extras)) then
       (slot-insert$ ?v ventajas-extra 1 soleado)
-   )
+   )         
 )
 (defrule asociar-heuristica-ventaja-moderna
    ?v <- (object (is-a Vivienda)
@@ -532,10 +532,10 @@
 )
 
 ;; --- REGLAS DE CLASIFICACIÓN FINALES ---
-;; Se ejecutan con menor prioridad para asegurar que toda la asociación heurística ha terminado
+;;se ejecutan con menor prioridad para asegurar que toda la asociación heurística ha terminado
 
-;; Etiqueta: Parcialmente Adecuado
-;; Condición: Falla en 2 o menos criterios
+;;Etiqueta: Parcialmente Adecuado
+;;Condición: Falla en 2 o menos criterios
 (defrule clasificar-parcialmente-adecuado
    (declare (salience -10))
    ?v <- (object (is-a Vivienda)
