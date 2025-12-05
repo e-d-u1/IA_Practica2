@@ -300,10 +300,12 @@
    (defrule asignar-servicios-segun-distancia
       ?v <- (object (is-a Vivienda) (coordX ?vx)  (coordY ?vy)
                   (cerca_de $?c) (media_de $?m) (lejos_de $?l))
-      ;; Habria que intentar mejorar el coste !
       ?s <- (object (is-a Servicio) (tipo ?tipo) (coordX ?sx) (coordY ?sy))
+      (not (distancia-servicio-calculada ?v ?s))
       =>
       ;; Calcular distancia euclidiana
+      (assert (distancia-servicio-calculada ?v ?s))
+
       (bind ?dist (calcDistanciaEuclidiana ?vx ?vy ?sx ?sy))
 
       ;; Clasificar según distancia
