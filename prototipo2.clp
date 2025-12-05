@@ -316,17 +316,17 @@
       ;; Clasificar según distancia
       (if (< ?dist 500) then
          ;; Insertar el tipo en cerca_de si no está ya
-         (if (not (member$ ?tipo ?c)) then
-            (slot-insert$ ?v cerca_de (+ (length$ ?c) 1) ?tipo)
+         (if (not (member$ ?s ?c)) then
+            (slot-insert$ ?v cerca_de (+ (length$ ?c) 1) ?s)
          )
       else 
          (if (and (>= ?dist 500) (<= ?dist 1000)) then
-            (if (not (member$ ?tipo ?m)) then
-                  (slot-insert$ ?v media_de (+ (length$ ?m) 1) ?tipo)
+            (if (not (member$ ?s ?m)) then
+                  (slot-insert$ ?v media_de (+ (length$ ?m) 1) ?s)
             )
          else 
-            (if (not (member$ ?tipo ?l)) then
-                  (slot-insert$ ?v lejos_de (+ (length$ ?l) 1) ?tipo)
+            (if (not (member$ ?s ?l)) then
+                  (slot-insert$ ?v lejos_de (+ (length$ ?l) 1) ?s)
             )
          )
       )
@@ -464,6 +464,46 @@
    (if (not (member$ soleado ?extras)) then
       (slot-insert$ ?v ventajas-extra 1 soleado)
    )
+)
+
+;; Evaluar preferencias de servicios como ventajas extra (coincidencia estricta)
+(defrule asociar-heuristica-servicios
+   ?s <- (object (is-a Solicitante) 
+                  (cerca_de $?sc) 
+                  (media_de $?sm)
+                  (lejos_de $?sl))
+   ?v <- (object (is-a Vivienda) 
+                  (cerca_de $?servicios_cercanos) 
+                  (media_de $?servicios_medios) 
+                  (lejos_de $?servicios_lejanos)
+                  (ventajas-extra $?extras))
+   =>
+   ;; 1. Añadir ventaja si un servicio preferido "cerca" está cerca
+   (foreach ?tipo_req ?sc
+      (bind ?encontrado_cerca FALSE)
+      (foreach ?servicio_instancia ?servicios_cercanos
+         (if (eq (send ?servicio_instancia get-tipo) ?tipo_req) then (bind ?encontrado_cerca TRUE) (break)))
+      (if (eq ?encontrado_cerca TRUE) then
+         (if (not (member$ (sym-cat servicio-cercano- ?tipo_req) ?extras)) then
+            (slot-insert$ ?v ventajas-extra 1 (sym-cat servicio-cercano- ?tipo_req)))))
+   
+   ;; 2. Añadir ventaja si un servicio preferido a "media" distancia está a media distancia
+   (foreach ?tipo_req ?sm
+      (bind ?encontrado_media FALSE)
+      (foreach ?servicio_instancia ?servicios_medios
+         (if (eq (send ?servicio_instancia get-tipo) ?tipo_req) then (bind ?encontrado_media TRUE) (break)))
+      (if (eq ?encontrado_media TRUE) then
+         (if (not (member$ (sym-cat servicio-a-distancia-media- ?tipo_req) ?extras)) then
+            (slot-insert$ ?v ventajas-extra 1 (sym-cat servicio-a-distancia-media- ?tipo_req)))))
+
+   ;; 3. Añadir ventaja si un servicio preferido "lejos" está lejos
+   (foreach ?tipo_req ?sl
+      (bind ?encontrado_lejos FALSE)
+      (foreach ?servicio_instancia ?servicios_lejanos
+         (if (eq (send ?servicio_instancia get-tipo) ?tipo_req) then (bind ?encontrado_lejos TRUE) (break)))
+      (if (eq ?encontrado_lejos TRUE) then
+         (if (not (member$ (sym-cat servicio-lejano- ?tipo_req) ?extras)) then
+            (slot-insert$ ?v ventajas-extra 1 (sym-cat servicio-lejano- ?tipo_req)))))
 )
 
 ;; --- REGLAS DE CLASIFICACIÓN FINAL (ETIQUETADO) ---
