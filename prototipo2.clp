@@ -106,7 +106,10 @@
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotasPermitidas (type SYMBOL) (create-accessor read-write))
    (slot amueblado (type SYMBOL) (create-accessor read-write))
+   
    (slot soleado (type SYMBOL) (create-accessor read-write))
+   (slot fechaEdificacion (type INTEGER) (create-accessor read-write))
+   
    (slot coordX (type INTEGER) (create-accessor read-write))
    (slot coordY (type INTEGER) (create-accessor read-write))
 
@@ -121,7 +124,9 @@
    (slot ascensor_Abs (type SYMBOL) (create-accessor read-write))
    (slot mascotasPermitidas_Abs (type SYMBOL) (create-accessor read-write))
    (slot amueblado_Abs (type SYMBOL) (create-accessor read-write))
+   
    (slot soleado_Abs (type SYMBOL) (create-accessor read-write))
+   (slot fechaEdificacion_Abs (type SYMBOL) (create-accessor read-write))
 
    ;; Atributos para la asociación heurística
    (slot etiqueta-recomendacion (type SYMBOL) (default Sin-Clasificar) (create-accessor read-write))
@@ -153,18 +158,18 @@
    ;; Viviendas
    ([Vivienda1] of Vivienda
        (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
-       (mascotasPermitidas yes) (amueblado no) (soleado yes) (coordX 3200) (coordY 1500)
+       (mascotasPermitidas yes) (amueblado no) (soleado yes) (fechaEdificacion 2010) (coordX 3200) (coordY 1500)
    )
 
    ([Vivienda2] of Vivienda
        (id o2) (precio 1200) (habitaciones 3) (superficie 85) (planta 1)(ascensor no)
-       (mascotasPermitidas no) (amueblado yes) (soleado no) (coordX 10) (coordY 10)
+       (mascotasPermitidas no) (amueblado yes) (soleado no) (fechaEdificacion 2020) (coordX 10) (coordY 10)
    )
 
    ([Vivienda3] of Vivienda
        (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
        (ascensor no) (mascotasPermitidas yes) (amueblado yes) (soleado no)
-       (coordX 300) (coordY 200)
+       (fechaEdificacion 1990) (coordX 300) (coordY 200)
    )
    ([HospitalSantPau] of Servicio
       (tipo hospital) (coordX 10) (coordY 10)
@@ -341,6 +346,7 @@
                      (mascotasPermitidas ?mas-val)
                      (amueblado ?amu-val)
                      (soleado ?sol-val)
+                     (fechaEdificacion ?anio-val)
             )
       =>
       ;; precio-cat
@@ -351,6 +357,12 @@
 
       ;; superficie-cat
       (bind ?cs (if (< ?s 50) then pequeña else (if (< ?s 90) then mediana else grande)))
+
+      ;; fechaEdificacion
+      (bind ?actual 2025)
+      (bind ?edad (- ?actual ?anio-val))
+
+      (bind ?anioAbs (if (< ?edad 10) then nueva else (if (< ?edad 30) then moderna else antigua)))
 
       ;; Atributos booleanos
       (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
@@ -364,6 +376,7 @@
       (send ?v put-mascotasPermitidas_Abs ?mas)
       (send ?v put-amueblado_Abs ?amu)
       (send ?v put-soleado_Abs ?sol)
+      (send ?v put-fechaEdificacion_Abs ?anioAbs)
    )
 
    (defrule ABSTRACCION::crear-atributos-solicitante-abstractos
@@ -465,7 +478,15 @@
       (slot-insert$ ?v ventajas-extra 1 soleado)
    )
 )
-
+(defrule asociar-heuristica-ventaja-moderna
+   ?v <- (object (is-a Vivienda)
+                 (fechaEdificacion_Abs moderna)
+                 (ventajas-extra $?extras))
+   =>
+   (if (not (member$ moderna ?extras)) then
+      (slot-insert$ ?v ventajas-extra 1 moderna)
+   )
+)
 ;; Evaluar preferencias de servicios como ventajas extra (coincidencia estricta)
 (defrule asociar-heuristica-servicios
    ?s <- (object (is-a Solicitante) 
@@ -515,7 +536,8 @@
    (declare (salience -10))
    ?v <- (object (is-a Vivienda)
                   (etiqueta-recomendacion Sin-Clasificar)
-                  (requisitos-fallados $?fallos&:(> (length$ ?fallos) 0)))
+                  (requisitos-fallados $?fallos&:(and (> (length$ ?fallos) 0)
+                                                      (<= (length$ ?fallos) 2))))
    =>
    (send ?v put-etiqueta-recomendacion Parcialmente_Adecuado)
 )
@@ -583,6 +605,17 @@
       (printout t "Ventajas extra (símbolos): " (implode$ ?extras) crlf)
    )
    (printout t crlf)
+)
+
+(defrule fallback-ninguna-vivienda
+   (declare (salience -50))
+   ;; No existe ninguna vivienda con etiqueta distinta a Sin-Clasificar
+   (not (object (is-a Vivienda)
+                (etiqueta-recomendacion ~Sin-Clasificar)))
+   =>
+   (printout t "----------------------------------" crlf)
+   (printout t " No existe ninguna vivienda que cumpla los requisitos del solicitante." crlf)
+   (printout t "----------------------------------" crlf)
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
