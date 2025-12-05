@@ -582,6 +582,41 @@
    (export ?ALL)
 )
 
+(deftemplate vivienda-a-mostrar
+   (slot vivienda (type INSTANCE))
+   (slot valor-orden (type INTEGER))
+)
+
+;; Regla para crear hechos de ordenación para viviendas MUY RECOMENDABLES
+;; El valor de orden es el número de extras en negativo (más extras = menor valor = más prioridad)
+(defrule refinar-orden-muy-recomendable
+   (declare (salience -20))
+   ?v <- (object (is-a Vivienda) (etiqueta-recomendacion Muy_Recomendable) (ventajas-extra $?extras))
+   =>
+   (assert (vivienda-a-mostrar (vivienda ?v) (valor-orden (- 0 (length$ ?extras)))))
+)
+
+;; Regla para crear hechos de ordenación para viviendas PARCIALMENTE ADECUADAS
+;; Se activa solo si NO hay viviendas adecuadas o muy recomendables.
+;; El valor de orden es el número de fallos (menos fallos = menor valor = más prioridad)
+(defrule refinar-orden-parcialmente-adecuado
+   (declare (salience -30))
+   (not (object (is-a Vivienda) (etiqueta-recomendacion Adecuado | Muy_Recomendable)))
+   ?v <- (object (is-a Vivienda) (etiqueta-recomendacion Parcialmente_Adecuado) (requisitos-fallados $?fallos))
+   =>
+   (assert (vivienda-a-mostrar (vivienda ?v) (valor-orden (length$ ?fallos))))
+)
+
+;; Regla para crear hechos de ordenación para viviendas ADECUADAS
+;; Se activa solo si NO hay viviendas muy recomendables.
+(defrule refinar-orden-adecuado
+   (declare (salience -30))
+   (not (object (is-a Vivienda) (etiqueta-recomendacion Muy_Recomendable)))
+   ?v <- (object (is-a Vivienda) (etiqueta-recomendacion Adecuado))
+   =>
+   (assert (vivienda-a-mostrar (vivienda ?v) (valor-orden 0)))
+)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 5. MÓDULO DE SALIDA (OUTPUT)
@@ -593,13 +628,19 @@
    (export ?ALL)
 )
 
-(defrule imprimir-resultados
-   (declare (salience -20))
-   ?v <- (object (is-a Vivienda) (id ?id)
-                  (etiqueta-recomendacion ?etq)
-                  (requisitos-fallados $?fallos)
-                  (ventajas-extra $?extras))
+;; Imprime la vivienda con el menor valor de orden y la elimina de la lista de impresión
+(defrule imprimir-resultados-ordenados
+   (declare (salience -40))
+   ;; Encuentra el hecho con el menor valor de orden
+   ?hecho <- (vivienda-a-mostrar (vivienda ?v) (valor-orden ?vo))
+   (not (vivienda-a-mostrar (valor-orden ?vo2&:(< ?vo2 ?vo))))
    =>
+   ;; Extraer datos de la vivienda
+   (bind ?id (send ?v get-id))
+   (bind ?etq (send ?v get-etiqueta-recomendacion))
+   (bind ?fallos (send ?v get-requisitos-fallados))
+   (bind ?extras (send ?v get-ventajas-extra))
+
    (printout t "----------------------------------" crlf)
    (printout t "Vivienda ID: " ?id crlf)
    (printout t "Grado de Recomendación: " ?etq crlf)
@@ -610,6 +651,9 @@
       (printout t "Ventajas extra (símbolos): " (implode$ ?extras) crlf)
    )
    (printout t crlf)
+
+   ;; Eliminar el hecho para pasar a la siguiente vivienda en la próxima iteración
+   (retract ?hecho)
 )
 
 (defrule fallback-ninguna-vivienda
