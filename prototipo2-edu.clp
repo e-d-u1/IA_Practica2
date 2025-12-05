@@ -97,8 +97,7 @@
    (role concrete)
    (pattern-match reactive)
 
-   (slot id (type SYMBOL) (create-accessor read-write))
-   
+   (slot id (type SYMBOL) (create-accessor read-write)) 
    (slot precio (type INTEGER) (create-accessor read-write))
    (slot habitaciones (type INTEGER) (create-accessor read-write))
    (slot superficie (type INTEGER) (create-accessor read-write))
