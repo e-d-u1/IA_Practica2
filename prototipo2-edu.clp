@@ -149,8 +149,8 @@
    ;; Solicitantes
    ([Usuario1] of Solicitante
        (id u1)
-       (precioMax 900)
-       (numHabitaciones 2)
+       (precioMax 100)
+       (numHabitaciones 15)
        (ascensor yes)
    )
 
@@ -497,10 +497,12 @@
    (declare (salience -10))
    ?v <- (object (is-a Vivienda)
                   (etiqueta-recomendacion Sin-Clasificar)
-                  (requisitos-fallados $?fallos&:(> (length$ ?fallos) 0)))
+                  (requisitos-fallados $?fallos&:(and (> (length$ ?fallos) 0)
+                                                      (<= (length$ ?fallos) 2))))
    =>
    (send ?v put-etiqueta-recomendacion Parcialmente_Adecuado)
 )
+
 
 ;; Etiqueta: Muy Recomendable
 ;; Condición: No falla en nada y tiene al menos una ventaja extra
@@ -551,7 +553,7 @@
 (defrule imprimir-resultados
    (declare (salience -20))
    ?v <- (object (is-a Vivienda) (id ?id)
-                  (etiqueta-recomendacion ?etq)
+                  (etiqueta-recomendacion ?etq&~Sin-Clasificar)
                   (requisitos-fallados $?fallos)
                   (ventajas-extra $?extras))
    =>
@@ -567,6 +569,16 @@
    (printout t crlf)
 )
 
+(defrule fallback-ninguna-vivienda
+   (declare (salience -50))
+   ;; No existe ninguna vivienda con etiqueta distinta a Sin-Clasificar
+   (not (object (is-a Vivienda)
+                (etiqueta-recomendacion ~Sin-Clasificar)))
+   =>
+   (printout t "----------------------------------" crlf)
+   (printout t " No existe ninguna vivienda que cumpla los requisitos del solicitante." crlf)
+   (printout t "----------------------------------" crlf)
+)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 6. FLUJO DE CONTROL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
