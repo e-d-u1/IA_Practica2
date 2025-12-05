@@ -1,11 +1,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; PRACTICA SBC - MVP DE RECOMENDACIÓN DE VIVIENDAS
-;; Basado en CLASSES (defclass)
-;; Compatible con CLIPS 6.30
+;; PRACTICA SBC +
+;; CLIPS 6.30
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 1. MÓDULO DE ENTRADA (INPUT)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmodule INPUT
@@ -187,9 +188,10 @@
       (tipo ocio) (coordX 20) (coordY 20)
    )
 )
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 2. MÓDULO DE ABSTRACCIÓN
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmodule ABSTRACCION
@@ -405,7 +407,9 @@
       (send ?s put-amueblado_Abs ?amu)
    )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 3. MÓDULO DE HEURÍSTICAS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmodule HEURISTICAS
@@ -427,7 +431,7 @@
    (if (and (eq ?spc bajo) (or (eq ?vpc medio) (eq ?vpc alto))) then
       (if (not (member$ precio-excedido ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 precio-excedido)))
 
-   ;; es un ventaja si el precio de la vivienda es de una categoría inferior
+   ;; es una ventaja/extra si el precio de la vivienda es de una categoría inferior
    (if (and (eq ?spc alto) (or (eq ?vpc medio) (eq ?vpc bajo))) then
       (if (not (member$ precio-ventajoso ?extras)) then (slot-insert$ ?v ventajas-extra 1 precio-ventajoso)))
    (if (and (eq ?spc medio) (eq ?vpc bajo)) then
@@ -527,11 +531,11 @@
             (slot-insert$ ?v ventajas-extra 1 (sym-cat servicio-lejano- ?tipo_req)))))
 )
 
-;; --- REGLAS DE CLASIFICACIÓN FINAL (ETIQUETADO) ---
+;; --- REGLAS DE CLASIFICACIÓN FINALES ---
 ;; Se ejecutan con menor prioridad para asegurar que toda la asociación heurística ha terminado
 
 ;; Etiqueta: Parcialmente Adecuado
-;; Condición: Falla en 1 o más criterios
+;; Condición: Falla en 2 o menos criterios
 (defrule clasificar-parcialmente-adecuado
    (declare (salience -10))
    ?v <- (object (is-a Vivienda)
@@ -565,9 +569,10 @@
    =>
    (send ?v put-etiqueta-recomendacion Adecuado)
 )
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 4. MÓDULO DE REFINAMIENTO (Etiquetas)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 4. MÓDULO DE REFINAMIENTO 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmodule REFINAMIENTO
@@ -577,10 +582,10 @@
    (export ?ALL)
 )
 
-;; Este módulo se deja vacío por ahora, ya que la clasificación se ha movido a HEURISTICAS.
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 5. MÓDULO DE SALIDA (OUTPUT)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmodule SALIDA
