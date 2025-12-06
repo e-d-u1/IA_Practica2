@@ -87,6 +87,8 @@
    (slot calefaccion (type SYMBOL) (create-accessor read-write))
    (slot garaje (type SYMBOL) (create-accessor read-write))
    (slot buenas_vistas (type SYMBOL) (create-accessor read-write))
+   (slot terraza (type SYMBOL) (create-accessor read-write))
+   (slot balcon (type SYMBOL) (create-accessor read-write))
 
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
@@ -100,6 +102,8 @@
    (slot calefaccion_Abs (type SYMBOL) (create-accessor read-write))
    (slot garaje_Abs (type SYMBOL) (create-accessor read-write))
    (slot buenas_vistas_Abs (type SYMBOL) (create-accessor read-write))
+   (slot terraza_Abs (type SYMBOL) (create-accessor read-write))
+   (slot balcon_Abs (type SYMBOL) (create-accessor read-write))
 
    (multislot restricciones)
    (multislot preferencias_pendientes (type SYMBOL) (create-accessor read-write))
@@ -125,6 +129,8 @@
    (slot calefaccion (type SYMBOL) (create-accessor read-write))
    (slot garaje (type SYMBOL) (create-accessor read-write))
    (slot buenas_vistas (type SYMBOL) (create-accessor read-write))
+   (slot terraza (type SYMBOL) (create-accessor read-write))
+   (slot balcon (type SYMBOL) (create-accessor read-write))
    
    (slot soleado (type SYMBOL) (create-accessor read-write))
    (slot fechaEdificacion (type INTEGER) (create-accessor read-write))
@@ -148,6 +154,8 @@
    (slot calefaccion_Abs (type SYMBOL) (create-accessor read-write))
    (slot garaje_Abs (type SYMBOL) (create-accessor read-write))
    (slot buenas_vistas_Abs (type SYMBOL) (create-accessor read-write))
+   (slot terraza_Abs (type SYMBOL) (create-accessor read-write))
+   (slot balcon_Abs (type SYMBOL) (create-accessor read-write))
    
    (slot soleado_Abs (type SYMBOL) (create-accessor read-write))
    (slot fechaEdificacion_Abs (type SYMBOL) (create-accessor read-write))
@@ -179,20 +187,20 @@
    ;; Viviendas
    ([Vivienda1] of Vivienda
        (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
-       (mascotasPermitidas yes) (amueblado no) (piscina no) (aire_acondicionado yes) (buenas_vistas no)
+       (mascotasPermitidas yes) (amueblado no) (piscina no) (aire_acondicionado yes) (buenas_vistas no) (terraza no) (balcon yes)
        (calefaccion yes) (garaje no) (soleado yes) (fechaEdificacion 2010) (coordX 3200) (coordY 1500)
    )
 
    ([Vivienda2] of Vivienda
        (id o2) (precio 1200) (habitaciones 3) (superficie 85) (planta 1)(ascensor no)
-       (mascotasPermitidas no) (amueblado yes) (piscina yes) (aire_acondicionado yes) (buenas_vistas no)
+       (mascotasPermitidas no) (amueblado yes) (piscina yes) (aire_acondicionado yes) (buenas_vistas no) (terraza yes) (balcon yes)
        (calefaccion yes) (garaje yes) (soleado no) (fechaEdificacion 2020) (coordX 10) (coordY 10)
    )
 
    ([Vivienda3] of Vivienda
        (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
        (ascensor no) (mascotasPermitidas yes) (amueblado yes) (soleado no)
-       (piscina no) (aire_acondicionado no) (calefaccion yes) (garaje no) (buenas_vistas yes)
+       (piscina no) (aire_acondicionado no) (calefaccion yes) (garaje no) (buenas_vistas yes) (terraza no) (balcon no)
        (fechaEdificacion 1990) (coordX 300) (coordY 200)
    )
    ([HospitalSantPau] of Servicio
@@ -330,7 +338,7 @@
       =>
       (bind ?lista
          (pregunta-llista
-            "Indica tus restricciones obligatorias separadas por espacios (habitaciones mascotas ascensor amueblado piscina aire_acondicionado calefaccion garaje buenas_vistas):"
+            "Indica tus restricciones obligatorias separadas por espacios (habitaciones mascotas ascensor amueblado piscina aire_acondicionado calefaccion garaje buenas_vistas terraza balcon):"
          ))
       (send ?u put-restricciones ?lista)
 
@@ -417,6 +425,24 @@
       (send ?x put-buenas_vistas ?ans)
    )
 
+   (defrule preguntar-restriccion-terraza
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member terraza ?r))
+            (terraza ?t&:(eq ?t nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas que tenga terraza? (yes/no): "))
+      (send ?x put-terraza ?ans)
+   )
+
+   (defrule preguntar-restriccion-balcon
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member balcon ?r))
+            (balcon ?b&:(eq ?b nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas que tenga balcón? (yes/no): "))
+      (send ?x put-balcon ?ans)
+   )
+
    (defrule preguntar-si-hay-preferencias-servicios
       ?u <- (object (is-a Solicitante) (id ?id))
       (not (pregunta-hecha preferencias-servicios))
@@ -496,6 +522,8 @@
                      (calefaccion ?cal-val)
                      (garaje ?gar-val)
                      (buenas_vistas ?vis-val)
+                     (terraza ?ter-val)
+                     (balcon ?bal-val)
                      (soleado ?sol-val)
                      (fechaEdificacion ?anio-val)
             )
@@ -524,6 +552,8 @@
       (bind ?cal (if (eq ?cal-val yes) then TRUE else FALSE))
       (bind ?gar (if (eq ?gar-val yes) then TRUE else FALSE))
       (bind ?vis (if (eq ?vis-val yes) then TRUE else FALSE))
+      (bind ?ter (if (eq ?ter-val yes) then TRUE else FALSE))
+      (bind ?bal (if (eq ?bal-val yes) then TRUE else FALSE))
       (bind ?sol (if (eq ?sol-val yes) then TRUE else FALSE))
 
       ;; actualizar la instancia
@@ -536,6 +566,8 @@
       (send ?v put-calefaccion_Abs ?cal)
       (send ?v put-garaje_Abs ?gar)
       (send ?v put-buenas_vistas_Abs ?vis)
+      (send ?v put-terraza_Abs ?ter)
+      (send ?v put-balcon_Abs ?bal)
       (send ?v put-soleado_Abs ?sol)
       (send ?v put-fechaEdificacion_Abs ?anioAbs)
    )
@@ -552,7 +584,9 @@
                      (aire_acondicionado ?air-val)
                      (calefaccion ?cal-val)
                      (garaje ?gar-val)
-                     (buenas_vistas ?vis-val))
+                     (buenas_vistas ?vis-val)
+                     (terraza ?ter-val)
+                     (balcon ?bal-val))
       =>
       ;; precio-cat
       (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
@@ -572,6 +606,8 @@
       (bind ?cal (if (eq ?cal-val yes) then TRUE else FALSE))
       (bind ?gar (if (eq ?gar-val yes) then TRUE else FALSE))
       (bind ?vis (if (eq ?vis-val yes) then TRUE else FALSE))
+      (bind ?ter (if (eq ?ter-val yes) then TRUE else FALSE))
+      (bind ?bal (if (eq ?bal-val yes) then TRUE else FALSE))
 
       ;; actualizar la instancia
       (send ?s put-precio-cat ?cp) (send ?s put-tamano-cat ?ct) (send ?s put-edad-cat ?ce)
@@ -583,6 +619,8 @@
       (send ?s put-calefaccion_Abs ?cal)
       (send ?s put-garaje_Abs ?gar)
       (send ?s put-buenas_vistas_Abs ?vis)
+      (send ?s put-terraza_Abs ?ter)
+      (send ?s put-balcon_Abs ?bal)
    )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -641,12 +679,14 @@
                   (ascensor_Abs ?asc_req) (mascotas_Abs ?mas_req) (amueblado_Abs ?amu_req)
                   (piscina_Abs ?pis_req) (aire_acondicionado_Abs ?air_req)
                   (calefaccion_Abs ?cal_req) (garaje_Abs ?gar_req) (buenas_vistas_Abs ?vis_req)
+                  (terraza_Abs ?ter_req) (balcon_Abs ?bal_req)
          )
    ?v <- (object (is-a Vivienda) 
                   (ascensor_Abs ?asc_viv) (mascotasPermitidas_Abs ?mas_viv) 
                   (amueblado_Abs ?amu_viv) (piscina_Abs ?pis_viv)
                   (aire_acondicionado_Abs ?air_viv) (calefaccion_Abs ?cal_viv)
-                  (garaje_Abs ?gar_viv) (buenas_vistas_Abs ?vis_viv)
+                  (garaje_Abs ?gar_viv) (buenas_vistas_Abs ?vis_viv) (terraza_Abs ?ter_viv)
+                  (balcon_Abs ?bal_viv)
                   (requisitos-fallados $?fallos)
                   (ventajas-extra $?extras)
          )
@@ -686,6 +726,16 @@
    ;; Buenas Vistas
    (if (and (eq ?vis_req TRUE) (eq ?vis_viv FALSE)) then
       (if (not (member$ sin-buenas-vistas ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 sin-buenas-vistas))
+   )
+
+   ;; Terraza
+   (if (and (eq ?ter_req TRUE) (eq ?ter_viv FALSE)) then
+      (if (not (member$ terraza-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 terraza-faltante))
+   )
+
+   ;; Balcón
+   (if (and (eq ?bal_req TRUE) (eq ?bal_viv FALSE)) then
+      (if (not (member$ balcon-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 balcon-faltante))
    )
 )
 
