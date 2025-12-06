@@ -178,14 +178,44 @@
    ([ParqueLesCorts] of Servicio
       (tipo zonaVerde) (coordX 10) (coordY 50)
    )
-   ([Centre] of Servicio
+   ([Centro] of Servicio
       (tipo centro) (coordX 0) (coordY 0)
    )
-   ([Wolf] of Servicio
-      (tipo ocio) (coordX 100) (coordY 100)
+   ([Discoteca_Wolf] of Servicio
+      (tipo ocio_nocturno) (coordX 100) (coordY 100)
    )
-   ([Razz] of Servicio
-      (tipo ocio) (coordX 20) (coordY 20)
+   ([Discoteca_Razz] of Servicio
+      (tipo ocio_nocturno) (coordX 20) (coordY 20)
+   )
+   ([Metro_L1] of Servicio
+      (tipo transporte_publico) (coordX 50) (coordY 300)
+   )
+   ([CalleComercial_Gracia] of Servicio
+      (tipo zona_comercial) (coordX 400) (coordY 400)
+   )
+   ([Supermercado_Dia] of Servicio
+      (tipo supermercado) (coordX 150) (coordY 250)
+   )
+   ([Supermercado_Carrefour] of Servicio
+      (tipo supermercado) (coordX 2000) (coordY 1000)
+   )
+   ([Colegio_Publico_Cervantes] of Servicio
+      (tipo colegio) (coordX 80) (coordY 120)
+   )
+   ([Estadio_Camp_Nou] of Servicio
+      (tipo ocio) (coordX 800) (coordY 800)
+   )
+   ([Metro_L5] of Servicio
+      (tipo transporte_publico) (coordX 600) (coordY 200)
+   )
+   ([Supermercado_Lidl] of Servicio
+      (tipo supermercado) (coordX 700) (coordY 300)
+   )
+   ([ParqueDiagonal] of Servicio
+      (tipo zonaVerde) (coordX 500) (coordY 900)
+   )
+   ([Hospital_Vall_dHebron] of Servicio
+      (tipo hospital) (coordX 300) (coordY 200)
    )
 )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -279,7 +309,7 @@
             (restricciones $?r&:(member mascotas ?r))
             (mascotas ?m&:(eq ?m nil)))
       =>
-      (bind ?ans (yes-or-no-p "¿Tienes mascota o la vivienda debe aceptarlas? (yes/no): "))
+      (bind ?ans (yes-or-no-p "¿La vivienda tiene que aceptar mascotas? (yes/no): "))
       (send ?x put-mascotas ?ans)
    )
 
@@ -596,6 +626,16 @@
    (assert (vivienda-a-mostrar (vivienda ?v) (valor-orden (- 0 (length$ ?extras)))))
 )
 
+;; Regla para crear hechos de ordenación para viviendas ADECUADAS
+;; Se activa solo si NO hay viviendas muy recomendables.
+(defrule refinar-orden-adecuado
+   (declare (salience -30))
+   (not (object (is-a Vivienda) (etiqueta-recomendacion Muy_Recomendable)))
+   ?v <- (object (is-a Vivienda) (etiqueta-recomendacion Adecuado))
+   =>
+   (assert (vivienda-a-mostrar (vivienda ?v) (valor-orden 0)))
+)
+
 ;; Regla para crear hechos de ordenación para viviendas PARCIALMENTE ADECUADAS
 ;; Se activa solo si NO hay viviendas adecuadas o muy recomendables.
 ;; El valor de orden es el número de fallos (menos fallos = menor valor = más prioridad)
@@ -607,15 +647,7 @@
    (assert (vivienda-a-mostrar (vivienda ?v) (valor-orden (length$ ?fallos))))
 )
 
-;; Regla para crear hechos de ordenación para viviendas ADECUADAS
-;; Se activa solo si NO hay viviendas muy recomendables.
-(defrule refinar-orden-adecuado
-   (declare (salience -30))
-   (not (object (is-a Vivienda) (etiqueta-recomendacion Muy_Recomendable)))
-   ?v <- (object (is-a Vivienda) (etiqueta-recomendacion Adecuado))
-   =>
-   (assert (vivienda-a-mostrar (vivienda ?v) (valor-orden 0)))
-)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -628,14 +660,14 @@
    (export ?ALL)
 )
 
-;; Imprime la vivienda con el menor valor de orden y la elimina de la lista de impresión
+;;imprime la vivienda con el menor valor de orden y la elimina de la lista de impresión
 (defrule imprimir-resultados-ordenados
    (declare (salience -40))
-   ;; Encuentra el hecho con el menor valor de orden
+   ;;se encuentra el hecho con el menor valor de orden
    ?hecho <- (vivienda-a-mostrar (vivienda ?v) (valor-orden ?vo))
    (not (vivienda-a-mostrar (valor-orden ?vo2&:(< ?vo2 ?vo))))
    =>
-   ;; Extraer datos de la vivienda
+   ;;se extraen los datos de la vivienda
    (bind ?id (send ?v get-id))
    (bind ?etq (send ?v get-etiqueta-recomendacion))
    (bind ?fallos (send ?v get-requisitos-fallados))
@@ -652,7 +684,7 @@
    )
    (printout t crlf)
 
-   ;; Eliminar el hecho para pasar a la siguiente vivienda en la próxima iteración
+   ;;se elimina el hecho para pasar a la siguiente vivienda en la próxima iteración
    (retract ?hecho)
 )
 
