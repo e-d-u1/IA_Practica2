@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; PRACTICA SBC +
+;; PRACTICA SBC 
 ;; CLIPS 6.30
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -69,6 +69,7 @@
    (pattern-match reactive)
 
    (slot id (type SYMBOL) (create-accessor read-write))
+   (slot tipo_solicitante (type SYMBOL) (create-accessor read-write))
    
 
    (multislot cerca_de (type INSTANCE) (create-accessor read-write))
@@ -280,6 +281,15 @@
       (bind ?age (ask-int "Cual es tu edad? "))
       (send ?x put-edad ?age)
    )
+
+   (defrule preguntar-tipo-solicitante
+      ?s <- (object (is-a Solicitante) (tipo_solicitante ?t&:(eq ?t nil)))
+      =>
+      (bind ?tipo (ask-question "¿Qué tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, anciano, movilidad_reducida, trabajador_soltero): "
+                                 estudiante pareja_sin_hijos pareja_con_hijos anciano movilidad_reducida trabajador_soltero))
+      (send ?s put-tipo_solicitante ?tipo)
+   )
+
 
    (defrule preguntar-precio-maximo
       ?s <- (object (is-a Solicitante) (precioMax ?p&:(eq ?p 0)))
