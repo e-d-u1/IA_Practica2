@@ -277,6 +277,17 @@
 
       ?resp
    )
+
+   ;función auxiliar para comprobar si un servicio de un tipo dado está en una lista de instancias
+   (deffunction hay-servicio-de-tipo (?tipo_buscado ?lista_servicios)
+      (bind ?encontrado FALSE)
+      (foreach ?servicio ?lista_servicios
+         (if (eq (send ?servicio get-tipo) ?tipo_buscado) then
+            (bind ?encontrado TRUE)
+            (break)))
+      ?encontrado
+   )
+
    (defrule queEdad
       ?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e 0)))
       =>
@@ -732,6 +743,81 @@
       (if (eq ?encontrado_lejos TRUE) then
          (if (not (member$ (sym-cat servicio-lejano- ?tipo_req) ?extras)) then
             (slot-insert$ ?v ventajas-extra 1 (sym-cat servicio-lejano- ?tipo_req)))))
+)
+
+;Regla extra para solicitantes de tipo 'anciano'
+;si el anciano no ha especificado preferencia por hospitales,
+;se añade como ventaja extra si la vivienda está cerca de uno
+(defrule asociar-heuristica-extra-hospital-anciano
+   ;condición 1 El solicitante es 'anciano'
+   ?s <- (object (is-a Solicitante)
+                  (tipo_solicitante anciano)
+                  ; y NO se ha especificado una preferencia por 'hospital'
+                  (cerca_de $?c&:(not (member$ hospital ?c)))
+                  (media_de $?m&:(not (member$ hospital ?m)))
+                  (lejos_de $?l&:(not (member$ hospital ?l)))
+         )
+   ; condición 2 Existe una vivienda
+   ?v <- (object (is-a Vivienda)
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo hospital ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-hospital-cercano-anciano ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-hospital-cercano-anciano)
+)
+
+;Regla extra para solicitantes de tipo 'joven'
+;si el joven no ha especificado preferencia por el centro,
+;se añade como ventaja extra si la vivienda está cerca de el
+(defrule asociar-heuristica-extra-centro-joven-declarativa
+   (object (is-a Solicitante)
+                  (tipo_solicitante joven)
+                  (cerca_de $?c&:(not (member$ centro ?c)))
+                  (media_de $?m&:(not (member$ centro ?m)))
+                  (lejos_de $?l&:(not (member$ centro ?l)))
+         )
+   ?v <- (object (is-a Vivienda)
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo centro ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-centro-cercano-joven ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-centro-cercano-joven)
+)
+
+;Regla extra para solicitantes de tipo 'joven'
+;si el joven no ha especificado preferencia por el ocio nocturno,
+;se añade como ventaja extra si la vivienda está cerca de el
+(defrule asociar-heuristica-extra-ocio-nocturno-joven-declarativa
+   (object (is-a Solicitante)
+                  (tipo_solicitante joven)
+                  (cerca_de $?c&:(not (member$ ocio_nocturno ?c)))
+                  (media_de $?m&:(not (member$ ocio_nocturno ?m)))
+                  (lejos_de $?l&:(not (member$ ocio_nocturno ?l)))
+         )
+   ?v <- (object (is-a Vivienda)
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo ocio_nocturno ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-ocio-nocturno-cercano-joven ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-ocio-nocturno-cercano-joven)
+)
+
+;Regla extra para solicitantes de tipo 'pareja_con_hijos'
+;si no han especificado preferencia por el colegio,
+;se añade como ventaja extra si la vivienda está cerca de uno
+(defrule asociar-heuristica-extra-colegio-familia-declarativa
+   (object (is-a Solicitante)
+                  (tipo_solicitante pareja_con_hijos)
+                  (cerca_de $?c&:(not (member$ colegio ?c)))
+                  (media_de $?m&:(not (member$ colegio ?m)))
+                  (lejos_de $?l&:(not (member$ colegio ?l)))
+         )
+   ?v <- (object (is-a Vivienda)
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo colegio ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-colegio-cercano-familia ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-colegio-cercano-familia)
 )
 
 ;; --- REGLAS DE CLASIFICACIÓN FINALES ---
