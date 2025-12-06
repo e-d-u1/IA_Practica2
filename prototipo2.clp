@@ -102,6 +102,7 @@
    (slot buenas_vistas_Abs (type SYMBOL) (create-accessor read-write))
 
    (multislot restricciones)
+   (multislot preferencias_pendientes (type SYMBOL) (create-accessor read-write))
 )
 
 ;; Clase Vivienda
@@ -405,32 +406,42 @@
       (send ?x put-buenas_vistas ?ans)
    )
 
-   (defrule preguntar-preferencia-servicios-por-tipo
-      ?u <- (object (is-a Solicitante)
-                  (cerca_de $?c)
-                  (media_de $?m)
-                  (lejos_de $?l))
-      (not (preguntas-servicios-tipo-realizadas))
+   (defrule preguntar-si-hay-preferencias-servicios
+      ?u <- (object (is-a Solicitante) (id ?id))
+      (not (pregunta-hecha preferencias-servicios))
       =>
-      (assert (preguntas-servicios-tipo-realizadas))
-
-      (bind ?tipos (obtener-tipos-servicio))
-
-      (foreach ?t ?tipos
-         (bind ?pref (preguntar-distancia-tipoServicio ?t))
-
-         (if (eq ?pref cerca) then
-            (send ?u put-cerca_de (create$ ?c ?t))
-         else
-            (if (eq ?pref media) then
-               (send ?u put-media_de (create$ ?m ?t))
-            else
-               (send ?u put-lejos_de (create$ ?l ?t))
-            )
-         )
+      (assert (pregunta-hecha preferencias-servicios))
+      (bind ?resp (yes-or-no-p "¿Tienes alguna preferencia sobre la cercanía de servicios? (yes/no) "))
+      (if (eq ?resp yes) then
+         (assert (debe-preguntar-preferencias-servicios ?id))
       )
    )
 
+   (defrule preguntar-que-preferencias-servicios
+      ?f <- (debe-preguntar-preferencias-servicios ?id)
+      ?u <- (object (is-a Solicitante) (id ?id))
+      =>
+      (retract ?f)
+      (bind ?tipos_disponibles (obtener-tipos-servicio))
+      (printout t "Servicios disponibles: " (implode$ ?tipos_disponibles) crlf)
+      (bind ?lista_prefs (pregunta-llista "Indica los servicios sobre los que tienes preferencias, separados por espacios: "))      
+      (send ?u put-preferencias_pendientes ?lista_prefs)
+   )
+
+   (defrule preguntar-distancia-para-preferencias-seleccionadas
+      ?u <- (object (is-a Solicitante)
+                  (preferencias_pendientes ?tipo_pref $?resto_prefs) 
+                  (cerca_de $?c) (media_de $?m) (lejos_de $?l))
+      =>
+      (bind ?pref_dist (preguntar-distancia-tipoServicio ?tipo_pref))
+      (switch ?pref_dist
+         (case cerca then (send ?u put-cerca_de (create$ ?c ?tipo_pref))) ;; se crea una nueva lista usando la antigua y añadiendo el nuevo
+         (case media then (send ?u put-media_de (create$ ?m ?tipo_pref)))
+         (case lejos then (send ?u put-lejos_de (create$ ?l ?tipo_pref)))
+      )
+      (send ?u put-preferencias_pendientes ?resto_prefs) ;se elimina el procesado de la lista de pendientes
+   )
+   
    (defrule asignar-servicios-segun-distancia
       ?v <- (object (is-a Vivienda) (coordX ?vx)  (coordY ?vy)
                   (cerca_de $?c) (media_de $?m) (lejos_de $?l))
