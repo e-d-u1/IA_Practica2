@@ -90,6 +90,7 @@
 
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
+   (slot edad-cat (type SYMBOL) (create-accessor read-write))
 
    (slot ascensor_Abs (type SYMBOL) (create-accessor read-write))
    (slot mascotas_Abs (type SYMBOL) (create-accessor read-write))
@@ -281,12 +282,12 @@
       (bind ?age (ask-int "Cual es tu edad? "))
       (send ?x put-edad ?age)
    )
-
+   
    (defrule preguntar-tipo-solicitante
       ?s <- (object (is-a Solicitante) (tipo_solicitante ?t&:(eq ?t nil)))
       =>
-      (bind ?tipo (ask-question "¿Qué tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, anciano, movilidad_reducida, trabajador_soltero): "
-                                 estudiante pareja_sin_hijos pareja_con_hijos anciano movilidad_reducida trabajador_soltero))
+      (bind ?tipo (ask-question "¿Qué tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, movilidad_reducida, soltero): "
+                                 estudiante pareja_sin_hijos pareja_con_hijos movilidad_reducida soltero))
       (send ?s put-tipo_solicitante ?tipo)
    )
 
@@ -520,6 +521,7 @@
    (defrule ABSTRACCION::crear-atributos-solicitante-abstractos
       ?s <- (object (is-a Solicitante) 
                      (precioMax ?p) 
+                     (edad ?e)
                      (numHabitaciones ?h)
                      (ascensor ?asc-val)
                      (mascotas ?mas-val)
@@ -536,6 +538,9 @@
       ;; tamano-cat (basado en numHabitaciones)
       (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
 
+      ;; edad-cat
+      (bind ?ce (if (< ?e 30) then joven else (if (< ?e 65) then adulto else anciano)))
+
       ;; Preferencias booleanas
       (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
       (bind ?mas (if (eq ?mas-val yes) then TRUE else FALSE))
@@ -547,7 +552,7 @@
       (bind ?vis (if (eq ?vis-val yes) then TRUE else FALSE))
 
       ;; actualizar la instancia
-      (send ?s put-precio-cat ?cp) (send ?s put-tamano-cat ?ct)
+      (send ?s put-precio-cat ?cp) (send ?s put-tamano-cat ?ct) (send ?s put-edad-cat ?ce)
       (send ?s put-ascensor_Abs ?asc)
       (send ?s put-mascotas_Abs ?mas)
       (send ?s put-amueblado_Abs ?amu)
