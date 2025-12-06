@@ -1,0 +1,206 @@
+@prefix : <http://ejemplo.com/ontologiaViviendas#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://ejemplo.com/ontologiaViviendas#> .
+
+<http://ejemplo.com/ontologiaViviendas> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://ejemplo.com/ontologiaViviendas#cerca_de
+:cerca_de rdf:type owl:ObjectProperty ;
+          rdfs:domain :Solicitante ,
+                      :Vivienda ;
+          rdfs:range :Servicio .
+
+
+###  http://ejemplo.com/ontologiaViviendas#lejos_de
+:lejos_de rdf:type owl:ObjectProperty ;
+          rdfs:domain :Solicitante ,
+                      :Vivienda ;
+          rdfs:range :Servicio .
+
+
+###  http://ejemplo.com/ontologiaViviendas#media_de
+:media_de rdf:type owl:ObjectProperty ;
+          rdfs:domain :Solicitante ,
+                      :Vivienda ;
+          rdfs:range :Servicio .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://ejemplo.com/ontologiaViviendas#amueblado
+:amueblado rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Solicitante , :Vivienda ;
+           rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#amueblado_Abs
+:amueblado_Abs rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Solicitante , :Vivienda ;
+               rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#ascensor
+:ascensor rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Solicitante , :Vivienda ;
+          rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#ascensor_Abs
+:ascensor_Abs rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Solicitante , :Vivienda ;
+              rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#coordX
+:coordX rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Servicio , :Solicitante , :Vivienda ;
+        rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#coordY
+:coordY rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Servicio , :Solicitante , :Vivienda ;
+        rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#edad
+:edad rdf:type owl:DatatypeProperty ;
+      rdfs:domain :Solicitante ;
+      rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#etiqueta-recomendacion
+:etiqueta-recomendacion rdf:type owl:DatatypeProperty ;
+                        rdfs:domain :Vivienda ;
+                        rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#fechaEdificacion
+:fechaEdificacion rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Vivienda ;
+                  rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#fechaEdificacion_Abs
+:fechaEdificacion_Abs rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Vivienda ;
+                      rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#habitaciones
+:habitaciones rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Vivienda ;
+              rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#id
+:id rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Solicitante , :Vivienda ;
+    rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#mascotas
+:mascotas rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Solicitante ;
+          rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#mascotasPermitidas
+:mascotasPermitidas rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Vivienda ;
+                    rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#mascotasPermitidas_Abs
+:mascotasPermitidas_Abs rdf:type owl:DatatypeProperty ;
+                        rdfs:domain :Vivienda ;
+                        rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#mascotas_Abs
+:mascotas_Abs rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Solicitante ;
+              rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#numHabitaciones
+:numHabitaciones rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Solicitante ;
+                 rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#planta
+:planta rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Vivienda ;
+        rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#precio
+:precio rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Vivienda ;
+        rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#precio-cat
+:precio-cat rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Solicitante , :Vivienda ;
+            rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#precioMax
+:precioMax rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Solicitante ;
+           rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#requisitos-fallados
+:requisitos-fallados rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :Vivienda ;
+                     rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#restricciones
+:restricciones rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Solicitante ;
+               rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#soleado
+:soleado rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Vivienda ;
+         rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#soleado_Abs
+:soleado_Abs rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Vivienda ;
+             rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#superficie
+:superficie rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Vivienda ;
+            rdfs:range xsd:integer .
+
+###  http://ejemplo.com/ontologiaViviendas#superficie-cat
+:superficie-cat rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Vivienda ;
+                rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#tamano-cat
+:tamano-cat rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Solicitante , :Vivienda ;
+            rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#tipo
+:tipo rdf:type owl:DatatypeProperty ;
+      rdfs:domain :Servicio ;
+      rdfs:range xsd:string .
+
+###  http://ejemplo.com/ontologiaViviendas#ventajas-extra
+:ventajas-extra rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Vivienda ;
+                rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://ejemplo.com/ontologiaViviendas#Servicio
+:Servicio rdf:type owl:Class .
+
+
+###  http://ejemplo.com/ontologiaViviendas#Solicitante
+:Solicitante rdf:type owl:Class .
+
+
+###  http://ejemplo.com/ontologiaViviendas#Vivienda
+:Vivienda rdf:type owl:Class .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
