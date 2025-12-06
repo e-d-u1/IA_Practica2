@@ -222,8 +222,8 @@
    ([Supermercado_Carrefour] of Servicio
       (tipo supermercado) (coordX 2000) (coordY 1000)
    )
-   ([Colegio_Publico_Cervantes] of Servicio
-      (tipo colegio) (coordX 80) (coordY 120)
+   ([Centro_Educativo_Cervantes] of Servicio
+      (tipo centro_educativo) (coordX 80) (coordY 120)
    )
    ([Estadio_Camp_Nou] of Servicio
       (tipo ocio) (coordX 800) (coordY 800)
@@ -618,7 +618,8 @@
 
 ;; Evaluar Habitaciones  (tamano-cat)
 (defrule asociar-heuristica-habitaciones
-   ?s <- (object (is-a Solicitante) (tamano-cat ?stc))
+   ;; solo se activa si el usuario ha pedido un número de habitaciones > 0 para que no se active si el usuario no ha indicado com restriccion el numero de habitaciones
+   ?s <- (object (is-a Solicitante) (numHabitaciones ?h&:(> ?h 0)) (tamano-cat ?stc))
    ?v <- (object (is-a Vivienda) (tamano-cat ?vtc) (requisitos-fallados $?fallos) (ventajas-extra $?extras))
    =>
    ;; Falla si el tamaño de la vivienda es de una categoría inferior
@@ -803,21 +804,92 @@
 )
 
 ;Regla extra para solicitantes de tipo 'pareja_con_hijos'
-;si no han especificado preferencia por el colegio,
+;si no han especificado preferencia por el centro_educativo,
 ;se añade como ventaja extra si la vivienda está cerca de uno
-(defrule asociar-heuristica-extra-colegio-familia-declarativa
+(defrule asociar-heuristica-extra-centro-educativo-familia-declarativa
    (object (is-a Solicitante)
                   (tipo_solicitante pareja_con_hijos)
-                  (cerca_de $?c&:(not (member$ colegio ?c)))
-                  (media_de $?m&:(not (member$ colegio ?m)))
-                  (lejos_de $?l&:(not (member$ colegio ?l)))
+                  (cerca_de $?c&:(not (member$ centro_educativo ?c)))
+                  (media_de $?m&:(not (member$ centro_educativo ?m)))
+                  (lejos_de $?l&:(not (member$ centro_educativo ?l)))
          )
    ?v <- (object (is-a Vivienda)
-                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo colegio ?servicios_cercanos))
-                  (ventajas-extra $?extras&:(not (member$ extra-colegio-cercano-familia ?extras)))
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo centro_educativo ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-centro-educativo-cercano-familia ?extras)))
          )
    =>
-   (slot-insert$ ?v ventajas-extra 1 extra-colegio-cercano-familia)
+   (slot-insert$ ?v ventajas-extra 1 extra-centro-educativo-cercano-familia)
+)
+
+;Regla extra para solicitantes de tipo 'movilidad_reducida'
+;si no han especificado como restricción un ascensor,
+;se añade como ventaja extra si la vivienda lo tiene.
+(defrule asociar-heuristica-extra-ascensor-movilidad-reducida
+   (object (is-a Solicitante)
+                  (tipo_solicitante movilidad_reducida)
+                  ;; El usuario no ha pedido ascensor como restricción
+                  (ascensor_Abs FALSE)
+         )
+   ?v <- (object (is-a Vivienda)
+                  (ascensor_Abs TRUE)
+                  (ventajas-extra $?extras&:(not (member$ extra-ascensor-movilidad-reducida ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-ascensor-movilidad-reducida)
+)
+
+;Regla extra para solicitantes de tipo 'estudiante'
+;si no han especificado preferencia por el centro_educativo,
+;se añade como ventaja extra si la vivienda está cerca de uno
+(defrule asociar-heuristica-extra-centro-educativo-estudiante-declarativa
+   (object (is-a Solicitante)
+                  (tipo_solicitante estudiante)
+                  (cerca_de $?c&:(not (member$ centro_educativo ?c)))
+                  (media_de $?m&:(not (member$ centro_educativo ?m)))
+                  (lejos_de $?l&:(not (member$ centro_educativo ?l)))
+         )
+   ?v <- (object (is-a Vivienda)
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo centro_educativo ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-centro-educativo-cercano-estudiante ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-centro-educativo-cercano-estudiante)
+)
+
+;Regla extra para solicitantes de tipo 'estudiante'
+;si no han especificado preferencia por el transporte_publico,
+;se añade como ventaja extra si la vivienda está cerca de uno
+(defrule asociar-heuristica-extra-transporte-estudiante-declarativa
+   (object (is-a Solicitante)
+                  (tipo_solicitante estudiante)
+                  (cerca_de $?c&:(not (member$ transporte_publico ?c)))
+                  (media_de $?m&:(not (member$ transporte_publico ?m)))
+                  (lejos_de $?l&:(not (member$ transporte_publico ?l)))
+         )
+   ?v <- (object (is-a Vivienda)
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo transporte_publico ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-transporte-cercano-estudiante ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-transporte-cercano-estudiante)
+)
+
+;Regla extra para solicitantes de tipo 'soltero'
+;si no han especificado preferencia por el ocio,
+;se añade como ventaja extra si la vivienda está cerca de uno
+(defrule asociar-heuristica-extra-ocio-soltero-declarativa
+   (object (is-a Solicitante)
+                  (tipo_solicitante soltero)
+                  (cerca_de $?c&:(not (member$ ocio ?c)))
+                  (media_de $?m&:(not (member$ ocio ?m)))
+                  (lejos_de $?l&:(not (member$ ocio ?l)))
+         )
+   ?v <- (object (is-a Vivienda)
+                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo ocio ?servicios_cercanos))
+                  (ventajas-extra $?extras&:(not (member$ extra-ocio-cercano-soltero ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-ocio-cercano-soltero)
 )
 
 ;; --- REGLAS DE CLASIFICACIÓN FINALES ---
