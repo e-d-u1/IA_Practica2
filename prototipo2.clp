@@ -81,6 +81,10 @@
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotas (type SYMBOL) (create-accessor read-write))
    (slot amueblado (type SYMBOL) (create-accessor read-write))
+   (slot piscina (type SYMBOL) (create-accessor read-write))
+   (slot aire_acondicionado (type SYMBOL) (create-accessor read-write))
+   (slot calefaccion (type SYMBOL) (create-accessor read-write))
+   (slot garaje (type SYMBOL) (create-accessor read-write))
 
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
@@ -88,6 +92,10 @@
    (slot ascensor_Abs (type SYMBOL) (create-accessor read-write))
    (slot mascotas_Abs (type SYMBOL) (create-accessor read-write))
    (slot amueblado_Abs (type SYMBOL) (create-accessor read-write))
+   (slot piscina_Abs (type SYMBOL) (create-accessor read-write))
+   (slot aire_acondicionado_Abs (type SYMBOL) (create-accessor read-write))
+   (slot calefaccion_Abs (type SYMBOL) (create-accessor read-write))
+   (slot garaje_Abs (type SYMBOL) (create-accessor read-write))
 
    (multislot restricciones)
 )
@@ -107,6 +115,10 @@
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotasPermitidas (type SYMBOL) (create-accessor read-write))
    (slot amueblado (type SYMBOL) (create-accessor read-write))
+   (slot piscina (type SYMBOL) (create-accessor read-write))
+   (slot aire_acondicionado (type SYMBOL) (create-accessor read-write))
+   (slot calefaccion (type SYMBOL) (create-accessor read-write))
+   (slot garaje (type SYMBOL) (create-accessor read-write))
    
    (slot soleado (type SYMBOL) (create-accessor read-write))
    (slot fechaEdificacion (type INTEGER) (create-accessor read-write))
@@ -125,6 +137,10 @@
    (slot ascensor_Abs (type SYMBOL) (create-accessor read-write))
    (slot mascotasPermitidas_Abs (type SYMBOL) (create-accessor read-write))
    (slot amueblado_Abs (type SYMBOL) (create-accessor read-write))
+   (slot piscina_Abs (type SYMBOL) (create-accessor read-write))
+   (slot aire_acondicionado_Abs (type SYMBOL) (create-accessor read-write))
+   (slot calefaccion_Abs (type SYMBOL) (create-accessor read-write))
+   (slot garaje_Abs (type SYMBOL) (create-accessor read-write))
    
    (slot soleado_Abs (type SYMBOL) (create-accessor read-write))
    (slot fechaEdificacion_Abs (type SYMBOL) (create-accessor read-write))
@@ -151,25 +167,25 @@
    ;; Solicitantes
    ([Usuario1] of Solicitante
        (id u1)
-       (precioMax 900)
-       (numHabitaciones 2)
-       (ascensor yes)
    )
 
    ;; Viviendas
    ([Vivienda1] of Vivienda
        (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
-       (mascotasPermitidas yes) (amueblado no) (soleado yes) (fechaEdificacion 2010) (coordX 3200) (coordY 1500)
+       (mascotasPermitidas yes) (amueblado no) (piscina no) (aire_acondicionado yes)
+       (calefaccion yes) (garaje no) (soleado yes) (fechaEdificacion 2010) (coordX 3200) (coordY 1500)
    )
 
    ([Vivienda2] of Vivienda
        (id o2) (precio 1200) (habitaciones 3) (superficie 85) (planta 1)(ascensor no)
-       (mascotasPermitidas no) (amueblado yes) (soleado no) (fechaEdificacion 2020) (coordX 10) (coordY 10)
+       (mascotasPermitidas no) (amueblado yes) (piscina yes) (aire_acondicionado yes)
+       (calefaccion yes) (garaje yes) (soleado no) (fechaEdificacion 2020) (coordX 10) (coordY 10)
    )
 
    ([Vivienda3] of Vivienda
        (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
        (ascensor no) (mascotasPermitidas yes) (amueblado yes) (soleado no)
+       (piscina no) (aire_acondicionado no) (calefaccion yes) (garaje no)
        (fechaEdificacion 1990) (coordX 300) (coordY 200)
    )
    ([HospitalSantPau] of Servicio
@@ -261,6 +277,13 @@
       (send ?x put-edad ?age)
    )
 
+   (defrule preguntar-precio-maximo
+      ?s <- (object (is-a Solicitante) (precioMax ?p&:(eq ?p 0)))
+      =>
+      (bind ?precio (ask-int "Cual es tu presupuesto maximo? "))
+      (send ?s put-precioMax ?precio)
+   )
+
      (defrule preguntar-si-hay-restricciones
       ?u <- (object (is-a Solicitante) (id ?id))
       (not (pregunta-hecha restricciones-iniciales))
@@ -280,7 +303,7 @@
       =>
       (bind ?lista
          (pregunta-llista
-            "Indica tus restricciones obligatoriasa separadas por espacios (mascotas ascensor amueblado):"
+            "Indica tus restricciones obligatorias separadas por espacios (habitaciones mascotas ascensor amueblado piscina aire_acondicionado calefaccion garaje):"
          ))
       (send ?u put-restricciones ?lista)
 
@@ -309,8 +332,53 @@
             (restricciones $?r&:(member mascotas ?r))
             (mascotas ?m&:(eq ?m nil)))
       =>
-      (bind ?ans (yes-or-no-p "¿La vivienda tiene que aceptar mascotas? (yes/no): "))
+      (bind ?ans (yes-or-no-p "¿La vivienda tiene que aceptar masctoas? (yes/no): "))
       (send ?x put-mascotas ?ans)
+   )
+
+   (defrule preguntar-restriccion-habitaciones
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member habitaciones ?r))
+            (numHabitaciones ?h&:(eq ?h 0)))
+      =>
+      (bind ?habs (ask-int "Cuantas habitaciones necesitas como minimo? "))
+      (send ?x put-numHabitaciones ?habs)
+   )
+
+   (defrule preguntar-restriccion-piscina
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member piscina ?r))
+            (piscina ?p&:(eq ?p nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas que tenga piscina? (yes/no): "))
+      (send ?x put-piscina ?ans)
+   )
+
+   (defrule preguntar-restriccion-aire_acondicionado
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member aire_acondicionado ?r))
+            (aire_acondicionado ?a&:(eq ?a nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas que tenga aire acondicionado? (yes/no): "))
+      (send ?x put-aire_acondicionado ?ans)
+   )
+
+   (defrule preguntar-restriccion-calefaccion
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member calefaccion ?r))
+            (calefaccion ?c&:(eq ?c nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas que tenga calefacción? (yes/no): "))
+      (send ?x put-calefaccion ?ans)
+   )
+
+   (defrule preguntar-restriccion-garaje
+      ?x <- (object (is-a Solicitante)
+            (restricciones $?r&:(member garaje ?r))
+            (garaje ?g&:(eq ?g nil)))
+      =>
+      (bind ?ans (yes-or-no-p "¿Necesitas que tenga garaje? (yes/no): "))
+      (send ?x put-garaje ?ans)
    )
 
    (defrule preguntar-preferencia-servicios-por-tipo
@@ -377,6 +445,10 @@
                      (ascensor ?asc-val)
                      (mascotasPermitidas ?mas-val)
                      (amueblado ?amu-val)
+                     (piscina ?pis-val)
+                     (aire_acondicionado ?air-val)
+                     (calefaccion ?cal-val)
+                     (garaje ?gar-val)
                      (soleado ?sol-val)
                      (fechaEdificacion ?anio-val)
             )
@@ -400,6 +472,10 @@
       (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
       (bind ?mas (if (eq ?mas-val yes) then TRUE else FALSE))
       (bind ?amu (if (eq ?amu-val yes) then TRUE else FALSE))
+      (bind ?pis (if (eq ?pis-val yes) then TRUE else FALSE))
+      (bind ?air (if (eq ?air-val yes) then TRUE else FALSE))
+      (bind ?cal (if (eq ?cal-val yes) then TRUE else FALSE))
+      (bind ?gar (if (eq ?gar-val yes) then TRUE else FALSE))
       (bind ?sol (if (eq ?sol-val yes) then TRUE else FALSE))
 
       ;; actualizar la instancia
@@ -407,6 +483,10 @@
       (send ?v put-ascensor_Abs ?asc)
       (send ?v put-mascotasPermitidas_Abs ?mas)
       (send ?v put-amueblado_Abs ?amu)
+      (send ?v put-piscina_Abs ?pis)
+      (send ?v put-aire_acondicionado_Abs ?air)
+      (send ?v put-calefaccion_Abs ?cal)
+      (send ?v put-garaje_Abs ?gar)
       (send ?v put-soleado_Abs ?sol)
       (send ?v put-fechaEdificacion_Abs ?anioAbs)
    )
@@ -417,7 +497,11 @@
                      (numHabitaciones ?h)
                      (ascensor ?asc-val)
                      (mascotas ?mas-val)
-                     (amueblado ?amu-val))
+                     (amueblado ?amu-val)
+                     (piscina ?pis-val)
+                     (aire_acondicionado ?air-val)
+                     (calefaccion ?cal-val)
+                     (garaje ?gar-val))
       =>
       ;; precio-cat
       (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
@@ -429,12 +513,20 @@
       (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
       (bind ?mas (if (eq ?mas-val yes) then TRUE else FALSE))
       (bind ?amu (if (eq ?amu-val yes) then TRUE else FALSE))
+      (bind ?pis (if (eq ?pis-val yes) then TRUE else FALSE))
+      (bind ?air (if (eq ?air-val yes) then TRUE else FALSE))
+      (bind ?cal (if (eq ?cal-val yes) then TRUE else FALSE))
+      (bind ?gar (if (eq ?gar-val yes) then TRUE else FALSE))
 
       ;; actualizar la instancia
       (send ?s put-precio-cat ?cp) (send ?s put-tamano-cat ?ct)
       (send ?s put-ascensor_Abs ?asc)
       (send ?s put-mascotas_Abs ?mas)
       (send ?s put-amueblado_Abs ?amu)
+      (send ?s put-piscina_Abs ?pis)
+      (send ?s put-aire_acondicionado_Abs ?air)
+      (send ?s put-calefaccion_Abs ?cal)
+      (send ?s put-garaje_Abs ?gar)
    )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -488,8 +580,19 @@
 
 ;; Evaluar características booleanas  (_Abs)
 (defrule asociar-heuristica-booleanas
-   ?s <- (object (is-a Solicitante) (ascensor_Abs ?asc_req) (mascotas_Abs ?mas_req) (amueblado_Abs ?amu_req))
-   ?v <- (object (is-a Vivienda) (ascensor_Abs ?asc_viv) (mascotasPermitidas_Abs ?mas_viv) (amueblado_Abs ?amu_viv) (requisitos-fallados $?fallos))
+   ?s <- (object (is-a Solicitante) 
+                  (ascensor_Abs ?asc_req) (mascotas_Abs ?mas_req) (amueblado_Abs ?amu_req)
+                  (piscina_Abs ?pis_req) (aire_acondicionado_Abs ?air_req)
+                  (calefaccion_Abs ?cal_req) (garaje_Abs ?gar_req)
+         )
+   ?v <- (object (is-a Vivienda) 
+                  (ascensor_Abs ?asc_viv) (mascotasPermitidas_Abs ?mas_viv) 
+                  (amueblado_Abs ?amu_viv) (piscina_Abs ?pis_viv)
+                  (aire_acondicionado_Abs ?air_viv) (calefaccion_Abs ?cal_viv)
+                  (garaje_Abs ?gar_viv)
+                  (requisitos-fallados $?fallos)
+                  (ventajas-extra $?extras)
+         )
    =>
    ;; Ascensor
    (if (and (eq ?asc_req TRUE) (eq ?asc_viv FALSE)) then
@@ -502,6 +605,26 @@
    ;; Amueblado
    (if (and (eq ?amu_req TRUE) (eq ?amu_viv FALSE)) then
       (if (not (member$ no-amueblado ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 no-amueblado)))
+
+   ;; Piscina
+   (if (and (eq ?pis_req TRUE) (eq ?pis_viv FALSE)) then
+      (if (not (member$ piscina-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 piscina-faltante))
+   )
+
+   ;; Aire Acondicionado
+   (if (and (eq ?air_req TRUE) (eq ?air_viv FALSE)) then
+      (if (not (member$ aire-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 aire-faltante))
+   )
+
+   ;; Calefacción
+   (if (and (eq ?cal_req TRUE) (eq ?cal_viv FALSE)) then
+      (if (not (member$ calefaccion-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 calefaccion-faltante))
+   )
+
+   ;; Garaje
+   (if (and (eq ?gar_req TRUE) (eq ?gar_viv FALSE)) then
+      (if (not (member$ garaje-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 garaje-faltante))
+   )
 )
 
 ;; Evaluar ventajas extra no solicitadas (ej soleado) 
