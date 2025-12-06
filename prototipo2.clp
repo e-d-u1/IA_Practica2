@@ -855,8 +855,8 @@
 
 ;Regla extra para solicitantes de tipo 'pareja_con_hijos'
 ;si no han especificado preferencia por el centro_educativo,
-;se añade como ventaja extra si la vivienda está cerca de uno
-(defrule asociar-heuristica-extra-centro-educativo-familia-declarativa
+;se añade como ventaja extra si la vivienda está a media distancia de uno
+(defrule asociar-heuristica-extra-centro-educativo-media-familia-declarativa
    (object (is-a Solicitante)
                   (tipo_solicitante pareja_con_hijos)
                   (cerca_de $?c&:(not (member$ centro_educativo ?c)))
@@ -864,11 +864,11 @@
                   (lejos_de $?l&:(not (member$ centro_educativo ?l)))
          )
    ?v <- (object (is-a Vivienda)
-                  (cerca_de $?servicios_cercanos&:(hay-servicio-de-tipo centro_educativo ?servicios_cercanos))
-                  (ventajas-extra $?extras&:(not (member$ extra-centro-educativo-cercano-familia ?extras)))
+                  (media_de $?servicios_medios&:(hay-servicio-de-tipo centro_educativo ?servicios_medios))
+                  (ventajas-extra $?extras&:(not (member$ extra-centro-educativo-media-familia ?extras)))
          )
    =>
-   (slot-insert$ ?v ventajas-extra 1 extra-centro-educativo-cercano-familia)
+   (slot-insert$ ?v ventajas-extra 1 extra-centro-educativo-media-familia)
 )
 
 ;Regla extra para solicitantes de tipo 'movilidad_reducida'
@@ -940,6 +940,24 @@
          )
    =>
    (slot-insert$ ?v ventajas-extra 1 extra-ocio-cercano-soltero)
+)
+
+;Regla extra para solicitantes de tipo 'pareja_con_hijos'
+;si no han especificado preferencia por zonaVerde a media distancia,
+;se añade como ventaja extra si la vivienda está a media distancia de una.
+(defrule asociar-heuristica-extra-zonaVerde-media-familia-declarativa
+   (object (is-a Solicitante)
+                  (tipo_solicitante pareja_con_hijos)
+                  (cerca_de $?c&:(not (member$ zonaVerde ?c)))
+                  (media_de $?m&:(not (member$ zonaVerde ?m)))
+                  (lejos_de $?l&:(not (member$ zonaVerde ?l)))
+         )
+   ?v <- (object (is-a Vivienda)
+                  (media_de $?servicios_medios&:(hay-servicio-de-tipo zonaVerde ?servicios_medios))
+                  (ventajas-extra $?extras&:(not (member$ extra-zonaVerde-media-familia ?extras)))
+         )
+   =>
+   (slot-insert$ ?v ventajas-extra 1 extra-zonaVerde-media-familia)
 )
 
 ;; --- REGLAS DE CLASIFICACIÓN FINALES ---
