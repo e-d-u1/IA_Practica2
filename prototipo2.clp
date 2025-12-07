@@ -174,6 +174,7 @@
    (pattern-match reactive)
    (slot planta (type INTEGER) (create-accessor read-write))
    (slot planta_Abs (type SYMBOL) (create-accessor read-write))
+   (slot atico (type SYMBOL) (create-accessor read-write))
 )
 
 ;; Duplex
@@ -216,7 +217,7 @@
    )
 
    ([Piso1] of ViviendaVertical
-       (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
+       (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5) (atico yes)
        (ascensor no) (mascotasPermitidas yes) (amueblado yes) (soleado no)
        (piscina no) (aire_acondicionado no) (calefaccion yes) (garaje no) (buenas_vistas yes) (terraza no) (balcon no)
        (fechaEdificacion 1990) (coordX 300) (coordY 200)
@@ -324,7 +325,7 @@
    (defrule preguntar-tipo-solicitante
       ?s <- (object (is-a Solicitante) (tipo_solicitante ?t&:(eq ?t nil)))
       =>
-      (bind ?tipo (ask-question "¿Qué tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, movilidad_reducida, soltero): "
+      (bind ?tipo (ask-question "¿Que tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, movilidad_reducida, soltero): "
                                  estudiante pareja_sin_hijos pareja_con_hijos movilidad_reducida soltero))
       (send ?s put-tipo_solicitante ?tipo)
    )
@@ -333,7 +334,7 @@
       ?s <- (object (is-a Solicitante) (tipoVivienda ?t&:(eq ?t nil)))
       =>
       (bind ?tipo (ask-question 
-         "¿Qué tipo de vivienda prefieres? (casa, piso): "
+         "¿Que tipo de vivienda prefieres? (casa, piso): "
          casa piso))
       (send ?s put-tipoVivienda ?tipo)
    )
@@ -345,7 +346,7 @@
                   (altura-cat ?a&:(eq ?a nil)))
       =>
       (bind ?altura (ask-question 
-         "Si es un piso, ¿qué altura prefieres? (baja, media, alta): "
+         "Si es un piso, ¿que altura prefieres? (baja, media, alta): "
          baja media alta))
       (send ?s put-altura-cat ?altura)
    )
@@ -486,7 +487,7 @@
       (not (pregunta-hecha preferencias-servicios))
       =>
       (assert (pregunta-hecha preferencias-servicios))
-      (bind ?resp (yes-or-no-p "¿Tienes alguna preferencia sobre la cercanía de servicios? (yes/no) "))
+      (bind ?resp (yes-or-no-p "¿Tienes alguna preferencia sobre la cercania de servicios? (yes/no) "))
       (if (eq ?resp yes) then
          (assert (debe-preguntar-preferencias-servicios ?id))
       )
@@ -840,6 +841,21 @@
       (slot-insert$ ?v ventajas-extra 1 moderna)
    )
 )
+(defrule asociar-heuristica-ventaja-atico
+   ?v <- (object (is-a ViviendaVertical) (atico yes) (ventajas-extra $?extras))
+   =>
+   (if (not (member$ atico ?extras)) then
+      (slot-insert$ ?v ventajas-extra 1 atico)
+   )
+)
+
+(defrule asociar-heuristica-ventaja-duplex
+   ?v <- (object (is-a Duplex) (ventajas-extra $?extras))
+   =>
+   (if (not (member$ duplex ?extras)) then
+      (slot-insert$ ?v ventajas-extra 1 duplex))
+)
+
 ;; Evaluar preferencias de servicios como ventajas extra (coincidencia estricta)
 (defrule asociar-heuristica-servicios
    ?s <- (object (is-a Solicitante) 
@@ -1158,12 +1174,12 @@
 
    (printout t "----------------------------------" crlf)
    (printout t "Vivienda ID: " ?id crlf)
-   (printout t "Grado de Recomendación: " ?etq crlf)
+   (printout t "Grado de Recomendacion: " ?etq crlf)
    (if (> (length$ ?fallos) 0) then
-      (printout t "Requisitos NO cumplidos (símbolos): " (implode$ ?fallos) crlf)
+      (printout t "Requisitos NO cumplidos (simbolos): " (implode$ ?fallos) crlf)
    )
    (if (> (length$ ?extras) 0) then
-      (printout t "Ventajas extra (símbolos): " (implode$ ?extras) crlf)
+      (printout t "Ventajas extra (simbolos): " (implode$ ?extras) crlf)
    )
    (printout t crlf)
 
