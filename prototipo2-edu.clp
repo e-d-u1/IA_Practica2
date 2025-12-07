@@ -660,15 +660,22 @@
       (send ?s put-terraza_Abs ?ter)
       (send ?s put-balcon_Abs ?bal)
    )
-   ;; Para los pisos
-   (if (is-a ?v Piso) then
-      (bind ?altura (if (<= (send ?v get-planta) 1) 
-                        then baja
-                        else (if (<= (send ?v get-planta) 4) 
-                                 then media 
-                                 else alta)))
+
+   (defrule abstraccion-pisos-altura
+      ?v <- (object (is-a ViviendaVertical))
+      =>
+      (bind ?planta (send ?v get-planta))
+
+      ;; Calcular la categoría de altura
+      (bind ?altura (if (<= ?planta 1)
+            then baja
+            else (if (<= ?planta 4) then media else alta)))
+
+      ;; Guardar atributo abstracto
       (send ?v put-plantaAbs ?altura)
    )
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 3. MÓDULO DE HEURÍSTICAS
@@ -786,12 +793,24 @@
    )
 
    ;; Comprobación de tipo de vivienda
-   (bind ?tipoDeseado (send ?s get-tipoVivienda))   ;; lo que el solicitante quiere
-   (bind ?tipoReal (type ?v))                       ;; la clase real de la vivienda
-   (if (neq ?tipoDeseado ?tipoReal) then
+   (bind ?tipoDeseado (send ?s get-tipoVivienda))   ;; casa / piso
+   (bind ?claseReal (class ?v))
+   
+    ;; Si es Vivienda base y quiere piso → fallo
+   (if (and (eq ?claseReal Vivienda) (eq ?tipoDeseado piso)) then
       (if (not (member$ tipoVivienda-incorrecto ?fallos)) then
-         (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto))
-   )
+         (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto)))
+   
+   ;; Si es ViviendaVertical y quiere casa → fallo
+   (if (and (eq ?claseReal ViviendaVertical) (eq ?tipoDeseado casa)) then
+      (if (not (member$ tipoVivienda-incorrecto ?fallos)) then
+         (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto)))
+      
+   (printout t "DEBUG tipoDeseado = " (send ?s get-tipoVivienda) crlf)
+   (printout t "DEBUG claseReal   = " (class ?v) crlf)
+   (printout t "DEBUG esVertical? = " 
+               (member$ ViviendaVertical (class-superclasses (class ?v) inherit))
+               crlf)
 )
 
 ;; Evaluar ventajas extra no solicitadas (ej soleado) 
