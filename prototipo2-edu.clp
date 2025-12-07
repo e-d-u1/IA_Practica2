@@ -173,7 +173,7 @@
    (role concrete)
    (pattern-match reactive)
    (slot planta (type INTEGER) (create-accessor read-write))
-   (slot plantaAbs (type SYMBOL) (create-accessor read-write))
+   (slot planta_Abs (type SYMBOL) (create-accessor read-write))
 )
 
 ;; Duplex
@@ -661,7 +661,7 @@
       (send ?s put-balcon_Abs ?bal)
    )
 
-   (defrule abstraccion-pisos-altura
+   (defrule abstraccion-pisos
       ?v <- (object (is-a ViviendaVertical))
       =>
       (bind ?planta (send ?v get-planta))
@@ -672,7 +672,7 @@
             else (if (<= ?planta 4) then media else alta)))
 
       ;; Guardar atributo abstracto
-      (send ?v put-plantaAbs ?altura)
+      (send ?v put-planta_Abs ?altura)
    )
 
 
@@ -725,6 +725,21 @@
       (if (not (member$ habitaciones-extra ?extras)) then (slot-insert$ ?v ventajas-extra 1 habitaciones-extra)))
    (if (and (eq ?stc medio) (eq ?vtc grande)) then
       (if (not (member$ habitaciones-extra ?extras)) then (slot-insert$ ?v ventajas-extra 1 habitaciones-extra)))
+)
+
+(defrule asociar-heuristica-piso
+   ?s <- (object (is-a Solicitante) 
+                 (tipoVivienda ?tipoDeseado) 
+                 (altura-cat ?plantaSolicitada))
+   ?v <- (object (is-a ViviendaVertical) 
+                 (requisitos-fallados $?fallos) 
+                 (planta_Abs ?plantaReal))
+               
+    =>
+   (if (neq ?plantaSolicitada ?plantaReal) then
+      (if (not (member$ planta-incorrecta (send ?v get-requisitos-fallados))) then
+         (slot-insert$ ?v requisitos-fallados 1 planta-incorrecta)))
+
 )
 
 ;; Evaluar características booleanas  (_Abs)
@@ -806,11 +821,6 @@
       (if (not (member$ tipoVivienda-incorrecto ?fallos)) then
          (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto)))
       
-   (printout t "DEBUG tipoDeseado = " (send ?s get-tipoVivienda) crlf)
-   (printout t "DEBUG claseReal   = " (class ?v) crlf)
-   (printout t "DEBUG esVertical? = " 
-               (member$ ViviendaVertical (class-superclasses (class ?v) inherit))
-               crlf)
 )
 
 ;; Evaluar ventajas extra no solicitadas (ej soleado) 
@@ -1159,6 +1169,20 @@
 
    ;;se elimina el hecho para pasar a la siguiente vivienda en la próxima iteración
    (retract ?hecho)
+)
+
+(defrule imprimir-resumen-fallos
+   (declare (salience -60))
+   =>
+   (printout t crlf "=== RESUMEN DE FALLOS POR VIVIENDA ===" crlf)
+   (bind ?viviendas (find-all-instances ((?v Vivienda)) TRUE))
+   (foreach ?v ?viviendas
+      (bind ?id (send ?v get-id))
+      (bind ?fallos (send ?v get-requisitos-fallados))
+      (bind ?etq (send ?v get-etiqueta-recomendacion))
+      (printout t ?etq "  Vivienda " ?id ": " (implode$ ?fallos)  crlf)
+   )
+   (printout t "===================================" crlf crlf)
 )
 
 (defrule fallback-ninguna-vivienda

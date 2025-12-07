@@ -79,6 +79,8 @@
    (slot precioMax (type INTEGER) (create-accessor read-write))
    (slot edad (type INTEGER) (create-accessor read-write))
    (slot numHabitaciones (type INTEGER) (create-accessor read-write))
+   (slot tipoVivienda (type SYMBOL) (create-accessor read-write))
+
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotas (type SYMBOL) (create-accessor read-write))
    (slot amueblado (type SYMBOL) (create-accessor read-write))
@@ -90,6 +92,7 @@
    (slot terraza (type SYMBOL) (create-accessor read-write))
    (slot balcon (type SYMBOL) (create-accessor read-write))
 
+   (slot altura-cat (type SYMBOL) (create-accessor read-write))
    (slot precio-cat (type SYMBOL) (create-accessor read-write))
    (slot tamano-cat (type SYMBOL) (create-accessor read-write))
    (slot edad-cat (type SYMBOL) (create-accessor read-write))
@@ -120,7 +123,6 @@
    (slot precio (type INTEGER) (create-accessor read-write))
    (slot habitaciones (type INTEGER) (create-accessor read-write))
    (slot superficie (type INTEGER) (create-accessor read-write))
-   (slot planta (type INTEGER) (create-accessor read-write))
    (slot ascensor (type SYMBOL) (create-accessor read-write))
    (slot mascotasPermitidas (type SYMBOL) (create-accessor read-write))
    (slot amueblado (type SYMBOL) (create-accessor read-write))
@@ -165,6 +167,22 @@
    (multislot requisitos-fallados (type SYMBOL) (create-accessor read-write))
    (multislot ventajas-extra (type SYMBOL) (create-accessor read-write))
 )
+;; Subclase intermedia para tipos de vivienda en altura
+(defclass ViviendaVertical
+   (is-a Vivienda)
+   (role concrete)
+   (pattern-match reactive)
+   (slot planta (type INTEGER) (create-accessor read-write))
+   (slot planta_Abs (type SYMBOL) (create-accessor read-write))
+)
+
+;; Duplex
+(defclass Duplex
+   (is-a Vivienda)
+   (role concrete)
+   (pattern-match reactive)
+   (slot numPlantas (type INTEGER) (create-accessor read-write))
+)
 
 ;; Clase Servicio
 (defclass Servicio
@@ -185,19 +203,19 @@
    )
 
    ;; Viviendas
-   ([Vivienda1] of Vivienda
-       (id o1) (precio 850) (habitaciones 2) (superficie 60) (planta 3) (ascensor yes)
+   ([Casa1] of Vivienda
+       (id o1) (precio 850) (habitaciones 2) (superficie 60) (ascensor yes)
        (mascotasPermitidas yes) (amueblado no) (piscina no) (aire_acondicionado yes) (buenas_vistas no) (terraza no) (balcon yes)
        (calefaccion yes) (garaje no) (soleado yes) (fechaEdificacion 2010) (coordX 3200) (coordY 1500)
    )
 
-   ([Vivienda2] of Vivienda
-       (id o2) (precio 1200) (habitaciones 3) (superficie 85) (planta 1)(ascensor no)
+   ([Casa2] of Vivienda
+       (id o2) (precio 1200) (habitaciones 3) (superficie 85) (ascensor no)
        (mascotasPermitidas no) (amueblado yes) (piscina yes) (aire_acondicionado yes) (buenas_vistas no) (terraza yes) (balcon yes)
        (calefaccion yes) (garaje yes) (soleado no) (fechaEdificacion 2020) (coordX 10) (coordY 10)
    )
 
-   ([Vivienda3] of Vivienda
+   ([Piso1] of ViviendaVertical
        (id o3) (precio 700) (habitaciones 1) (superficie 35) (planta 5)
        (ascensor no) (mascotasPermitidas yes) (amueblado yes) (soleado no)
        (piscina no) (aire_acondicionado no) (calefaccion yes) (garaje no) (buenas_vistas yes) (terraza no) (balcon no)
@@ -311,6 +329,26 @@
       (send ?s put-tipo_solicitante ?tipo)
    )
 
+   (defrule preguntar-tipo-vivienda
+      ?s <- (object (is-a Solicitante) (tipoVivienda ?t&:(eq ?t nil)))
+      =>
+      (bind ?tipo (ask-question 
+         "¿Qué tipo de vivienda prefieres? (casa, piso): "
+         casa piso))
+      (send ?s put-tipoVivienda ?tipo)
+   )
+
+   ;; Preguntar altura solo si es Piso
+   (defrule preguntar-altura-piso
+      ?s <- (object (is-a Solicitante) 
+                  (tipoVivienda piso)
+                  (altura-cat ?a&:(eq ?a nil)))
+      =>
+      (bind ?altura (ask-question 
+         "Si es un piso, ¿qué altura prefieres? (baja, media, alta): "
+         baja media alta))
+      (send ?s put-altura-cat ?altura)
+   )
 
    (defrule preguntar-precio-maximo
       ?s <- (object (is-a Solicitante) (precioMax ?p&:(eq ?p 0)))
@@ -622,6 +660,22 @@
       (send ?s put-terraza_Abs ?ter)
       (send ?s put-balcon_Abs ?bal)
    )
+
+   (defrule abstraccion-pisos
+      ?v <- (object (is-a ViviendaVertical))
+      =>
+      (bind ?planta (send ?v get-planta))
+
+      ;; Calcular la categoría de altura
+      (bind ?altura (if (<= ?planta 1)
+            then baja
+            else (if (<= ?planta 4) then media else alta)))
+
+      ;; Guardar atributo abstracto
+      (send ?v put-planta_Abs ?altura)
+   )
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 3. MÓDULO DE HEURÍSTICAS
@@ -671,6 +725,21 @@
       (if (not (member$ habitaciones-extra ?extras)) then (slot-insert$ ?v ventajas-extra 1 habitaciones-extra)))
    (if (and (eq ?stc medio) (eq ?vtc grande)) then
       (if (not (member$ habitaciones-extra ?extras)) then (slot-insert$ ?v ventajas-extra 1 habitaciones-extra)))
+)
+
+(defrule asociar-heuristica-piso
+   ?s <- (object (is-a Solicitante) 
+                 (tipoVivienda ?tipoDeseado) 
+                 (altura-cat ?plantaSolicitada))
+   ?v <- (object (is-a ViviendaVertical) 
+                 (requisitos-fallados $?fallos) 
+                 (planta_Abs ?plantaReal))
+               
+    =>
+   (if (neq ?plantaSolicitada ?plantaReal) then
+      (if (not (member$ planta-incorrecta (send ?v get-requisitos-fallados))) then
+         (slot-insert$ ?v requisitos-fallados 1 planta-incorrecta)))
+
 )
 
 ;; Evaluar características booleanas  (_Abs)
@@ -737,6 +806,21 @@
    (if (and (eq ?bal_req TRUE) (eq ?bal_viv FALSE)) then
       (if (not (member$ balcon-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 balcon-faltante))
    )
+
+   ;; Comprobación de tipo de vivienda
+   (bind ?tipoDeseado (send ?s get-tipoVivienda))   ;; casa / piso
+   (bind ?claseReal (class ?v))
+   
+    ;; Si es Vivienda base y quiere piso → fallo
+   (if (and (eq ?claseReal Vivienda) (eq ?tipoDeseado piso)) then
+      (if (not (member$ tipoVivienda-incorrecto ?fallos)) then
+         (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto)))
+   
+   ;; Si es ViviendaVertical y quiere casa → fallo
+   (if (and (eq ?claseReal ViviendaVertical) (eq ?tipoDeseado casa)) then
+      (if (not (member$ tipoVivienda-incorrecto ?fallos)) then
+         (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto)))
+      
 )
 
 ;; Evaluar ventajas extra no solicitadas (ej soleado) 
@@ -1085,6 +1169,20 @@
 
    ;;se elimina el hecho para pasar a la siguiente vivienda en la próxima iteración
    (retract ?hecho)
+)
+
+(defrule imprimir-resumen-fallos
+   (declare (salience -60))
+   =>
+   (printout t crlf "=== RESUMEN DE FALLOS POR VIVIENDA ===" crlf)
+   (bind ?viviendas (find-all-instances ((?v Vivienda)) TRUE))
+   (foreach ?v ?viviendas
+      (bind ?id (send ?v get-id))
+      (bind ?fallos (send ?v get-requisitos-fallados))
+      (bind ?etq (send ?v get-etiqueta-recomendacion))
+      (printout t ?etq "  Vivienda " ?id ": " (implode$ ?fallos)  crlf)
+   )
+   (printout t "===================================" crlf crlf)
 )
 
 (defrule fallback-ninguna-vivienda
