@@ -2746,7 +2746,7 @@
       (bind ?actual 2025)
       (bind ?edad (- ?actual ?anio-val))
 
-      (bind ?anioAbs (if (< ?edad 6) then nueva else (if (< ?edad 20) then moderna else antigua)))
+      (bind ?anioAbs (if (< ?edad 6) then reciente else (if (< ?edad 20) then moderna else antigua)))
 
       ;; Atributos booleanos
       (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
@@ -2998,13 +2998,13 @@
       (slot-insert$ ?v ventajas-extra 1 soleado)
    )         
 )
-(defrule asociar-heuristica-ventaja-moderna
+(defrule asociar-heuristica-ventaja-reciente
    ?v <- (object (is-a Vivienda)
-                 (fechaEdificacion_Abs moderna)
+                 (fechaEdificacion_Abs reciente)
                  (ventajas-extra $?extras))
    =>
-   (if (not (member$ moderna ?extras)) then
-      (slot-insert$ ?v ventajas-extra 1 moderna)
+   (if (not (member$ reciente ?extras)) then
+      (slot-insert$ ?v ventajas-extra 1 reciente)
    )
 )
 (defrule asociar-heuristica-ventaja-atico
