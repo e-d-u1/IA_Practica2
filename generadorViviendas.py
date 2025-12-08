@@ -76,6 +76,7 @@ for i in range(1, N + 1):
     elif tipo == "Duplex":
         planta = random.randint(1, 12)
         numPlantas = random.randint(2, 3)
+        print(f"       (planta {planta})")  
         print(f"       (numPlantas {numPlantas})")
 
     print("   )")  # fin de instancia
