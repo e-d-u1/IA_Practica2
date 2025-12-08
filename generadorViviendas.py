@@ -19,7 +19,7 @@ for i in range(1, N + 1):
     # Elegir tipo de vivienda
     tipo = random.choices(
         ["Vivienda", "ViviendaVertical", "Duplex"],
-        weights=[0.6, 0.3, 0.1]  # puedes ajustar las probabilidades
+        weights=[0.5, 0.4, 0.1]  # puedes ajustar las probabilidades
     )[0]
 
     id_name = f"CasaAuto{i}"
@@ -71,10 +71,10 @@ for i in range(1, N + 1):
     if tipo == "ViviendaVertical":
         planta = random.randint(1, 12)
         print(f"       (planta {planta})")
-        print(f"       (planta_Abs {('Alta' if planta > 6 else 'Baja')})")
         print(f"       (atico {yesno()})")
 
     elif tipo == "Duplex":
+        planta = random.randint(1, 12)
         numPlantas = random.randint(2, 3)
         print(f"       (numPlantas {numPlantas})")
 
