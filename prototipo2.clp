@@ -461,7 +461,6 @@
        (fechaEdificacion 1999)
        (coordX 3506)
        (coordY 2044)
-       (planta 11)
        (numPlantas 2)
    )
 
@@ -807,7 +806,6 @@
        (fechaEdificacion 1968)
        (coordX 3413)
        (coordY 3648)
-       (planta 1)
        (numPlantas 3)
    )
 
@@ -1285,7 +1283,6 @@
        (fechaEdificacion 2012)
        (coordX 930)
        (coordY 186)
-       (planta 7)
        (numPlantas 3)
    )
 
@@ -1417,7 +1414,6 @@
        (fechaEdificacion 1969)
        (coordX 1996)
        (coordY 915)
-       (planta 7)
        (numPlantas 3)
    )
 
@@ -1926,7 +1922,6 @@
        (fechaEdificacion 1991)
        (coordX 156)
        (coordY 1583)
-       (planta 9)
        (numPlantas 3)
    )
 
@@ -2318,7 +2313,6 @@
        (fechaEdificacion 1996)
        (coordX 1821)
        (coordY 3136)
-       (planta 12)
        (numPlantas 2)
    )
 
