@@ -2736,7 +2736,7 @@
             )
       =>
       ;; precio-cat
-      (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
+      (bind ?cp (if (< ?p 1000) then bajo else (if (< ?p 1700) then medio else alto)))
 
       ;; tamano-cat
       (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
@@ -2796,7 +2796,7 @@
                      (balcon ?bal-val))
       =>
       ;; precio-cat
-      (bind ?cp (if (< ?p 600) then bajo else (if (< ?p 1000) then medio else alto)))
+      (bind ?cp (if (< ?p 1000) then bajo else (if (< ?p 1700) then medio else alto)))
 
       ;; tamano-cat (basado en numHabitaciones)
       (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
