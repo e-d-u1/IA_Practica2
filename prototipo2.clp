@@ -2746,7 +2746,7 @@
       (bind ?actual 2025)
       (bind ?edad (- ?actual ?anio-val))
 
-      (bind ?anioAbs (if (< ?edad 10) then nueva else (if (< ?edad 30) then moderna else antigua)))
+      (bind ?anioAbs (if (< ?edad 6) then nueva else (if (< ?edad 20) then moderna else antigua)))
 
       ;; Atributos booleanos
       (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
