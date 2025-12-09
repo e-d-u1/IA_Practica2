@@ -1,0 +1,267 @@
+         CLIPS (6.31 6/12/19)
+CLIPS> (load "C:/Users/oriol/OneDrive/Escritorio/IA/practica2/entrgaInicial/prototipo2-edu.clp")
+Defining defmodule: INPUT
+Defining deffunction: ask-number
+Defining deffunction: ask-int
+Defining deffunction: ask-question
+Defining deffunction: yes-or-no-p
+Defining deffunction: pregunta-llista
+Defining deffunction: calcDistanciaEuclidiana
+Defining defclass: Solicitante
+Defining defclass: Vivienda
+Defining defclass: ViviendaVertical
+Defining defclass: Duplex
+Defining defclass: Servicio
+Defining definstances: instances
+Defining defmodule: ABSTRACCION
+Defining deffunction: obtener-tipos-servicio
+Defining deffunction: preguntar-distancia-tipoServicio
+Defining deffunction: hay-servicio-de-tipo
+Defining defrule: queEdad +j+j
+Defining defrule: vehiculoPropio +j+j
+Defining defrule: preguntar-tipo-solicitante +j+j
+Defining defrule: preguntar-tipo-vivienda +j+j
+Defining defrule: preguntar-altura-piso +j+j
+Defining defrule: preguntar-precio-maximo +j+j
+Defining defrule: preguntar-si-hay-restricciones +j+j+j
+Defining defrule: preguntar-tipo-restriccion +j+j+j
+Defining defrule: preguntar-restriccion-ascensor +j+j
+Defining defrule: preguntar-restriccion-amueblado +j+j
+Defining defrule: preguntar-restriccion-mascotas +j+j
+Defining defrule: preguntar-restriccion-habitaciones +j+j
+Defining defrule: preguntar-restriccion-piscina +j+j
+Defining defrule: preguntar-restriccion-aire_acondicionado +j+j
+Defining defrule: preguntar-restriccion-calefaccion +j+j
+Defining defrule: preguntar-restriccion-garaje +j+j
+Defining defrule: preguntar-restriccion-buenas_vistas +j+j
+Defining defrule: preguntar-restriccion-terraza +j+j
+Defining defrule: preguntar-restriccion-balcon +j+j
+Defining defrule: preguntar-si-hay-preferencias-servicios =j+j+j
+Defining defrule: preguntar-que-preferencias-servicios +j+j+j
+Defining defrule: preguntar-distancia-para-preferencias-seleccionadas +j+j
+Defining defrule: asignar-servicios-segun-distancia +j+j+j+j
+Defining defrule: crear-atributos-vivienda-abstractos +j+j
+Defining defrule: crear-atributos-solicitante-abstractos +j+j
+Defining defrule: abstraccion-pisos +j+j
+Defining defmodule: HEURISTICAS
+Defining defrule: asociar-heuristica-precio +j+j+j
+Defining defrule: asociar-heuristica-habitaciones +j+j+j
+Defining defrule: asociar-heuristica-piso +j+j+j
+Defining defrule: asociar-heuristica-booleanas +j+j+j
+Defining defrule: asociar-heuristica-ventaja-soleado +j+j
+Defining defrule: asociar-heuristica-ventaja-reciente +j+j
+Defining defrule: asociar-heuristica-ventaja-atico +j+j
+Defining defrule: asociar-heuristica-ventaja-duplex +j+j
+Defining defrule: asociar-heuristica-servicios +j+j+j
+Defining defrule: asociar-heuristica-extra-hospital-anciano +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-joven-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-ocio-nocturno-joven-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-educativo-media-familia-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-ascensor-movilidad-reducida +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-educativo-estudiante-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-transporte-estudiante-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-transporte-sinCoche +j+j+j
+Defining defrule: asociar-heuristica-extra-ocio-soltero-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-zonaVerde-media-familia-declarativa +j+j+j
+Defining defrule: clasificar-parcialmente-adecuado +j+j
+Defining defrule: clasificar-muy-recomendable +j+j
+Defining defrule: clasificar-adecuado +j+j
+Defining defmodule: REFINAMIENTO
+Defining deftemplate: vivienda-a-mostrar
+Defining defrule: refinar-orden-muy-recomendable +j+j
+Defining defrule: refinar-orden-adecuado +j+j+j
+Defining defrule: refinar-orden-parcialmente-adecuado +j+j+j
+Defining defmodule: SALIDA
+Defining defrule: imprimir-resultados-ordenados +j+j+j
+Defining defrule: imprimir-resumen-fallos +j+j
+Defining defrule: fallback-ninguna-vivienda +j+j
+Defining defrule: inicio +j
+TRUE
+CLIPS> (run)
+----------------------------------
+ No existe ninguna vivienda que cumpla los requisitos del solicitante.
+----------------------------------
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+===================================
+
+CLIPS> (reset)
+CLIPS> (run)
+Cual es tu edad? 32
+¿Que tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, movilidad_reducida, soltero): pareja_sin_hijos
+¿Que tipo de vivienda prefieres? (casa, piso): piso
+Si es un piso, ¿que altura prefieres? (baja, media, alta): alta
+Cual es tu presupuesto maximo? 2500
+¿Tienes alguna restriccion? (yes/no) yes
+Indica tus restricciones obligatorias separadas por espacios (habitaciones mascotas ascensor amueblado piscina aire_acondicionado calefaccion garaje buenas_vistas terraza balcon): ascensor terraza balcon buenas_vistas aire_acondicionado amueblado mascotas
+¿Necesitas que tenga balcón? (yes/no): yes
+¿Necesitas que tenga terraza? (yes/no): yes
+¿Necesitas que tenga buenas vistas? (yes/no): yes
+¿Necesitas que tenga aire acondicionado? (yes/no): yes
+¿La vivienda tiene que aceptar masctoas? (yes/no): yes
+¿Debe estar amueblado? (yes/no): yes
+¿Necesitas ascensor? (yes/no): yes
+¿Tienes alguna preferencia sobre la cercania de servicios? (yes/no) yes
+Servicios disponibles: hospital zonaVerde centro ocio_nocturno transporte_publico zona_comercial supermercado centro_educativo ocio
+Indica los servicios sobre los que tienes preferencias, separados por espacios:  zonaVerde ocio
+¿Como prefieres el servicio tipo zonaVerde (cerca media lejos): cerca
+¿Como prefieres el servicio tipo ocio (cerca media lejos): lejos
+----------------------------------
+Vivienda ID: oAuto5
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): no-amueblado mascotas-no-permitidas
+Ventajas extra (simbolos): atico soleado servicio-lejano-ocio
+
+----------------------------------
+Vivienda ID: oAuto10
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): sin-buenas-vistas no-amueblado
+Ventajas extra (simbolos): precio-ventajoso servicio-lejano-ocio servicio-cercano-zonaVerde
+
+----------------------------------
+Vivienda ID: oAuto42
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): tipoVivienda-incorrecto ascensor-faltante
+Ventajas extra (simbolos): soleado servicio-lejano-ocio servicio-cercano-zonaVerde
+
+----------------------------------
+Vivienda ID: oAuto43
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): tipoVivienda-incorrecto terraza-faltante
+Ventajas extra (simbolos): soleado servicio-lejano-ocio
+
+----------------------------------
+Vivienda ID: oAuto60
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): planta-incorrecta ascensor-faltante
+Ventajas extra (simbolos): atico soleado precio-ventajoso servicio-lejano-ocio
+
+----------------------------------
+Vivienda ID: oAuto69
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): mascotas-no-permitidas ascensor-faltante
+Ventajas extra (simbolos): atico soleado precio-ventajoso servicio-lejano-ocio
+
+----------------------------------
+Vivienda ID: oAuto73
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): sin-buenas-vistas mascotas-no-permitidas
+Ventajas extra (simbolos): servicio-lejano-ocio
+
+----------------------------------
+Vivienda ID: oAuto81
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): tipoVivienda-incorrecto balcon-faltante
+Ventajas extra (simbolos): precio-ventajoso servicio-lejano-ocio servicio-cercano-zonaVerde
+
+----------------------------------
+Vivienda ID: oAuto88
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): sin-buenas-vistas ascensor-faltante
+Ventajas extra (simbolos): atico soleado precio-ventajoso servicio-lejano-ocio servicio-cercano-zonaVerde
+
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+Sin-Clasificar  Vivienda oAuto1: tipoVivienda-incorrecto terraza-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto2: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas aire-faltante mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto3: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto6: tipoVivienda-incorrecto balcon-faltante terraza-faltante aire-faltante mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto7: tipoVivienda-incorrecto terraza-faltante aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto8: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto9: tipoVivienda-incorrecto no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto11: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante
+Sin-Clasificar  Vivienda oAuto14: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas
+Sin-Clasificar  Vivienda oAuto15: tipoVivienda-incorrecto balcon-faltante aire-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto16: tipoVivienda-incorrecto balcon-faltante terraza-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto18: tipoVivienda-incorrecto sin-buenas-vistas no-amueblado
+Sin-Clasificar  Vivienda oAuto19: tipoVivienda-incorrecto terraza-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto20: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto21: tipoVivienda-incorrecto aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto24: tipoVivienda-incorrecto terraza-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto25: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto26: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto27: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto29: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas
+Sin-Clasificar  Vivienda oAuto32: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto33: tipoVivienda-incorrecto sin-buenas-vistas mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto35: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto36: tipoVivienda-incorrecto mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto37: tipoVivienda-incorrecto aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto40: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto42: tipoVivienda-incorrecto ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto43: tipoVivienda-incorrecto terraza-faltante
+Sin-Clasificar  Vivienda oAuto44: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas aire-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto45: tipoVivienda-incorrecto aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto46: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto47: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante
+Sin-Clasificar  Vivienda oAuto48: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas aire-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto51: tipoVivienda-incorrecto balcon-faltante terraza-faltante aire-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto53: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto55: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto57: tipoVivienda-incorrecto balcon-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto59: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante
+Sin-Clasificar  Vivienda oAuto62: tipoVivienda-incorrecto balcon-faltante aire-faltante
+Sin-Clasificar  Vivienda oAuto63: tipoVivienda-incorrecto balcon-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto64: tipoVivienda-incorrecto terraza-faltante aire-faltante mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto65: tipoVivienda-incorrecto balcon-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto66: tipoVivienda-incorrecto balcon-faltante terraza-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto70: tipoVivienda-incorrecto terraza-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto72: tipoVivienda-incorrecto terraza-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto76: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto80: tipoVivienda-incorrecto balcon-faltante mascotas-no-permitidas
+Parcialmente_Adecuado  Vivienda oAuto81: tipoVivienda-incorrecto balcon-faltante
+Sin-Clasificar  Vivienda oAuto82: tipoVivienda-incorrecto terraza-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto83: tipoVivienda-incorrecto balcon-faltante terraza-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto85: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto87: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto89: tipoVivienda-incorrecto aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto91: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas
+Sin-Clasificar  Vivienda oAuto93: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto95: tipoVivienda-incorrecto sin-buenas-vistas aire-faltante
+Sin-Clasificar  Vivienda oAuto96: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas no-amueblado
+Sin-Clasificar  Vivienda oAuto98: tipoVivienda-incorrecto no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto99: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto100: tipoVivienda-incorrecto sin-buenas-vistas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto4: terraza-faltante sin-buenas-vistas mascotas-no-permitidas
+Parcialmente_Adecuado  Vivienda oAuto5: no-amueblado mascotas-no-permitidas
+Parcialmente_Adecuado  Vivienda oAuto10: sin-buenas-vistas no-amueblado
+Sin-Clasificar  Vivienda oAuto13: aire-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto17: planta-incorrecta terraza-faltante sin-buenas-vistas aire-faltante
+Sin-Clasificar  Vivienda oAuto22: balcon-faltante terraza-faltante aire-faltante mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto23: planta-incorrecta balcon-faltante aire-faltante
+Sin-Clasificar  Vivienda oAuto30: planta-incorrecta balcon-faltante terraza-faltante aire-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto31: sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto34: sin-buenas-vistas mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto38: balcon-faltante terraza-faltante aire-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto39: terraza-faltante sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto41: balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto49: planta-incorrecta terraza-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto52: terraza-faltante aire-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto54: aire-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto58: terraza-faltante sin-buenas-vistas aire-faltante no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto60: planta-incorrecta ascensor-faltante
+Sin-Clasificar  Vivienda oAuto61: planta-incorrecta balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto67: planta-incorrecta balcon-faltante no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto68: balcon-faltante terraza-faltante no-amueblado mascotas-no-permitidas
+Parcialmente_Adecuado  Vivienda oAuto69: mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto71: balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto73: sin-buenas-vistas mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto74: terraza-faltante sin-buenas-vistas no-amueblado
+Sin-Clasificar  Vivienda oAuto75: planta-incorrecta balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto77: sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto78: planta-incorrecta balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto84: balcon-faltante terraza-faltante sin-buenas-vistas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto86: planta-incorrecta balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto88: sin-buenas-vistas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto90: balcon-faltante sin-buenas-vistas no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto92: terraza-faltante sin-buenas-vistas no-amueblado
+Sin-Clasificar  Vivienda oAuto94: planta-incorrecta balcon-faltante sin-buenas-vistas aire-faltante mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto12: balcon-faltante no-amueblado mascotas-no-permitidas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto28: balcon-faltante sin-buenas-vistas aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto50: terraza-faltante sin-buenas-vistas no-amueblado mascotas-no-permitidas
+Sin-Clasificar  Vivienda oAuto56: balcon-faltante terraza-faltante aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto79: balcon-faltante terraza-faltante sin-buenas-vistas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto97: sin-buenas-vistas aire-faltante ascensor-faltante
+===================================
+
+CLIPS> 

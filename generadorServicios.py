@@ -14,12 +14,12 @@ tipos_servicio = [
 ]
 
 # Número de instancias por tipo (1 a 3)
-min_inst = 1
-max_inst = 3
+min_inst = 4
+max_inst = 10
 
 # Rango de coordenadas similar a las viviendas
 coord_min = 0
-coord_max = 4000
+coord_max = 2000
 
 # Generar instancias
 print("(definstances servicios_auto\n")

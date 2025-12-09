@@ -43,8 +43,8 @@ for i in range(1, N + 1):
     soleado = yesno()
 
     fecha = random.randint(1960, 2024)
-    coordX = random.randint(0, 4000)
-    coordY = random.randint(0, 4000)
+    coordX = random.randint(0, 2000)
+    coordY = random.randint(0, 2000)
 
     # Comienzo instancia
     print(f"   ([{id_name}] of {tipo}")
