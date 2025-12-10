@@ -14,7 +14,7 @@ tipos_servicio = [
 ]
 
 # Número de instancias por tipo (1 a 3)
-min_inst = 4
+min_inst = 7
 max_inst = 10
 
 # Rango de coordenadas similar a las viviendas
