@@ -3177,20 +3177,6 @@
       (if (not (member$ habitaciones-extra ?extras)) then (slot-insert$ ?v ventajas-extra 1 habitaciones-extra)))
 )
 
-(defrule asociar-heuristica-piso
-   ?s <- (object (is-a Solicitante) 
-                 (tipoVivienda ?tipoDeseado) 
-                 (altura-cat ?plantaSolicitada))
-   ?v <- (object (is-a ViviendaVertical) 
-                 (requisitos-fallados $?fallos) 
-                 (planta_Abs ?plantaReal))
-               
-    =>
-   (if (neq ?plantaSolicitada ?plantaReal) then
-      (if (not (member$ planta-incorrecta (send ?v get-requisitos-fallados))) then
-         (slot-insert$ ?v requisitos-fallados 1 planta-incorrecta)))
-
-)
 
 ;; Evaluar características booleanas  (_Abs)
 (defrule asociar-heuristica-booleanas
@@ -3280,6 +3266,20 @@
    (if (not (member$ soleado ?extras)) then
       (slot-insert$ ?v ventajas-extra 1 soleado)
    )         
+)
+defrule asociar-heuristica-ventaja-planta-deseada(
+    ?s <- (object (is-a Solicitante)
+                      (tipoVivienda ?tipoDeseado)
+                      (altura-cat ?plantaSolicitada))
+    ?v <- (object (is-a ViviendaVertical)
+                      (ventajas-extra $?extras)
+                      (planta_Abs ?plantaReal))
+    =>
+    ;; Si la altura solicitada coincide con la real, marcar como ventaja (no como fallo)
+    (if (eq ?plantaSolicitada ?plantaReal) then
+        (if (not (member$ planta-deseada ?extras)) then
+            (slot-insert$ ?v ventajas-extra 1 planta-deseada)))
+
 )
 (defrule asociar-heuristica-ventaja-reciente
    ?v <- (object (is-a Vivienda)

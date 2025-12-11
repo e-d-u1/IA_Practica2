@@ -1,0 +1,221 @@
+         CLIPS (6.31 6/12/19)
+CLIPS> (load "C:/Users/oriol/OneDrive/Escritorio/IA/practica2/entrgaInicial/prototipo2-edu.clp")
+Defining defmodule: INPUT
+Defining deffunction: ask-number
+Defining deffunction: ask-int
+Defining deffunction: ask-question
+Defining deffunction: yes-or-no-p
+Defining deffunction: pregunta-llista
+Defining deffunction: calcDistanciaEuclidiana
+Defining defclass: Solicitante
+Defining defclass: Vivienda
+Defining defclass: ViviendaVertical
+Defining defclass: Duplex
+Defining defclass: Servicio
+Defining definstances: instances
+Defining defmodule: ABSTRACCION
+Defining deffunction: obtener-tipos-servicio
+Defining deffunction: preguntar-distancia-tipoServicio
+Defining deffunction: hay-servicio-de-tipo
+Defining deffunction: todos-servicios-lejos
+Defining defrule: queEdad +j+j
+Defining defrule: vehiculoPropio +j+j
+Defining defrule: preguntar-tipo-solicitante +j+j
+Defining defrule: preguntar-tipo-vivienda +j+j
+Defining defrule: preguntar-altura-piso +j+j
+Defining defrule: preguntar-precio-maximo +j+j
+Defining defrule: preguntar-si-hay-restricciones +j+j+j
+Defining defrule: preguntar-tipo-restriccion +j+j+j
+Defining defrule: preguntar-restriccion-ascensor +j+j
+Defining defrule: preguntar-restriccion-amueblado +j+j
+Defining defrule: preguntar-restriccion-mascotas +j+j
+Defining defrule: preguntar-restriccion-habitaciones +j+j
+Defining defrule: preguntar-restriccion-piscina +j+j
+Defining defrule: preguntar-restriccion-aire_acondicionado +j+j
+Defining defrule: preguntar-restriccion-calefaccion +j+j
+Defining defrule: preguntar-restriccion-garaje +j+j
+Defining defrule: preguntar-restriccion-buenas_vistas +j+j
+Defining defrule: preguntar-restriccion-terraza +j+j
+Defining defrule: preguntar-restriccion-balcon +j+j
+Defining defrule: preguntar-si-hay-preferencias-servicios =j+j+j
+Defining defrule: preguntar-que-preferencias-servicios +j+j+j
+Defining defrule: preguntar-distancia-para-preferencias-seleccionadas +j+j
+Defining defrule: asignar-servicios-segun-distancia +j+j+j+j
+Defining defrule: crear-atributos-vivienda-abstractos +j+j
+Defining defrule: crear-atributos-solicitante-abstractos +j+j
+Defining defrule: abstraccion-pisos +j+j
+Defining defmodule: HEURISTICAS
+Defining defrule: asociar-heuristica-precio +j+j+j
+Defining defrule: asociar-heuristica-habitaciones +j+j+j
+Defining defrule: asociar-heuristica-piso +j+j+j
+Defining defrule: asociar-heuristica-booleanas +j+j+j
+Defining defrule: asociar-heuristica-ventaja-soleado +j+j
+Defining defrule: asociar-heuristica-ventaja-reciente +j+j
+Defining defrule: asociar-heuristica-ventaja-atico +j+j
+Defining defrule: asociar-heuristica-ventaja-duplex +j+j
+Defining defrule: asociar-heuristica-servicios +j+j+j
+Defining defrule: asociar-heuristica-extra-hospital-anciano +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-joven-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-ocio-nocturno-joven-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-educativo-media-familia-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-ascensor-movilidad-reducida +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-educativo-estudiante-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-transporte-estudiante-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-transporte-sinCoche +j+j+j
+Defining defrule: asociar-heuristica-extra-ocio-soltero-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-zonaVerde-media-familia-declarativa +j+j+j
+Defining defrule: clasificar-parcialmente-adecuado +j+j
+Defining defrule: clasificar-muy-recomendable +j+j
+Defining defrule: clasificar-adecuado +j+j
+Defining defmodule: REFINAMIENTO
+Defining deftemplate: vivienda-a-mostrar
+Defining defrule: refinar-orden-muy-recomendable +j+j
+Defining defrule: refinar-orden-adecuado +j+j+j
+Defining defrule: refinar-orden-parcialmente-adecuado +j+j+j
+Defining defmodule: SALIDA
+Defining defrule: imprimir-resultados-ordenados +j+j+j
+Defining defrule: imprimir-resumen-fallos +j+j
+Defining defrule: fallback-ninguna-vivienda +j+j
+Defining defrule: inicio +j
+TRUE
+CLIPS> (run)
+----------------------------------
+ No existe ninguna vivienda que cumpla los requisitos del solicitante.
+----------------------------------
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+===================================
+
+CLIPS> (reset)
+CLIPS> (run)
+Cual es tu edad? 20
+¿Que tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, movilidad_reducida, soltero): movilidad_reducida
+¿Que tipo de vivienda prefieres? (casa, piso): piso
+Si es un piso, ¿que altura prefieres? (baja, media, alta): baja
+Cual es tu presupuesto maximo? 100
+¿Tienes alguna restriccion? (yes/no) yes
+Indica tus restricciones obligatorias separadas por espacios (habitaciones mascotas ascensor amueblado piscina aire_acondicionado calefaccion garaje buenas_vistas terraza balcon): balcon terraza buenas_vistas calefaccion garaje aire_acondicionado habitaciones ascensor amueblado
+¿Necesitas que tenga balcón? (yes/no): yes
+¿Necesitas que tenga terraza? (yes/no): yes
+¿Necesitas que tenga buenas vistas? (yes/no): yes
+¿Necesitas que tenga garaje? (yes/no): yes
+¿Necesitas que tenga calefacción? (yes/no): yes
+¿Necesitas que tenga aire acondicionado? (yes/no): yes
+Cuantas habitaciones necesitas como minimo? 8
+¿Debe estar amueblado? (yes/no): yes
+¿Necesitas ascensor? (yes/no): yes
+¿Tienes alguna preferencia sobre la cercania de servicios? (yes/no) yes
+Servicios disponibles: hospital zonaVerde centro ocio_nocturno transporte_publico zona_comercial supermercado centro_educativo ocio
+Indica los servicios sobre los que tienes preferencias, separados por espacios:  ocio hospital
+¿Como prefieres el servicio tipo ocio (cerca media lejos): lejos
+¿Como prefieres el servicio tipo hospital (cerca media lejos): lejos
+----------------------------------
+Vivienda ID: oAuto36
+Grado de Recomendacion: Parcialmente_Adecuado
+Requisitos NO cumplidos (simbolos): tipoVivienda-incorrecto ascensor-faltante
+
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+Sin-Clasificar  Vivienda oAuto1: tipoVivienda-incorrecto terraza-faltante calefaccion-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto2: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas aire-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto3: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto6: tipoVivienda-incorrecto balcon-faltante terraza-faltante garaje-faltante aire-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto7: tipoVivienda-incorrecto terraza-faltante garaje-faltante calefaccion-faltante aire-faltante no-amueblado habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto8: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas garaje-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto9: precio-excedido tipoVivienda-incorrecto garaje-faltante calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto11: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto14: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas calefaccion-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto15: precio-excedido tipoVivienda-incorrecto balcon-faltante garaje-faltante calefaccion-faltante aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto16: tipoVivienda-incorrecto balcon-faltante terraza-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto18: tipoVivienda-incorrecto sin-buenas-vistas no-amueblado
+Sin-Clasificar  Vivienda oAuto19: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto terraza-faltante garaje-faltante calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto20: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto21: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto24: habitaciones-insuficientes tipoVivienda-incorrecto terraza-faltante calefaccion-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto25: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas calefaccion-faltante aire-faltante no-amueblado ascensor-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto26: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto27: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto29: habitaciones-insuficientes tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto32: precio-excedido tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto33: precio-excedido tipoVivienda-incorrecto sin-buenas-vistas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto35: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto36: tipoVivienda-incorrecto ascensor-faltante
+Sin-Clasificar  Vivienda oAuto37: precio-excedido tipoVivienda-incorrecto garaje-faltante calefaccion-faltante aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto40: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto42: precio-excedido tipoVivienda-incorrecto garaje-faltante calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto43: precio-excedido tipoVivienda-incorrecto terraza-faltante garaje-faltante calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto44: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto45: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto garaje-faltante calefaccion-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto46: precio-excedido tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas garaje-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto47: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas calefaccion-faltante aire-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto48: precio-excedido tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas calefaccion-faltante aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto51: tipoVivienda-incorrecto balcon-faltante terraza-faltante calefaccion-faltante aire-faltante no-amueblado ascensor-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto53: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante no-amueblado ascensor-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto55: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas garaje-faltante no-amueblado ascensor-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto57: precio-excedido tipoVivienda-incorrecto balcon-faltante calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto59: tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas calefaccion-faltante aire-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto62: tipoVivienda-incorrecto balcon-faltante garaje-faltante aire-faltante
+Sin-Clasificar  Vivienda oAuto63: tipoVivienda-incorrecto balcon-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto64: precio-excedido tipoVivienda-incorrecto terraza-faltante garaje-faltante calefaccion-faltante aire-faltante
+Sin-Clasificar  Vivienda oAuto65: tipoVivienda-incorrecto balcon-faltante garaje-faltante calefaccion-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto66: tipoVivienda-incorrecto balcon-faltante terraza-faltante ascensor-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto70: tipoVivienda-incorrecto terraza-faltante garaje-faltante calefaccion-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto72: habitaciones-insuficientes tipoVivienda-incorrecto terraza-faltante calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto76: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas garaje-faltante aire-faltante no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto80: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto balcon-faltante garaje-faltante
+Sin-Clasificar  Vivienda oAuto81: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto balcon-faltante calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto82: tipoVivienda-incorrecto terraza-faltante no-amueblado ascensor-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto83: habitaciones-insuficientes tipoVivienda-incorrecto balcon-faltante terraza-faltante calefaccion-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto85: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante aire-faltante no-amueblado ascensor-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto87: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto89: precio-excedido tipoVivienda-incorrecto garaje-faltante calefaccion-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto91: tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto93: tipoVivienda-incorrecto balcon-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante no-amueblado ascensor-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto95: tipoVivienda-incorrecto sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto96: habitaciones-insuficientes tipoVivienda-incorrecto balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto98: precio-excedido tipoVivienda-incorrecto garaje-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto99: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto100: habitaciones-insuficientes precio-excedido tipoVivienda-incorrecto sin-buenas-vistas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto4: terraza-faltante sin-buenas-vistas garaje-faltante planta-incorrecta precio-excedido
+Sin-Clasificar  Vivienda oAuto5: planta-incorrecta precio-excedido calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto10: planta-incorrecta habitaciones-insuficientes sin-buenas-vistas garaje-faltante calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto13: planta-incorrecta habitaciones-insuficientes precio-excedido garaje-faltante calefaccion-faltante aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto17: habitaciones-insuficientes precio-excedido terraza-faltante sin-buenas-vistas aire-faltante
+Sin-Clasificar  Vivienda oAuto22: planta-incorrecta precio-excedido balcon-faltante terraza-faltante garaje-faltante calefaccion-faltante aire-faltante
+Sin-Clasificar  Vivienda oAuto23: planta-incorrecta habitaciones-insuficientes precio-excedido balcon-faltante aire-faltante
+Sin-Clasificar  Vivienda oAuto30: planta-incorrecta precio-excedido balcon-faltante terraza-faltante aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto31: planta-incorrecta habitaciones-insuficientes precio-excedido sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto34: planta-incorrecta habitaciones-insuficientes precio-excedido sin-buenas-vistas garaje-faltante calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto38: planta-incorrecta precio-excedido balcon-faltante terraza-faltante garaje-faltante calefaccion-faltante aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto39: planta-incorrecta habitaciones-insuficientes precio-excedido terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto41: planta-incorrecta habitaciones-insuficientes precio-excedido balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto49: terraza-faltante garaje-faltante ascensor-faltante planta-incorrecta precio-excedido
+Sin-Clasificar  Vivienda oAuto52: planta-incorrecta habitaciones-insuficientes precio-excedido terraza-faltante garaje-faltante calefaccion-faltante aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto54: planta-incorrecta aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto58: planta-incorrecta habitaciones-insuficientes terraza-faltante sin-buenas-vistas calefaccion-faltante aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto60: habitaciones-insuficientes garaje-faltante calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto61: planta-incorrecta habitaciones-insuficientes balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto67: planta-incorrecta habitaciones-insuficientes precio-excedido balcon-faltante calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto68: planta-incorrecta habitaciones-insuficientes precio-excedido balcon-faltante terraza-faltante garaje-faltante calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto69: planta-incorrecta habitaciones-insuficientes precio-excedido garaje-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto71: balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante aire-faltante ascensor-faltante planta-incorrecta precio-excedido
+Sin-Clasificar  Vivienda oAuto73: planta-incorrecta habitaciones-insuficientes precio-excedido sin-buenas-vistas garaje-faltante calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto74: terraza-faltante sin-buenas-vistas garaje-faltante calefaccion-faltante no-amueblado planta-incorrecta habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto75: habitaciones-insuficientes precio-excedido balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto77: sin-buenas-vistas aire-faltante no-amueblado ascensor-faltante planta-incorrecta habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto78: balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante aire-faltante no-amueblado ascensor-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto84: planta-incorrecta habitaciones-insuficientes precio-excedido balcon-faltante terraza-faltante sin-buenas-vistas garaje-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto86: balcon-faltante terraza-faltante sin-buenas-vistas aire-faltante no-amueblado planta-incorrecta habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto88: planta-incorrecta habitaciones-insuficientes sin-buenas-vistas ascensor-faltante
+Sin-Clasificar  Vivienda oAuto90: planta-incorrecta habitaciones-insuficientes balcon-faltante sin-buenas-vistas no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto92: planta-incorrecta habitaciones-insuficientes precio-excedido terraza-faltante sin-buenas-vistas garaje-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto94: precio-excedido balcon-faltante sin-buenas-vistas calefaccion-faltante aire-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto12: balcon-faltante calefaccion-faltante no-amueblado ascensor-faltante habitaciones-insuficientes precio-excedido
+Sin-Clasificar  Vivienda oAuto28: precio-excedido balcon-faltante sin-buenas-vistas aire-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto50: habitaciones-insuficientes precio-excedido terraza-faltante sin-buenas-vistas calefaccion-faltante no-amueblado
+Sin-Clasificar  Vivienda oAuto56: precio-excedido balcon-faltante terraza-faltante calefaccion-faltante aire-faltante no-amueblado ascensor-faltante
+Sin-Clasificar  Vivienda oAuto79: balcon-faltante terraza-faltante sin-buenas-vistas calefaccion-faltante ascensor-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto97: precio-excedido sin-buenas-vistas calefaccion-faltante aire-faltante ascensor-faltante
+===================================
+
+CLIPS> 
