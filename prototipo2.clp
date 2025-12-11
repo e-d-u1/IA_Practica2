@@ -3267,7 +3267,7 @@
       (slot-insert$ ?v ventajas-extra 1 soleado)
    )         
 )
-defrule asociar-heuristica-ventaja-planta-deseada(
+(defrule asociar-heuristica-ventaja-planta-deseada
     ?s <- (object (is-a Solicitante)
                       (tipoVivienda ?tipoDeseado)
                       (altura-cat ?plantaSolicitada))
