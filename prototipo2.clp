@@ -2711,17 +2711,8 @@
        (tipo ocio) (coordX 1620) (coordY 1211)
    )
 )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 2. MÓDULO DE ABSTRACCIÓN
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmodule ABSTRACCION
-   (import INPUT ?ALL)
-   (export ?ALL)
-)
-   ;; Extraemos todos los tipos de servicios existentes
+;; Extraemos todos los tipos de servicios existentes
    (deffunction obtener-tipos-servicio ()
       (bind ?inst (find-all-instances ((?s Servicio)) TRUE))
       (bind ?tipos (create$))
@@ -2966,6 +2957,17 @@
       )
       (send ?u put-preferencias_pendientes ?resto_prefs) ;se elimina el procesado de la lista de pendientes
    )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 2. MÓDULO DE ABSTRACCIÓN
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmodule ABSTRACCION
+   (import INPUT ?ALL)
+   (export ?ALL)
+)
+   
    
    (defrule asignar-servicios-segun-distancia
       ?v <- (object (is-a Vivienda) (coordX ?vx)  (coordY ?vy)
@@ -3700,5 +3702,5 @@
 (defrule MAIN::inicio
    (declare (salience 100))
    =>
-   (focus ABSTRACCION HEURISTICAS REFINAMIENTO SALIDA)
+   (focus INPUT ABSTRACCION HEURISTICAS REFINAMIENTO SALIDA)
 )

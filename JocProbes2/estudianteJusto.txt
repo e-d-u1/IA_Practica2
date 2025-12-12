@@ -1,0 +1,227 @@
+         CLIPS (6.31 6/12/19)
+CLIPS> (load "C:/Users/oriol/OneDrive/Escritorio/IA/practica2/entrgaInicial/prototipo2.clp")
+Defining defmodule: INPUT
+Defining deffunction: ask-number
+Defining deffunction: ask-int
+Defining deffunction: ask-question
+Defining deffunction: yes-or-no-p
+Defining deffunction: pregunta-llista
+Defining deffunction: calcDistanciaEuclidiana
+Defining defclass: Solicitante
+Defining defclass: Vivienda
+Defining defclass: ViviendaVertical
+Defining defclass: Duplex
+Defining defclass: Servicio
+Defining definstances: instances
+Defining defmodule: ABSTRACCION
+Defining deffunction: obtener-tipos-servicio
+Defining deffunction: preguntar-distancia-tipoServicio
+Defining deffunction: hay-servicio-de-tipo
+Defining defrule: queEdad +j+j
+Defining defrule: vehiculoPropio +j+j
+Defining defrule: preguntar-tipo-solicitante +j+j
+Defining defrule: preguntar-tipo-vivienda +j+j
+Defining defrule: preguntar-altura-piso +j+j
+Defining defrule: preguntar-precio-maximo +j+j
+Defining defrule: preguntar-si-hay-restricciones +j+j+j
+Defining defrule: preguntar-tipo-restriccion +j+j+j
+Defining defrule: preguntar-restriccion-ascensor +j+j
+Defining defrule: preguntar-restriccion-amueblado +j+j
+Defining defrule: preguntar-restriccion-mascotas +j+j
+Defining defrule: preguntar-restriccion-habitaciones +j+j
+Defining defrule: preguntar-restriccion-piscina +j+j
+Defining defrule: preguntar-restriccion-aire_acondicionado +j+j
+Defining defrule: preguntar-restriccion-calefaccion +j+j
+Defining defrule: preguntar-restriccion-garaje +j+j
+Defining defrule: preguntar-restriccion-buenas_vistas +j+j
+Defining defrule: preguntar-restriccion-terraza +j+j
+Defining defrule: preguntar-restriccion-balcon +j+j
+Defining defrule: preguntar-si-hay-preferencias-servicios =j+j+j
+Defining defrule: preguntar-que-preferencias-servicios +j+j+j
+Defining defrule: preguntar-distancia-para-preferencias-seleccionadas +j+j
+Defining defrule: asignar-servicios-segun-distancia +j+j+j+j
+Defining defrule: crear-atributos-vivienda-abstractos +j+j
+Defining defrule: crear-atributos-solicitante-abstractos +j+j
+Defining defrule: abstraccion-pisos +j+j
+Defining defmodule: HEURISTICAS
+Defining defrule: asociar-heuristica-precio +j+j+j
+Defining defrule: asociar-heuristica-habitaciones +j+j+j
+Defining defrule: asociar-heuristica-booleanas +j+j+j
+Defining defrule: asociar-heuristica-ventaja-soleado +j+j
+Defining defrule: asociar-heuristica-ventaja-planta-deseada +j+j+j
+Defining defrule: asociar-heuristica-ventaja-reciente +j+j
+Defining defrule: asociar-heuristica-ventaja-atico +j+j
+Defining defrule: asociar-heuristica-ventaja-duplex +j+j
+Defining defrule: asociar-heuristica-servicios +j+j+j
+Defining defrule: asociar-heuristica-extra-hospital-anciano +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-joven-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-ocio-nocturno-joven-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-educativo-media-familia-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-ascensor-movilidad-reducida +j+j+j
+Defining defrule: asociar-heuristica-extra-centro-educativo-estudiante-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-transporte-estudiante-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-transporte-sinCoche +j+j+j
+Defining defrule: asociar-heuristica-extra-ocio-soltero-declarativa +j+j+j
+Defining defrule: asociar-heuristica-extra-zonaVerde-media-familia-declarativa +j+j+j
+Defining defrule: clasificar-parcialmente-adecuado +j+j
+Defining defrule: clasificar-muy-recomendable +j+j
+Defining defrule: clasificar-adecuado +j+j
+Defining defmodule: REFINAMIENTO
+Defining deftemplate: vivienda-a-mostrar
+Defining defrule: refinar-orden-muy-recomendable +j+j
+Defining defrule: refinar-orden-adecuado +j+j+j
+Defining defrule: refinar-orden-parcialmente-adecuado +j+j+j
+Defining defmodule: SALIDA
+Defining defrule: imprimir-resultados-ordenados +j+j+j
+Defining defrule: imprimir-resumen-fallos +j+j
+Defining defrule: fallback-ninguna-vivienda +j+j
+Defining defrule: inicio +j
+TRUE
+CLIPS> (run)
+----------------------------------
+ No existe ninguna vivienda que cumpla los requisitos del solicitante.
+----------------------------------
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+===================================
+
+CLIPS> (reset)
+CLIPS> (run)
+Cual es tu edad? 20
+¿Que tipo de solicitante eres? (estudiante, pareja_sin_hijos, pareja_con_hijos, movilidad_reducida, soltero): estudiante
+¿Que tipo de vivienda prefieres? (casa, piso): piso
+Si es un piso, ¿que altura prefieres? (baja, media, alta): baja
+Cual es tu presupuesto maximo? 550
+¿Tienes alguna restriccion? (yes/no) yes
+Indica tus restricciones obligatorias separadas por espacios (habitaciones mascotas ascensor amueblado piscina aire_acondicionado calefaccion garaje buenas_vistas terraza balcon): amueblado
+¿Debe estar amueblado? (yes/no): yes
+¿Tienes alguna preferencia sobre la cercania de servicios? (yes/no) yes
+Servicios disponibles: hospital zonaVerde centro ocio_nocturno transporte_publico zona_comercial supermercado centro_educativo ocio
+Indica los servicios sobre los que tienes preferencias, separados por espacios:  ocio_nocturno centro
+¿Como prefieres el servicio tipo ocio_nocturno (cerca media lejos): cerca
+¿Como prefieres el servicio tipo centro (cerca media lejos): cerca
+----------------------------------
+Vivienda ID: oAuto15
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): extra-centro-educativo-cercano-estudiante reciente servicio-cercano-centro servicio-cercano-ocio_nocturno duplex extra-transporte-cercano-estudiante
+
+----------------------------------
+Vivienda ID: oAuto31
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): extra-centro-educativo-cercano-estudiante soleado servicio-cercano-centro servicio-cercano-ocio_nocturno extra-transporte-cercano-estudiante
+
+----------------------------------
+Vivienda ID: oAuto34
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): extra-centro-educativo-cercano-estudiante servicio-cercano-centro servicio-cercano-ocio_nocturno duplex extra-transporte-cercano-estudiante
+
+----------------------------------
+Vivienda ID: oAuto16
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): extra-centro-educativo-cercano-estudiante servicio-cercano-ocio_nocturno extra-transporte-cercano-estudiante
+
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+Sin-Clasificar  Vivienda oAuto1: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto2: tipoVivienda-incorrecto precio-excedido
+Sin-Clasificar  Vivienda oAuto5: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto7: tipoVivienda-incorrecto precio-excedido
+Sin-Clasificar  Vivienda oAuto9: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto10: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto11: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto12: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto13: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto14: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto17: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto18: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto19: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto21: tipoVivienda-incorrecto precio-excedido
+Sin-Clasificar  Vivienda oAuto23: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto25: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto26: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto27: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto28: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto29: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto30: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto35: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto37: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto39: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto43: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto46: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto47: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto48: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto50: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto53: tipoVivienda-incorrecto no-amueblado
+Sin-Clasificar  Vivienda oAuto56: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto61: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto65: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto67: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto70: tipoVivienda-incorrecto no-amueblado precio-excedido
+Sin-Clasificar  Vivienda oAuto71: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto76: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto77: tipoVivienda-incorrecto no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto81: tipoVivienda-incorrecto no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto82: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto83: tipoVivienda-incorrecto precio-excedido
+Sin-Clasificar  Vivienda oAuto87: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto91: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto93: tipoVivienda-incorrecto no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto94: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto96: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto97: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto3: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto4: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto6: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto8: no-amueblado precio-excedido
+Muy_Recomendable  Vivienda oAuto16: 
+Parcialmente_Adecuado  Vivienda oAuto22: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto24: no-amueblado precio-excedido
+Muy_Recomendable  Vivienda oAuto31: 
+Parcialmente_Adecuado  Vivienda oAuto33: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto38: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto41: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto42: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto44: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto49: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto51: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto52: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto54: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto55: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto58: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto59: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto62: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto64: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto68: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto69: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto72: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto73: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto75: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto78: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto79: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto80: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto84: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto85: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto86: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto89: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto90: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto92: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto95: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto98: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto99: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto100: precio-excedido
+Muy_Recomendable  Vivienda oAuto15: 
+Parcialmente_Adecuado  Vivienda oAuto20: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto32: precio-excedido
+Muy_Recomendable  Vivienda oAuto34: 
+Parcialmente_Adecuado  Vivienda oAuto36: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto40: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto45: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto57: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto60: no-amueblado precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto63: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto66: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto74: no-amueblado
+Parcialmente_Adecuado  Vivienda oAuto88: no-amueblado precio-excedido
+===================================
+
+CLIPS> 
