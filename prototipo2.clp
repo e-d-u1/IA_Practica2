@@ -2999,66 +2999,77 @@
 
 
 
-   (defrule ABSTRACCION::crear-atributos-vivienda-abstractos
-      ?v <- (object (is-a Vivienda) (id ?id) 
-                     (precio ?p) (habitaciones ?h) (superficie ?s)
-                     (ascensor ?asc-val)
-                     (mascotasPermitidas ?mas-val)
-                     (amueblado ?amu-val)
-                     (piscina ?pis-val)
-                     (aire_acondicionado ?air-val)
-                     (calefaccion ?cal-val)
-                     (garaje ?gar-val)
-                     (buenas_vistas ?vis-val)
-                     (terraza ?ter-val)
-                     (balcon ?bal-val)
-                     (soleado ?sol-val)
-                     (fechaEdificacion ?anio-val)
-            )
-      =>
-      ;; precio-cat
-      (bind ?cp (if (< ?p 1000) then bajo else (if (< ?p 1700) then medio else alto)))
+;; --- REGLAS DE ABSTRACCIÓN PARA VIVIENDAS ---
 
-      ;; tamano-cat
-      (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
+(defrule abstraccion-vivienda-precio
+   ?v <- (object (is-a Vivienda) (precio ?p) (precio-cat nil))
+   =>
+   (bind ?cp (if (< ?p 1000) then bajo else (if (< ?p 1700) then medio else alto)))
+   (send ?v put-precio-cat ?cp))
 
-      ;; superficie-cat
-      (bind ?cs (if (< ?s 50) then pequeña else (if (< ?s 90) then mediana else grande)))
+(defrule abstraccion-vivienda-tamano
+   ?v <- (object (is-a Vivienda) (habitaciones ?h) (tamano-cat nil))
+   =>
+   (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
+   (send ?v put-tamano-cat ?ct))
 
-      ;; fechaEdificacion
-      (bind ?actual 2025)
-      (bind ?edad (- ?actual ?anio-val))
+(defrule abstraccion-vivienda-superficie
+   ?v <- (object (is-a Vivienda) (superficie ?s) (superficie-cat nil))
+   =>
+   (bind ?cs (if (< ?s 50) then pequeña else (if (< ?s 90) then mediana else grande)))
+   (send ?v put-superficie-cat ?cs))
 
-      (bind ?anioAbs (if (< ?edad 6) then reciente else (if (< ?edad 20) then moderna else antigua)))
+(defrule abstraccion-vivienda-fecha
+   ?v <- (object (is-a Vivienda) (fechaEdificacion ?anio-val) (fechaEdificacion_Abs nil))
+   =>
+   (bind ?actual 2025)
+   (bind ?edad (- ?actual ?anio-val))
+   (bind ?anioAbs (if (< ?edad 6) then reciente else (if (< ?edad 20) then moderna else antigua)))
+   (send ?v put-fechaEdificacion_Abs ?anioAbs))
 
-      ;; Atributos booleanos
-      (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
-      (bind ?mas (if (eq ?mas-val yes) then TRUE else FALSE))
-      (bind ?amu (if (eq ?amu-val yes) then TRUE else FALSE))
-      (bind ?pis (if (eq ?pis-val yes) then TRUE else FALSE))
-      (bind ?air (if (eq ?air-val yes) then TRUE else FALSE))
-      (bind ?cal (if (eq ?cal-val yes) then TRUE else FALSE))
-      (bind ?gar (if (eq ?gar-val yes) then TRUE else FALSE))
-      (bind ?vis (if (eq ?vis-val yes) then TRUE else FALSE))
-      (bind ?ter (if (eq ?ter-val yes) then TRUE else FALSE))
-      (bind ?bal (if (eq ?bal-val yes) then TRUE else FALSE))
-      (bind ?sol (if (eq ?sol-val yes) then TRUE else FALSE))
+(defrule abstraccion-vivienda-ascensor
+   ?v <- (object (is-a Vivienda) (ascensor ?val) (ascensor_Abs nil))
+   => (send ?v put-ascensor_Abs (if (eq ?val yes) then TRUE else FALSE)))
 
-      ;; actualizar la instancia
-      (send ?v put-precio-cat ?cp) (send ?v put-tamano-cat ?ct) (send ?v put-superficie-cat ?cs)
-      (send ?v put-ascensor_Abs ?asc)
-      (send ?v put-mascotasPermitidas_Abs ?mas)
-      (send ?v put-amueblado_Abs ?amu)
-      (send ?v put-piscina_Abs ?pis)
-      (send ?v put-aire_acondicionado_Abs ?air)
-      (send ?v put-calefaccion_Abs ?cal)
-      (send ?v put-garaje_Abs ?gar)
-      (send ?v put-buenas_vistas_Abs ?vis)
-      (send ?v put-terraza_Abs ?ter)
-      (send ?v put-balcon_Abs ?bal)
-      (send ?v put-soleado_Abs ?sol)
-      (send ?v put-fechaEdificacion_Abs ?anioAbs)
-   )
+(defrule abstraccion-vivienda-mascotas
+   ?v <- (object (is-a Vivienda) (mascotasPermitidas ?val) (mascotasPermitidas_Abs nil))
+   => (send ?v put-mascotasPermitidas_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-amueblado
+   ?v <- (object (is-a Vivienda) (amueblado ?val) (amueblado_Abs nil))
+   => (send ?v put-amueblado_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-piscina
+   ?v <- (object (is-a Vivienda) (piscina ?val) (piscina_Abs nil))
+   => (send ?v put-piscina_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-aire
+   ?v <- (object (is-a Vivienda) (aire_acondicionado ?val) (aire_acondicionado_Abs nil))
+   => (send ?v put-aire_acondicionado_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-calefaccion
+   ?v <- (object (is-a Vivienda) (calefaccion ?val) (calefaccion_Abs nil))
+   => (send ?v put-calefaccion_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-garaje
+   ?v <- (object (is-a Vivienda) (garaje ?val) (garaje_Abs nil))
+   => (send ?v put-garaje_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-vistas
+   ?v <- (object (is-a Vivienda) (buenas_vistas ?val) (buenas_vistas_Abs nil))
+   => (send ?v put-buenas_vistas_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-terraza
+   ?v <- (object (is-a Vivienda) (terraza ?val) (terraza_Abs nil))
+   => (send ?v put-terraza_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-balcon
+   ?v <- (object (is-a Vivienda) (balcon ?val) (balcon_Abs nil))
+   => (send ?v put-balcon_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-vivienda-soleado
+   ?v <- (object (is-a Vivienda) (soleado ?val) (soleado_Abs nil))
+   => (send ?v put-soleado_Abs (if (eq ?val yes) then TRUE else FALSE)))
 
    (defrule ABSTRACCION::crear-atributos-solicitante-abstractos
       ?s <- (object (is-a Solicitante) 
