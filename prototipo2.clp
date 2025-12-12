@@ -3071,56 +3071,65 @@
    ?v <- (object (is-a Vivienda) (soleado ?val) (soleado_Abs nil))
    => (send ?v put-soleado_Abs (if (eq ?val yes) then TRUE else FALSE)))
 
-   (defrule ABSTRACCION::crear-atributos-solicitante-abstractos
-      ?s <- (object (is-a Solicitante) 
-                     (precioMax ?p) 
-                     (edad ?e)
-                     (numHabitaciones ?h)
-                     (ascensor ?asc-val)
-                     (mascotas ?mas-val)
-                     (amueblado ?amu-val)
-                     (piscina ?pis-val)
-                     (aire_acondicionado ?air-val)
-                     (calefaccion ?cal-val)
-                     (garaje ?gar-val)
-                     (buenas_vistas ?vis-val)
-                     (terraza ?ter-val)
-                     (balcon ?bal-val))
-      =>
-      ;; precio-cat
-      (bind ?cp (if (< ?p 1000) then bajo else (if (< ?p 1700) then medio else alto)))
+;; --- REGLAS DE ABSTRACCIÓN PARA SOLICITANTES ---
 
-      ;; tamano-cat (basado en numHabitaciones)
-      (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
+(defrule abstraccion-solicitante-precio
+   ?s <- (object (is-a Solicitante) (precioMax ?p&:(> ?p 0)) (precio-cat nil))
+   =>
+   (bind ?cp (if (< ?p 1000) then bajo else (if (< ?p 1700) then medio else alto)))
+   (send ?s put-precio-cat ?cp))
 
-      ;; edad-cat
-      (bind ?ce (if (< ?e 30) then joven else (if (< ?e 65) then adulto else anciano)))
+(defrule abstraccion-solicitante-tamano
+   ?s <- (object (is-a Solicitante) (numHabitaciones ?h&:(> ?h 0)) (tamano-cat nil))
+   =>
+   (bind ?ct (if (< ?h 2) then pequeño else (if (<= ?h 3) then medio else grande)))
+   (send ?s put-tamano-cat ?ct))
 
-      ;; Preferencias booleanas
-      (bind ?asc (if (eq ?asc-val yes) then TRUE else FALSE))
-      (bind ?mas (if (eq ?mas-val yes) then TRUE else FALSE))
-      (bind ?amu (if (eq ?amu-val yes) then TRUE else FALSE))
-      (bind ?pis (if (eq ?pis-val yes) then TRUE else FALSE))
-      (bind ?air (if (eq ?air-val yes) then TRUE else FALSE))
-      (bind ?cal (if (eq ?cal-val yes) then TRUE else FALSE))
-      (bind ?gar (if (eq ?gar-val yes) then TRUE else FALSE))
-      (bind ?vis (if (eq ?vis-val yes) then TRUE else FALSE))
-      (bind ?ter (if (eq ?ter-val yes) then TRUE else FALSE))
-      (bind ?bal (if (eq ?bal-val yes) then TRUE else FALSE))
+(defrule abstraccion-solicitante-edad
+   ?s <- (object (is-a Solicitante) (edad ?e&:(> ?e 0)) (edad-cat nil))
+   =>
+   (bind ?ce (if (< ?e 30) then joven else (if (< ?e 65) then adulto else anciano)))
+   (send ?s put-edad-cat ?ce))
 
-      ;; actualizar la instancia
-      (send ?s put-precio-cat ?cp) (send ?s put-tamano-cat ?ct) (send ?s put-edad-cat ?ce)
-      (send ?s put-ascensor_Abs ?asc)
-      (send ?s put-mascotas_Abs ?mas)
-      (send ?s put-amueblado_Abs ?amu)
-      (send ?s put-piscina_Abs ?pis)
-      (send ?s put-aire_acondicionado_Abs ?air)
-      (send ?s put-calefaccion_Abs ?cal)
-      (send ?s put-garaje_Abs ?gar)
-      (send ?s put-buenas_vistas_Abs ?vis)
-      (send ?s put-terraza_Abs ?ter)
-      (send ?s put-balcon_Abs ?bal)
-   )
+(defrule abstraccion-solicitante-ascensor
+   ?s <- (object (is-a Solicitante) (ascensor ?val) (ascensor_Abs nil))
+   => (send ?s put-ascensor_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-mascotas
+   ?s <- (object (is-a Solicitante) (mascotas ?val) (mascotas_Abs nil))
+   => (send ?s put-mascotas_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-amueblado
+   ?s <- (object (is-a Solicitante) (amueblado ?val) (amueblado_Abs nil))
+   => (send ?s put-amueblado_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-piscina
+   ?s <- (object (is-a Solicitante) (piscina ?val) (piscina_Abs nil))
+   => (send ?s put-piscina_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-aire
+   ?s <- (object (is-a Solicitante) (aire_acondicionado ?val) (aire_acondicionado_Abs nil))
+   => (send ?s put-aire_acondicionado_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-calefaccion
+   ?s <- (object (is-a Solicitante) (calefaccion ?val) (calefaccion_Abs nil))
+   => (send ?s put-calefaccion_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-garaje
+   ?s <- (object (is-a Solicitante) (garaje ?val) (garaje_Abs nil))
+   => (send ?s put-garaje_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-vistas
+   ?s <- (object (is-a Solicitante) (buenas_vistas ?val) (buenas_vistas_Abs nil))
+   => (send ?s put-buenas_vistas_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-terraza
+   ?s <- (object (is-a Solicitante) (terraza ?val) (terraza_Abs nil))
+   => (send ?s put-terraza_Abs (if (eq ?val yes) then TRUE else FALSE)))
+
+(defrule abstraccion-solicitante-balcon
+   ?s <- (object (is-a Solicitante) (balcon ?val) (balcon_Abs nil))
+   => (send ?s put-balcon_Abs (if (eq ?val yes) then TRUE else FALSE)))
 
    (defrule abstraccion-pisos
       ?v <- (object (is-a ViviendaVertical))
