@@ -3178,88 +3178,85 @@
 )
 
 
-;; Evaluar características booleanas  (_Abs)
-(defrule asociar-heuristica-booleanas
-   ?s <- (object (is-a Solicitante) 
-                  (ascensor_Abs ?asc_req) (mascotas_Abs ?mas_req) (amueblado_Abs ?amu_req)
-                  (piscina_Abs ?pis_req) (aire_acondicionado_Abs ?air_req)
-                  (calefaccion_Abs ?cal_req) (garaje_Abs ?gar_req) (buenas_vistas_Abs ?vis_req)
-                  (terraza_Abs ?ter_req) (balcon_Abs ?bal_req)
-         )
-   ?v <- (object (is-a Vivienda) 
-                  (ascensor_Abs ?asc_viv) (mascotasPermitidas_Abs ?mas_viv) 
-                  (amueblado_Abs ?amu_viv) (piscina_Abs ?pis_viv)
-                  (aire_acondicionado_Abs ?air_viv) (calefaccion_Abs ?cal_viv)
-                  (garaje_Abs ?gar_viv) (buenas_vistas_Abs ?vis_viv) (terraza_Abs ?ter_viv)
-                  (balcon_Abs ?bal_viv)
-                  (requisitos-fallados $?fallos)
-                  (ventajas-extra $?extras)
-         )
+;;   REGLAS DE ASOCIACIÓN HEURÍSTICA PARA RESTRICCIONES BOOLEANAS
+;; cada regla comprueba una única restricción 
+
+(defrule asociar-heuristica-ascensor
+   (object (is-a Solicitante) (ascensor_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (ascensor_Abs FALSE) (requisitos-fallados $?f&:(not (member$ ascensor-faltante ?f))))
    =>
-   ;; Ascensor
-   (if (and (eq ?asc_req TRUE) (eq ?asc_viv FALSE)) then
-      (if (not (member$ ascensor-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 ascensor-faltante)))
+   (slot-insert$ ?v requisitos-fallados 1 ascensor-faltante))
 
-   ;; Mascotas
-   (if (and (eq ?mas_req TRUE) (eq ?mas_viv FALSE)) then
-      (if (not (member$ mascotas-no-permitidas ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 mascotas-no-permitidas)))
+(defrule asociar-heuristica-mascotas
+   (object (is-a Solicitante) (mascotas_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (mascotasPermitidas_Abs FALSE) (requisitos-fallados $?f&:(not (member$ mascotas-no-permitidas ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 mascotas-no-permitidas))
 
-   ;; Amueblado
-   (if (and (eq ?amu_req TRUE) (eq ?amu_viv FALSE)) then
-      (if (not (member$ no-amueblado ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 no-amueblado)))
+(defrule asociar-heuristica-amueblado
+   (object (is-a Solicitante) (amueblado_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (amueblado_Abs FALSE) (requisitos-fallados $?f&:(not (member$ no-amueblado ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 no-amueblado))
 
-   ;; Piscina
-   (if (and (eq ?pis_req TRUE) (eq ?pis_viv FALSE)) then
-      (if (not (member$ piscina-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 piscina-faltante))
-   )
+(defrule asociar-heuristica-piscina
+   (object (is-a Solicitante) (piscina_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (piscina_Abs FALSE) (requisitos-fallados $?f&:(not (member$ piscina-faltante ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 piscina-faltante))
 
-   ;; Aire Acondicionado
-   (if (and (eq ?air_req TRUE) (eq ?air_viv FALSE)) then
-      (if (not (member$ aire-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 aire-faltante))
-   )
+(defrule asociar-heuristica-aire-acondicionado
+   (object (is-a Solicitante) (aire_acondicionado_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (aire_acondicionado_Abs FALSE) (requisitos-fallados $?f&:(not (member$ aire-faltante ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 aire-faltante))
 
-   ;; Calefacción
-   (if (and (eq ?cal_req TRUE) (eq ?cal_viv FALSE)) then
-      (if (not (member$ calefaccion-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 calefaccion-faltante))
-   )
+(defrule asociar-heuristica-calefaccion
+   (object (is-a Solicitante) (calefaccion_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (calefaccion_Abs FALSE) (requisitos-fallados $?f&:(not (member$ calefaccion-faltante ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 calefaccion-faltante))
 
-   ;; Garaje
-   (if (and (eq ?gar_req TRUE) (eq ?gar_viv FALSE)) then
-      (if (not (member$ garaje-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 garaje-faltante))
-   )
+(defrule asociar-heuristica-garaje
+   (object (is-a Solicitante) (garaje_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (garaje_Abs FALSE) (requisitos-fallados $?f&:(not (member$ garaje-faltante ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 garaje-faltante))
 
-   ;; Buenas Vistas
-   (if (and (eq ?vis_req TRUE) (eq ?vis_viv FALSE)) then
-      (if (not (member$ sin-buenas-vistas ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 sin-buenas-vistas))
-   )
+(defrule asociar-heuristica-buenas-vistas
+   (object (is-a Solicitante) (buenas_vistas_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (buenas_vistas_Abs FALSE) (requisitos-fallados $?f&:(not (member$ sin-buenas-vistas ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 sin-buenas-vistas))
 
-   ;; Terraza
-   (if (and (eq ?ter_req TRUE) (eq ?ter_viv FALSE)) then
-      (if (not (member$ terraza-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 terraza-faltante))
-   )
+(defrule asociar-heuristica-terraza
+   (object (is-a Solicitante) (terraza_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (terraza_Abs FALSE) (requisitos-fallados $?f&:(not (member$ terraza-faltante ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 terraza-faltante))
 
-   ;; Balcón
-   (if (and (eq ?bal_req TRUE) (eq ?bal_viv FALSE)) then
-      (if (not (member$ balcon-faltante ?fallos)) then (slot-insert$ ?v requisitos-fallados 1 balcon-faltante))
-   )
+(defrule asociar-heuristica-balcon
+   (object (is-a Solicitante) (balcon_Abs TRUE))
+   ?v <- (object (is-a Vivienda) (balcon_Abs FALSE) (requisitos-fallados $?f&:(not (member$ balcon-faltante ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 balcon-faltante))
 
-   ;; Comprobación de tipo de vivienda
-   (bind ?tipoDeseado (send ?s get-tipoVivienda))   ;; casa / piso
-   (bind ?claseReal (class ?v))
-   
-    ;; Si es Vivienda base y quiere piso → fallo
-   (if (and (eq ?claseReal Vivienda) (eq ?tipoDeseado piso)) then
-      (if (not (member$ tipoVivienda-incorrecto ?fallos)) then
-         (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto)))
-   
-   ;; Si es ViviendaVertical y quiere casa → fallo
-   (if (and (eq ?claseReal ViviendaVertical) (eq ?tipoDeseado casa)) then
-      (if (not (member$ tipoVivienda-incorrecto ?fallos)) then
-         (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto)))
-      
-)
+;; REGLAS DE ASOCIACIÓN HEURÍSTICA PARA TIPO DE VIVIENDA
 
-;; Evaluar ventajas extra no solicitadas (ej soleado) 
+(defrule asociar-heuristica-tipo-vivienda-piso-incorrecto
+   (object (is-a Solicitante) (tipoVivienda piso))
+   ?v <- (object (is-a Vivienda) (requisitos-fallados $?f&:(not (member$ tipoVivienda-incorrecto ?f))))
+   (test (eq (class ?v) Vivienda))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto))
+
+(defrule asociar-heuristica-tipo-vivienda-casa-incorrecta
+   (object (is-a Solicitante) (tipoVivienda casa))
+   ?v <- (object (is-a ViviendaVertical) (requisitos-fallados $?f&:(not (member$ tipoVivienda-incorrecto ?f))))
+   =>
+   (slot-insert$ ?v requisitos-fallados 1 tipoVivienda-incorrecto))
+
+;; Evaluar ventajas extra no solicitadas (ejemplo soleado) 
 (defrule asociar-heuristica-ventaja-soleado
    ?v <- (object (is-a Vivienda) (soleado_Abs TRUE) (ventajas-extra $?extras))
    =>
