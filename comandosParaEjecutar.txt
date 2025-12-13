@@ -1,3 +1,4 @@
-(load prototipo2.clp)
+(load "prototipo2.clp")
+(load "instancias.clp")
 (reset)
 (run)

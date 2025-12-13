@@ -12,7 +12,7 @@ def abs_from_yesno(val):
     # Puedes adaptar esto a tu ontología
     return "True" if val == "yes" else "False"
 
-print("(definstances viviendas_auto")
+print("(definstances INPUT::viviendas_auto")
 
 for i in range(1, N + 1):
 
@@ -47,7 +47,8 @@ for i in range(1, N + 1):
     coordY = random.randint(0, 2000)
 
     # Comienzo instancia
-    print(f"   ([{id_name}] of {tipo}")
+    # Añadimos el prefijo INPUT:: al tipo de clase
+    print(f"   ([{id_name}] of INPUT::{tipo}")
     print(f"       (id {id_symbol})")
     print(f"       (precio {precio})")
     print(f"       (habitaciones {habitaciones})")
