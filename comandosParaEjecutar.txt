@@ -4,5 +4,6 @@
 (load "3_heuristicas.clp")
 (load "4_refinamiento.clp")
 (load "5_salida.clp")
+(load "6_main.clp")
 (reset)
 (run)
