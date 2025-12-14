@@ -200,7 +200,7 @@
 
 
 
-;; Extraemos todos los tipos de servicios existentes
+   ;; Funcion que extrae todos los tipos diferentes de servicios(Dado que no se usa jerarquia)
    (deffunction obtener-tipos-servicio ()
       (bind ?inst (find-all-instances ((?s Servicio)) TRUE))
       (bind ?tipos (create$))
@@ -213,6 +213,7 @@
       )
       ?tipos
    ) 
+   ;; Por cada uno de los tipos que el solicitante especificara(?tipo) se pregunta la distancia 
    (deffunction preguntar-distancia-tipoServicio (?tipo)
       (format t "¿Como prefieres el servicio tipo " )
       (printout t ?tipo " (cerca media lejos): ")
@@ -236,6 +237,9 @@
             (break)))
       ?encontrado
    )
+
+   ; ---------------------- Inicio de la Jerarquia de Preguntas ----------------
+   ; Preguntas por si falta informacion
 
    (defrule queEdad
       ?x <- (object (is-a Solicitante) (edad ?e&:(eq ?e 0)))
@@ -286,7 +290,9 @@
       (send ?s put-precioMax ?precio)
    )
 
-     (defrule preguntar-si-hay-restricciones
+   ;; Jerarquia de restricciones
+
+   (defrule preguntar-si-hay-restricciones
       ?u <- (object (is-a Solicitante) (id ?id))
       (not (pregunta-hecha restricciones-iniciales))
       =>
@@ -295,7 +301,7 @@
 
       (if (eq ?resp yes)
          then
-            (assert (debe-preguntar-restriccion ?id))
+            (assert (debe-preguntar-restriccion ?id)) ;; Activa la regla correspondiente
       )
    )
 
@@ -311,6 +317,8 @@
 
       (retract ?x)
    )
+
+   ;; Todas las posibles restricciones
 
    (defrule preguntar-restriccion-ascensor
       ?x <- (object (is-a Solicitante)
@@ -410,6 +418,9 @@
       (send ?x put-balcon ?ans)
    )
 
+
+   ;; Jerarquia de las Preferencias
+
    (defrule preguntar-si-hay-preferencias-servicios
       ?u <- (object (is-a Solicitante) (id ?id))
       (not (pregunta-hecha preferencias-servicios))
@@ -456,7 +467,7 @@
    (export ?ALL)
 )
    
-   
+   ;; Usa la relacion Vivienda-Servicio
    (defrule asignar-servicios-segun-distancia
       ?v <- (object (is-a Vivienda) (coordX ?vx)  (coordY ?vy)
                   (cerca_de $?c) (media_de $?m) (lejos_de $?l))

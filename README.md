@@ -13,7 +13,7 @@ La práctica se ha desarrollafo con CLIPS 6.31 y Protégé 5.6.7, se ha probando
 
 A: Interfaz Gráfica
 1. Abrir CLIPS  
-2. Ctrl+L: prototipo3.clp
+2. Ctrl+L: prototipo3.clp (Se deben añadir las instancias después de definir las clases)
 3. Ctrl+R,Ctrl+E,Ctrl+R   
 Y ya debería funcionar correctamente
 
