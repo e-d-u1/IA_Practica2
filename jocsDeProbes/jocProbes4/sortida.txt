@@ -1,0 +1,242 @@
+----------------------------------
+Vivienda ID: oAuto67
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): reciente soleado servicio-a-distancia-media-transporte_publico precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto97
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-a-distancia-media-transporte_publico precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto61
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-a-distancia-media-transporte_publico precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto27
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): reciente soleado servicio-a-distancia-media-transporte_publico extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto18
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): reciente servicio-a-distancia-media-transporte_publico precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto20
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado duplex precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto15
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): reciente duplex precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto9
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto14
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): reciente precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto48
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto50
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto66
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado duplex servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto10
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-a-distancia-media-transporte_publico extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto17
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): servicio-a-distancia-media-transporte_publico precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto46
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): servicio-a-distancia-media-transporte_publico precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto87
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): servicio-a-distancia-media-transporte_publico extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto28
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto81
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto77
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): precio-ventajoso servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto71
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto65
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto60
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): duplex servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto57
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): duplex servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto26
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto21
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-a-distancia-media-transporte_publico
+
+----------------------------------
+Vivienda ID: oAuto74
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): duplex precio-ventajoso
+
+----------------------------------
+Vivienda ID: oAuto36
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): duplex
+
+----------------------------------
+Vivienda ID: oAuto70
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): servicio-a-distancia-media-transporte_publico
+
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+Parcialmente_Adecuado  Vivienda oAuto1: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto2: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto5: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto7: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto9: 
+Muy_Recomendable  Vivienda oAuto10: 
+Parcialmente_Adecuado  Vivienda oAuto11: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto12: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto13: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto14: 
+Muy_Recomendable  Vivienda oAuto17: 
+Muy_Recomendable  Vivienda oAuto18: 
+Parcialmente_Adecuado  Vivienda oAuto19: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto21: 
+Parcialmente_Adecuado  Vivienda oAuto23: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto25: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto26: 
+Muy_Recomendable  Vivienda oAuto27: 
+Muy_Recomendable  Vivienda oAuto28: 
+Parcialmente_Adecuado  Vivienda oAuto29: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto30: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto35: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto37: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto39: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto43: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto46: 
+Parcialmente_Adecuado  Vivienda oAuto47: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto48: 
+Muy_Recomendable  Vivienda oAuto50: 
+Parcialmente_Adecuado  Vivienda oAuto53: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto56: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto61: 
+Muy_Recomendable  Vivienda oAuto65: 
+Muy_Recomendable  Vivienda oAuto67: 
+Muy_Recomendable  Vivienda oAuto70: 
+Muy_Recomendable  Vivienda oAuto71: 
+Parcialmente_Adecuado  Vivienda oAuto76: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto77: 
+Muy_Recomendable  Vivienda oAuto81: 
+Parcialmente_Adecuado  Vivienda oAuto82: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto83: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto87: 
+Parcialmente_Adecuado  Vivienda oAuto91: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto93: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto94: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto96: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto97: 
+Parcialmente_Adecuado  Vivienda oAuto3: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto4: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto6: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto8: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto16: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto22: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto24: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto31: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto33: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto38: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto41: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto42: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto44: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto49: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto51: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto52: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto54: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto55: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto58: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto59: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto62: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto64: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto68: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto69: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto72: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto73: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto75: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto78: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto79: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto80: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto84: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto85: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto86: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto89: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto90: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto92: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto95: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto98: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto99: tipoVivienda-incorrecto sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto100: tipoVivienda-incorrecto sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto15: 
+Muy_Recomendable  Vivienda oAuto20: 
+Parcialmente_Adecuado  Vivienda oAuto32: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto34: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto36: 
+Parcialmente_Adecuado  Vivienda oAuto40: sin-buenas-vistas
+Parcialmente_Adecuado  Vivienda oAuto45: sin-buenas-vistas
+Muy_Recomendable  Vivienda oAuto57: 
+Muy_Recomendable  Vivienda oAuto60: 
+Muy_Recomendable  Vivienda oAuto63: 
+Muy_Recomendable  Vivienda oAuto66: 
+Muy_Recomendable  Vivienda oAuto74: 
+Parcialmente_Adecuado  Vivienda oAuto88: sin-buenas-vistas

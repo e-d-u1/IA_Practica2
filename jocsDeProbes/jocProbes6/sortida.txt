@@ -1,0 +1,129 @@
+----------------------------------
+Vivienda ID: oAuto63
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): soleado servicio-lejano-zona_comercial servicio-lejano-ocio_nocturno duplex precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto34
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): servicio-lejano-zona_comercial servicio-lejano-ocio_nocturno duplex precio-ventajoso extra-ocio-cercano-soltero
+
+----------------------------------
+Vivienda ID: oAuto58
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): atico soleado precio-ventajoso servicio-lejano-zona_comercial servicio-lejano-ocio_nocturno
+
+----------------------------------
+Vivienda ID: oAuto92
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): atico soleado servicio-lejano-zona_comercial servicio-lejano-ocio_nocturno
+
+----------------------------------
+Vivienda ID: oAuto74
+Grado de Recomendacion: Muy_Recomendable
+Ventajas extra (simbolos): duplex precio-ventajoso servicio-lejano-zona_comercial servicio-lejano-ocio_nocturno
+
+
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+Sin-Clasificar  Vivienda oAuto1: tipoVivienda-incorrecto ascensor-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto2: tipoVivienda-incorrecto ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto5: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto7: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto9: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto10: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto11: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto12: tipoVivienda-incorrecto ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto13: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto14: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto17: tipoVivienda-incorrecto ascensor-faltante
+Sin-Clasificar  Vivienda oAuto18: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto19: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto21: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto23: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto25: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto26: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto27: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto28: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto29: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto30: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto35: tipoVivienda-incorrecto ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto37: tipoVivienda-incorrecto ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto39: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto43: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto46: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto47: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto48: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto50: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto53: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto56: tipoVivienda-incorrecto precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto61: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto65: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto67: tipoVivienda-incorrecto ascensor-faltante
+Sin-Clasificar  Vivienda oAuto70: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto71: tipoVivienda-incorrecto ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto76: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto77: tipoVivienda-incorrecto ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto81: tipoVivienda-incorrecto ascensor-faltante
+Sin-Clasificar  Vivienda oAuto82: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto83: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto87: tipoVivienda-incorrecto precio-excedido
+Sin-Clasificar  Vivienda oAuto91: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto93: tipoVivienda-incorrecto precio-excedido
+Sin-Clasificar  Vivienda oAuto94: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto96: tipoVivienda-incorrecto calefaccion-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto97: tipoVivienda-incorrecto calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto3: calefaccion-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto4: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto6: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto8: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto16: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto22: calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto24: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto31: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto33: ascensor-faltante precio-excedido
+Sin-Clasificar  Vivienda oAuto38: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto41: calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto42: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto44: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto49: precio-excedido
+Sin-Clasificar  Vivienda oAuto51: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto52: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto54: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto55: precio-excedido
+Muy_Recomendable  Vivienda oAuto58: 
+Parcialmente_Adecuado  Vivienda oAuto59: calefaccion-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto62: calefaccion-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto64: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto68: calefaccion-faltante ascensor-faltante
+Sin-Clasificar  Vivienda oAuto69: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto72: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto73: ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto75: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto78: ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto79: ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto80: calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto84: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto85: ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto86: ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto89: ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto90: ascensor-faltante
+Muy_Recomendable  Vivienda oAuto92: 
+Parcialmente_Adecuado  Vivienda oAuto95: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto98: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto99: calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto100: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto15: calefaccion-faltante ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto20: ascensor-faltante
+Parcialmente_Adecuado  Vivienda oAuto32: calefaccion-faltante precio-excedido
+Muy_Recomendable  Vivienda oAuto34: 
+Parcialmente_Adecuado  Vivienda oAuto36: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto40: precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto45: ascensor-faltante
+Sin-Clasificar  Vivienda oAuto57: calefaccion-faltante ascensor-faltante precio-excedido
+Parcialmente_Adecuado  Vivienda oAuto60: ascensor-faltante precio-excedido
+Muy_Recomendable  Vivienda oAuto63: 
+Parcialmente_Adecuado  Vivienda oAuto66: ascensor-faltante precio-excedido
+Muy_Recomendable  Vivienda oAuto74: 
+Sin-Clasificar  Vivienda oAuto88: calefaccion-faltante ascensor-faltante precio-excedido
+===================================
+

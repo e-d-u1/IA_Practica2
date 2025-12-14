@@ -1,0 +1,102 @@
+=== RESUMEN DE FALLOS POR VIVIENDA ===
+Muy_Recomendable  Vivienda oAuto1: 
+Parcialmente_Adecuado  Vivienda oAuto2: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto5: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto7: calefaccion-faltante
+Muy_Recomendable  Vivienda oAuto9: 
+Parcialmente_Adecuado  Vivienda oAuto10: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto11: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto12: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto13: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto14: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto17: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto18: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto19: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto21: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto23: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto25: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto26: calefaccion-faltante habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto27: 
+Parcialmente_Adecuado  Vivienda oAuto28: habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto29: 
+Parcialmente_Adecuado  Vivienda oAuto30: calefaccion-faltante habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto35: 
+Muy_Recomendable  Vivienda oAuto37: 
+Muy_Recomendable  Vivienda oAuto39: 
+Muy_Recomendable  Vivienda oAuto43: 
+Parcialmente_Adecuado  Vivienda oAuto46: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto47: habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto48: 
+Parcialmente_Adecuado  Vivienda oAuto50: habitaciones-insuficientes calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto53: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto56: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto61: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto65: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto67: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto70: calefaccion-faltante habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto71: 
+Parcialmente_Adecuado  Vivienda oAuto76: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto77: habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto81: 
+Parcialmente_Adecuado  Vivienda oAuto82: calefaccion-faltante
+Muy_Recomendable  Vivienda oAuto83: 
+Parcialmente_Adecuado  Vivienda oAuto87: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto91: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto93: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto94: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto96: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto97: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto3: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto4: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto6: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto8: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto16: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto22: habitaciones-insuficientes tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto24: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto31: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto33: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto38: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto41: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto42: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto44: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto49: tipoVivienda-incorrecto habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto51: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto52: tipoVivienda-incorrecto habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto54: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto55: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto58: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto59: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto62: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto64: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto68: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto69: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Sin-Clasificar  Vivienda oAuto72: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto73: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto75: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto78: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto79: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto80: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto84: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto85: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto86: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto89: tipoVivienda-incorrecto
+Parcialmente_Adecuado  Vivienda oAuto90: tipoVivienda-incorrecto habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto92: tipoVivienda-incorrecto
+Sin-Clasificar  Vivienda oAuto95: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto98: tipoVivienda-incorrecto calefaccion-faltante
+Sin-Clasificar  Vivienda oAuto99: tipoVivienda-incorrecto calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto100: tipoVivienda-incorrecto calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto15: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto20: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto32: calefaccion-faltante habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto34: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto36: habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto40: 
+Parcialmente_Adecuado  Vivienda oAuto45: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto57: calefaccion-faltante
+Parcialmente_Adecuado  Vivienda oAuto60: habitaciones-insuficientes
+Muy_Recomendable  Vivienda oAuto63: 
+Parcialmente_Adecuado  Vivienda oAuto66: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto74: habitaciones-insuficientes
+Parcialmente_Adecuado  Vivienda oAuto88: habitaciones-insuficientes calefaccion-faltante
+===================================
